@@ -1,16 +1,3 @@
-#!/usr/bin/python
-#                          _______
-#    ____________ _______ _\__   /_________        ___  _____
-#   |    _   _   \   _   |   ____\   _    /       |   |/  _  \
-#   |    /   /   /   /   |  |     |  /___/    _   |   |   /  /
-#   |___/___/   /___/____|________|___   |   |_|  |___|_____/
-#           \__/                     |___|
-#
-#
-# (c) 2009-2012 Wijnand Modderman-Lenstra <maze@pyth0n.org>
-#               MIT License
-#
-
 CP437 = (
     u'\u0000',
     u'\u263A',
@@ -83,13 +70,3 @@ CP437 = (
     u'\u00F7', u'\u2248', u'\u00B0', u'\u2219', u'\u00B7', u'\u221A',
     u'\u207F', u'\u00B2', u'\u25A0', u'\u00A0'
 )
-
-def convert(text):
-    return u''.join([CP437[ord(char)] for char in text])
-
-if __name__ == '__main__':
-    import sys
-    if len(sys.argv) < 2:
-        print >>sys.stderr, '%s <file>' % (sys.argv[0],)
-        sys.exit(1)
-    print( convert(file(sys.argv[1]).read()) )

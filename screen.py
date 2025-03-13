@@ -1,63 +1,71 @@
-from cp437 import cp437_unicode_map
-#import curses
 
-class Screen():
-	def __init__(self):
-		self.cursor_x = 0
-		self.cursor_y = 0
-		self.width    = 80
-		self.height   = 25
-		self.chars    = [ ord(" ") ] * (self.width*self.height)
-		self.colors   = [  0  ] * (self.width*self.height)
+DEBUG_VIDEO=False
+DEBUG_TERM=False
 
-	def get_char(self, x, y):
-		return self.chars[x + y*self.width]
-	def get_color(self, x, y):
-		return self.colors[x + y*self.width]
-	def set_char(self, x, y, c):
-		self.chars[x + y*self.width] = ord(c)
-	def set_color(self, x, y, c):
-		self.colors[x + y*self.width] = c
+VIDEO_MEMORY_ADDR = 0xB8000
+VIDEO_MEMORY_SIZE = 1024*8 # 80x25 characters, 2 bytes each
 
-	def get_curs_char(self):
-		return self.chars[self.cursor_x + self.cursor_y*self.width]
-	def get_curs_color(self):
-		return self.colors[self.cursor_x + self.cursor_y*self.width]
-	def set_curs_char(self, c):
-		self.chars[self.cursor_x + self.cursor_y*self.width] = ord(c)
-	def set_curs_color(self, c):
-		self.colors[self.cursor_x + self.cursor_y*self.width] = c
+# Initialize a Python bytearray for text mode
+TEXT_MODE_MEMORY = TEXT_MODE_MEMORY = bytearray(VIDEO_MEMORY_SIZE)
+TEXT_MODE_SEQ = 0
+TEXT_MODE_CURSOR_OFFSET = 0
 
-	def clear(self):
-		for y in range(self.height):
-			for x in range(self.width):
-				self.chars[x+y*self.width] = ord(" ")
-				self.colors[x+y*self.width] = 0
+for row in range(25):
+	for col in range(80):
+		idx = (row * 80 + col)*2  # Memory index
+		TEXT_MODE_MEMORY[idx] = 0x20  # Space char
+		TEXT_MODE_MEMORY[idx+1] = 7
 
-	def print(self):
-		for y in range(self.height):
-			for x in range(self.width):
-				c = chr(self.chars[x+y*self.width])
-				print(f"\033[{y};{x}H{c}")
-				
-	def refresh(self, uc):
-		contents = self.uc.mem_read( 0xB800*16+0, self.width*self.height*2 )
-		for y in range(self.height):
-			for x in range(self.width):
-				c = contents[(x+y*self.width)*2]
-				#c = chr(self.chars[x+y*self.width])
-				print(f"\033[{y};{x}H{c}")
-		
+def hook_mem_video_write(uc, access, address, size, value, user_data):
+	"""Intercept writes to video memory and update TEXT_MODE_MEMORY."""
+	global TEXT_MODE_MEMORY, TEXT_MODE_CURSOR_OFFSET, TEXT_MODE_SEQ
+	if VIDEO_MEMORY_ADDR <= address < VIDEO_MEMORY_ADDR + VIDEO_MEMORY_SIZE:
+		offset = address - VIDEO_MEMORY_ADDR  # Convert to index
+		if offset == 0:
+			TEXT_MODE_SEQ = 0
+		elif offset == TEXT_MODE_SEQ+2:
+			TEXT_MODE_SEQ = offset
+			TEXT_MODE_CURSOR_OFFSET+=1
+		TEXT_MODE_MEMORY[TEXT_MODE_CURSOR_OFFSET*2] = value & 0xFF  # Store only 1 byte
+		if DEBUG_VIDEO: print(f"[VIDEO] Write {hex(value)} {chr(value & 0xFF)} to 0x{address:X} (offset {offset}) (cursor {TEXT_MODE_CURSOR_OFFSET})")
+		#monitor.refresh()
 
 
-"""
-import curses
+# Monitor refresh
+class Monitor(threading.Thread):
+	def __init__(self, uc): #, screen):
+		threading.Thread.__init__(self)
+		self.uc = uc
+		self.finish = False
+		self.do_refresh = False
+		self.pos_x = 0
 
-def main(stdscr):
-    stdscr.clear()
-    stdscr.addch(10, 20, 'X')  # Print 'X' at (10,20)
-    stdscr.refresh()
-    stdscr.getch()  # Wait for key press
+	def refresh(self):
+		self.do_refresh = True
 
-curses.wrapper(main)
-"""
+	def run(self):
+		global TEXT_MODE_MEMORY
+		while not self.finish:
+			if self.do_refresh:
+				#self.do_refresh = False
+				o="\033[s"
+				o+=f"\033[2;{self.pos_x}H"+"x"+"-"*80+"x"
+				for y in range(25):
+					o+=f"\033[{y+3};{self.pos_x}H"
+					o+="|"
+					for x in range(80):
+						c = TEXT_MODE_MEMORY[(x+y*80)*2]
+						o+=CP437[c]
+						#o+=chr(c)
+					#print(f"\033[{0y};{0}H{o}",end="")
+					o+="|"
+				o+=f"\033[{25+3};{self.pos_x}H"+"x"+"-"*80+"x"
+				o+="\033[u"
+				print(o, end="")
+			time.sleep(1/24)
+			#time.sleep(0.5)
+	def done(self):
+		self.finish = True
+
+
+
