@@ -1,0 +1,326 @@
+
+
+      ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+      º                                 º
+      º   MANUEL DU PARFAIT CHEVALIER   º
+      º                                 º
+      ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                          ÄÄÄ Etabli d'aprŠs les pens‚es du magicien AJM ÄÄÄ
+
+
+
+
+VOUS :   Beau, grand, fort, aspirant-Schwarzenegger, futur Rambo XII,
+şşşşşş   bref le parfait con ...
+         Pour les nanas, le tableau n'est pas plus joyeux ... Un peu
+         vagissante, belle blonde bien roul‚e s'envoyant des mecs pour
+         maintenir le physique, bref LIBEREE.
+
+
+      ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+      ³ POUR EVITER CE MASSACRE APPUYER SUR (contr“le)S ³
+      ÔÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¾
+
+
+Si vous n'ˆtes pas encore d‚cid‚(e), lisez les commentaires qui suivent.
+
+BUT DU JEU :
+şşşşşşşşşşşş
+
+Ramasser le maximum de sacs d'or et les amener hors du souterrain.
+MORIA possŠde 15 niveaux de galeries, qui sont munis chacun d'une porte
+de descente et d'une porte de mont‚e. Malheureusement, la porte qui permet
+de sortir … l'air libre (porte de mont‚e du niveau 1) n'est visible que si
+l'on est en possession du SILMARIL, lequel se trouve au niveau 12 !
+
+
+EVALUATION DU PERSONNAGE :
+şşşşşşşşşşşşşşşşşşşşşşşşşş
+
+Vous disposez de points de vie, de points de force et de points
+d'exp‚rience qui fonctionnent ainsi :
+
+
+
+
+
+
+ a)Les points de VIE sont donn‚s sous la forme (a/b), o— a est votre nombre
+   ßßßßßßßßßßßßßßßßß de points et b, le maximum accessible. Lorsqu'un monstre
+   vous frappe,il vous enlŠve des points de vie. Avoir 0 comme point de vie
+   signifie que vous ˆtes mort... En avan‡ant dans le labyrinthe, vous
+   r‚cupŠrez des points de vie, vous vous refaites une sant‚, mˆme si vous
+   tournez en rond !!
+
+ b)Les points de FORCE sont donn‚s sous la forme (a/b), o— a est votre nombre
+   ßßßßßßßßßßßßßßßßßßß de points de force et b, le maximum accessible. Plus
+   vous avez de points de force et plus vous frappez les monstres. Seul les
+   Galgals et les Nƒzguls peuvent vous enlever des points de force.
+   Manquer de nourriture fait aussi chuter vos points de force jusqu'… ce que
+   la carence soit ‚limin‚e, i.e. jusqu'… ce que vous ayez manger.
+
+ c)Les points d'EXPERIENCE sont donn‚s sous la forme (b/a) ...BUG...
+   ßßßßßßßßßßßßßßßßßßßßßßß                                 ,o— a est votre
+   total actuel de points d'exp‚rience et b, votre niveau d'exp‚rience.
+   Le niveau d ' exp‚rience se passe par paliers.
+   Tuer un monstre donne des points d'exp‚rience et, plus votre niveau
+   d'exp‚rience est ‚lev‚, plus vous tuez les monstres facilement.
+
+Les monstres disposent aussi des trois ‚chelles vie, force et exp‚rience.
+
+
+LES ACTIONS POSSIBLES :
+şşşşşşşşşşşşşşşşşşşşşşş
+
+Les actions qui vous sont permises sont :
+  a) marcher. Les touches de d‚placement sont :
+
+                                Pour aller vers le
+                                haut de l'‚cran : 8
+                                                  ~
+                         Pour aller vers la               Pour aller vers la
+                         gauche de l'‚cran : 4        6 : droite de l'‚cran
+                                             ~        ~
+                                Pour aller vers le
+                                bas de l'‚cran :  2
+                                                  ~
+     Utilisez le pav‚ num‚rique.
+
+     Remarque : lorsque le maŒtre de Moria vous affiche "--encore--", il vous
+                demande d'appuyer sur la barre d'espace.
+
+  b) tuer un monstre, ce qui se fait en essayant de marcher sur la case
+     o— il se trouve. Le message "Vous frappez le monstre"
+                              ou "Vous ratez le monstre" apparait alors en haut
+                              de l'‚cran.
+     Plus votre niveau d'exp‚rience est ‚lev‚ par rapport … celui du monstre
+     ... et moins vous le raterez.
+
+  c) ramasser des objets se fait en marchant dessus.
+     Les symboles utilis‚s sont les suivants :    pour une armure
+                                                =  pour une arme
+                                                :  pour de la nourriture
+                                                ­  pour une potion
+                                                ?  pour un parchemin
+                                                $  pour de l'or
+                                                /  pour une baguette
+                                                ø  pour un anneau
+                                                ‘  pour un cube de force
+                                                  pour le Silmaril
+
+     Ces objets sont mis dans votre sac et rep‚r‚s par une lettre.
+     Lorsque vous ramassez un objet apparaŒt un message du type :
+     "Vous avez trouv‚ un globe d ' invuln‚rabilit‚ ".
+
+  d) abandonner un objet se fait en tapant "a" suivi de la lettre associ‚ …
+     l'objet que vous voulez abandonnez. Un message de v‚rification apparaŒt
+     alors, du type "Vous abandonnez une massue".
+
+
+  e) boire une potion se fait en tapant "b" suivi de la lettre associ‚ … la
+     potion que vous voulez boire. A priori, vous ne savez pas quel effet la
+     potion va avoir sur vous ; en effet, quand vous en trouvez une, le seul
+     message qui apparaŒt est du type "Vous avez trouv‚ une potion rouge".
+     Les potions sont diss‚min‚es dans Moria (laiss‚es l… par de pauvres
+     chevaliers morts h‚ro‹quement, derniers vestiges de leur passage ÄÄles
+     cadavres constituent le plat de base de certains monstres ÄÄ)
+     Exemple : la potion de Passe - Muraille .
+
+     Lorsque vous buvez une potion sans connaŒtre son effet, il apparaŒt un
+     message puis la question "Comment la renommez-vous ? ". A partir de ce
+     moment, vous reconnaŒtrez syst‚matiquement cette potion.
+     Il est possible de connaŒtre l'effet d'une potion sans la boire ...
+
+  f) manger se fait en frappant "m". Le message qui apparaŒt pr‚cise la
+     qualit‚ de la nourriture. Il influe sur son efficacit‚.
+
+  g) revˆtir une armure. Chaque type d'armure possŠde une efficacit‚ initiale
+     d‚termin‚e par un chiffre de 1 … 6. Mais certaines armures sont
+     enchant‚es, c'est … dire possŠde une efficacit‚ sup‚rieure … leur valeur
+     initiale, ou ensorcel‚es, c'est … dire possŠde une efficacit‚ inf‚rieure
+     … leur efficacit‚ initiale.
+     L'efficit‚ de l'armure est encore appel‚e classe de l'armure. Elle est
+     indiqu‚e en bas de l'‚cran.
+     Identifier une armure vous donnera sa classe.
+
+     Revˆtir une armure l'identifie.
+
+     Les armures sont : l'armure de cuir qui est initialement … +1
+                        ~~~~~~~~~~~~~~~~
+                        l'armure de cuir renforc‚ qui est initialement … +2
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~
+                        la cotte de maille qui est initialement … +3
+                        ~~~~~~~~~~~~~~~~~~
+                        l'armure de fer qui est initialement +4
+                        ~~~~~~~~~~~~~~~
+                        la cuirasse d'acier qui est initialement +5
+                        ~~~~~~~~~~~~~~~~~~~
+                        l'armure de Mithril qui est initialement … +6
+                        ~~~~~~~~~~~~~~~~~~~
+
+  h) enlever une armure
+
+
+
+
+
+
+  i) brandir une arme
+     Les armes sont : La dague
+                      La dague elfique
+                      Le poignard
+                      La massue
+                      La hache
+                      La lance
+                      Le cimeterre
+                      Le marteau de Thor
+                      Le sabre
+                      L'‚p‚e
+                      L'‚p‚e … deux mains ( Bouclier alors interdit )
+                      L'‚p‚e de glace
+                      L'‚p‚e vampirique
+                      L'‚p‚e elfique.
+
+     Les armes comme les armures poss‚de une efficacit‚ nomm‚e classe d'arme.
+
+  j) lire un parchemin se fait en frappant "l". Le maŒtre de Moria vous pose
+     alors la question : "Que voulez-vous lire ? ", la r‚ponse ‚tant la lettre
+     correspondant au parchemin que vous voulez lire.
+
+     Exemple : Le parchemin de destruction  ...
+										
+  k) faire l'inventaire permet de savoir ce que vous trimballez dans votre
+     sac. Il suffit de frapper "i". Votre force influe sur le nombre d'objets
+     que vous pouvez porter.
+
+  l) renommer un parchemin ou une potion
+
+Remarque : en cours de route, vous pourrez voir ce manuel en tapant
+          (contr“le) H .
+           Pour obtenir la liste des commandes, il faudra alors faire ?
+                                                ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+LES AUTRES :
+şşşşşşşşşşşşş
+
+Les Chauves-souris
+    Tuer une Chauve-souris donne 1 point d'exp‚rience.
+
+Les Araign‚es
+    Tuer une Araign‚e donne 1 point d'exp‚rience.
+
+Les Rats
+    Tuer un Rat donne 4 point d'exp‚rience.
+
+Les Serpents
+    Tuer un Serpent donne 2 points d'exp‚rience.
+
+Les Loups
+    Tuer un Loup donne 2 points d'exp‚rience.
+
+Les yEux
+    Tuer un des multiples yEux de Sauron donne 5 points d'exp‚rience.
+
+
+
+
+Les Orcs sont de grands bestiaux aquatiques peureux et nerveux. Vous les
+    croiserez souvent dans les mar‚cages, mais aussi dans le labyrinte,
+    … la recherche de quelque nourriture. Ils ne sont carnivores que dans
+    des cas de grand d‚sespoir
+    Tuer un Orc donne 3 points d'exp‚rience.
+
+Les Trolls, bonhommes trapus, un peu simplet, brutal,
+    Tuer un Troll donne 10 points d'exp‚rience.
+
+Les Mewlips
+    Tuer un Mewlip donne 10 points d'exp‚rience.
+
+Les Huorns constituent les derniers repr‚sentants de la race des grands
+           arbres des Indes orientales. Ils sont encore impr‚gn‚s de
+    la philosophie Zen qui leur a enseign‚ qu'ils n'‚taient rien.
+    C'est pourquoi ils ne bougent pas, sauf si vous les d‚rangez dans
+    leur m‚ditation.
+    On m'a derniŠrement signal‚ une espŠce aggressive qui s'attaque
+    … l'homme. Probablement une d‚g‚n‚rescence due … l'humidit‚.
+    Tuer un Huorn donne 30 points d'exp‚rience.
+
+
+
+
+Les Galgals, ou galgaux en ancien fran‡ais, apparaissent au niveau 5 et
+            vous suivent fidŠlement jusqu'au niveau 12. Ils vous “tent
+    des points de vie . Du point de vue biologigue, les galgals sont des
+    larves assez informes, plut“t gluantes et maladroites. Ce sont toutefois
+    des oiseaux, qui servent parfois de monture … quelque monstres.
+    Ils muent … peu prŠs … l'ƒge de trois mois pour donner les c‚lŠbres
+    Nƒzguls.
+    Tuer un Galgal donne 30 points d'exp‚rience.
+
+Les Dragons sont des animaux assez d‚sagr‚ables … rencontrer. Ils vous
+            “tent jusqu'… n points de vie par coup. J'ai crois‚ un preux
+    chevalier (dont je tairai le nom ici) qui r‚ussit … en apprivoiser
+    un en le frappant sur la tˆte du plat de son ‚p‚e. Personnellement,
+    je n'y suis toujours pas arriv‚.
+    Tuer un Dragon donne 30 points d'exp‚rience.
+
+Les Nƒzguls sont des galgaux devenus grands (encore nomm‚s dans la tradition
+            orale Grands Galgaux). D'un temp‚ramment aggressif, ils vous
+    sucent le sang . Leur puissance de vol est plut“t impr‚ssionnante et
+    ils r‚ussissent parfois … vous faire tomber en plongeant sur vous.
+    Tuer un Nƒzgul donne 40 points d'exp‚rience.
+
+
+
+Les sphinx : R‚pondre juste … la question qu ' ils vous posent vous
+             rapporte 40 points d ' exp‚rience .
+
+Les F‚es : Certaines sont gentilles, certaines sont m‚chantes ...
+           De toute fa‡on, elles vous soulagent d'un ‚l‚ment de votre sac.
+    Les f‚es sympathiques vous d‚chargent d'une potion empoisonn‚e ou
+    d'une arme ensorcell‚e, etc ... Les f‚es moins sympathiques, parfois
+    appel‚es sorciŠres, pr‚fŠrent votre armure de Mithril, voire votre
+    potion d'exp‚rience.
+    Elles disparaissent dŠs leur bien- ou m‚-fait accompli.
+    En fait le seul problŠme face … une f‚e, c'est que l'on ne sait pas si
+    elle est gentille ou m‚chante...
+    Tuer une F‚e donne 15 points d'exp‚rience. De plus, si vous tuez une f‚e
+    sympathique, elle vous pardonne et lors de son dernier soupir, vous donne
+    un objet.Par contre, une sorciŠre vous laissera un objet mal‚fique.
+
+Les Voleurs
+    Tuer un Voleur donne 30 points d'exp‚rience. En fouillant un peu son
+    cadavre, vous devriez pouvoir trouver de l'or.
+
+Le naIn elfique : Bƒtard d 'elfe et de nain , il vous proposera des
+                  ‚changes d 'objets avantageux .
+
+
+Sauron : Barbu, tordu, s'appuyant sur une canne noueuse qu'il subtilisa
+         ‚tant jeune … une sorciŠre, est un Dieu.
+    D‚ja, le regarder a un effet fort n‚gatif sur vos points de vie.
+    Si certains ont cru le tuer, c'est qu'ils avaient oubli‚ qu'il ressuscite
+    r‚guliŠrement. Il se promŠne entre les niveaux 10 et 12 o— il trouve une
+    humidit‚ propre … soulager ses maux de dents.
+    Lorsque Sauron disparaŒt devant vos yeux, il vous laisse 50 points
+    d'exp‚rience.
+
+Il y a encore bien d 'autres monstres … d‚couvrir dans le labyrinthe de
+la Moria . Tous les monstres ne seront pas forc‚ment mauvais ( Certains
+comme Morgoth Ä ê Ä qui possŠde un Silmaril , vous le laissera ) .
+
