@@ -20,9 +20,13 @@ import termios
 
 
 from exe_loader import exe_load
-from cp437 import cp437_unicode_map
+from cp437 import CP437
 #import screen
 
+
+DEBUG_BIOS=False
+DEBUG_DOS=False
+DEBUG_VIDEO=False
 
 # Initialize Unicorn & Capstone
 emu = Uc(UC_ARCH_X86, UC_MODE_16)
@@ -38,19 +42,22 @@ MEM_SIZE = 0xB8000 # 1024 * 1024 * 4 #0x100000
 emu.mem_map(BASE_ADDR, MEM_SIZE)
 
 VIDEO_MEMORY_ADDR = 0xB8000
-VIDEO_MEMORY_SIZE = 1024*4 #80 * 25 * 2  # 80x25 characters, 2 bytes each
+VIDEO_MEMORY_SIZE = 1024*8 # 80x25 characters, 2 bytes each
 
 # Initialize a Python bytearray for text mode
-TEXT_MODE_MEMORY = bytearray(VIDEO_MEMORY_SIZE)
+TEXT_MODE_MEMORY = TEXT_MODE_MEMORY = bytearray(VIDEO_MEMORY_SIZE)
+TEXT_MODE_SEQ = 0
 TEXT_MODE_CURSOR_OFFSET = 0
 
-# Map video memory in Unicorn
-emu.mem_map(VIDEO_MEMORY_ADDR, VIDEO_MEMORY_SIZE)
 for row in range(25):
 	for col in range(80):
 		idx = (row * 80 + col)*2  # Memory index
 		TEXT_MODE_MEMORY[idx] = 0x20  # Space char
-		TEXT_MODE_MEMORY[idx+1] = 0
+		TEXT_MODE_MEMORY[idx+1] = 7
+
+
+# Map video memory in Unicorn
+emu.mem_map(VIDEO_MEMORY_ADDR, VIDEO_MEMORY_SIZE)
 
 # Write empty screen to Unicorn (spaces with white-on-black)
 emu.mem_write(VIDEO_MEMORY_ADDR, bytes(TEXT_MODE_MEMORY))
@@ -90,6 +97,7 @@ class Monitor(threading.Thread):
 		self.uc = uc
 		self.finish = False
 		self.do_refresh = True
+		self.pos_x = 80
 
 	def refresh(self):
 		self.do_refresh = True
@@ -97,37 +105,22 @@ class Monitor(threading.Thread):
 	def run(self):
 		global TEXT_MODE_MEMORY
 		while not self.finish:
-			#contents = self.uc.mem_read( 0xB800*16+0, 80*25*2 )
-			#contents = self.uc.mem_read( 0, 1024*1024*4 )
-			#contents = self.uc.mem_read( 0x314ef, 80*25*2 )
-			#print(TEXT_MODE_MEMORY[0:200])
 			if self.do_refresh:
 				#self.do_refresh = False
+				o="\033[s"
+				o+=f"\033[2;{self.pos_x}H"+"x"+"-"*80+"x"
 				for y in range(25):
-					o=""
+					o+=f"\033[{y+3};{self.pos_x}H"
+					o+="|"
 					for x in range(80):
-						#c = int.from_bytes(self.uc.mem_read(0xB8000+x*2+0, 1), "little") 
 						c = TEXT_MODE_MEMORY[(x+y*80)*2]
-						#o+=cp437_unicode_map[c]
-						o+=chr(c)
-					#print(o)
-					print(f"\033[{y};{0}H{o}",end="")
-				#print(TEXT_MODE_MEMORY.decode("ascii"))
-				#print("pouet")
-			"""
-			for y in range(25):
-				for x in range(80):
-					c = contents[0xb800*16 + (x+y*80)]
-					#print(f"\033[{y};{x}H{cp437_unicode_map[c]}",end="")
-					print(cp437_unicode_map[c],end="")
-				print()
-				print()
-				for x in range(80):
-					c = contents[0xb800*16 + (x+y*80)+1]
-					print(cp437_unicode_map[c],end="")
-				print()
-				print()
-			"""
+						o+=CP437[c]
+						#o+=chr(c)
+					#print(f"\033[{0y};{0}H{o}",end="")
+					o+="|"
+				o+=f"\033[{25+3};{self.pos_x}H"+"x"+"-"*80+"x"
+				o+="\033[u"
+				print(o, end="")
 			time.sleep(1/24)
 			#time.sleep(0.5)
 	def done(self):
@@ -135,6 +128,10 @@ class Monitor(threading.Thread):
 
 # Read a key
 def get_key():
+
+    #for c in range(256):
+    #	print(chr(c), CP437[c])
+
     fd = sys.stdin.fileno()
     old_settings = termios.tcgetattr(fd)
     try:
@@ -221,10 +218,10 @@ def hook_interrupt(uc, intno, user_data):
 			# https://www.gladir.com/LEXIQUE/INTR/int21f25.htm
 			ds = uc.reg_read(UC_X86_REG_DS)
 			dx = uc.reg_read(UC_X86_REG_DX)
-			print(f"DOS Interrupt 21h Function 25h - Set interrupt vector for INT {hex(al)} -> {hex(ds)}:{hex(dx)}")
+			if DEBUG_DOS: print(f"DOS Interrupt 21h Function 25h - Set interrupt vector for INT {hex(al)} -> {hex(ds)}:{hex(dx)}")
 		elif ah == 0x2c:
 			# https://www.gladir.com/LEXIQUE/INTR/int21f2c00.htm
-			print("DOS Interrupt 21h Function 2ch - Get system time", hex(al))
+			if DEBUG_DOS: print("DOS Interrupt 21h Function 2ch - Get system time", hex(al))
 			t = datetime.now()
 			uc.reg_write(UC_X86_REG_CH, t.hour)
 			uc.reg_write(UC_X86_REG_CL, t.minute)
@@ -233,7 +230,7 @@ def hook_interrupt(uc, intno, user_data):
 			
 		elif ah == 0x35:
 			# https://www.gladir.com/LEXIQUE/INTR/int21f35.htm
-			print("DOS Interrupt 21h Function 35h - Get interrupt vector")
+			if DEBUG_DOS: print("DOS Interrupt 21h Function 35h - Get interrupt vector")
 		elif ah == 0x3d:
 			# https://www.gladir.com/LEXIQUE/INTR/int21f3d.htm
 			ds = uc.reg_read(UC_X86_REG_DS)
@@ -252,7 +249,7 @@ def hook_interrupt(uc, intno, user_data):
 			flags = uc.reg_read(UC_X86_REG_FLAGS)  # Read current EFLAGS
 			flags &= ~(1 << 0)  # Clear bit 0 (CF)
 			uc.reg_write(UC_X86_REG_FLAGS, flags)  # Write back modified flags			
-			print("DOS Interrupt 21h Function 3dh - Open file", filename)
+			if DEBUG_DOS: print("DOS Interrupt 21h Function 3dh - Open file", filename)
 
 		elif ah == 0x3f:
 			# https://www.gladir.com/LEXIQUE/INTR/int21f3d.htm
@@ -271,7 +268,7 @@ def hook_interrupt(uc, intno, user_data):
 			flags = uc.reg_read(UC_X86_REG_FLAGS)  # Read current FLAGS
 			flags &= ~(1 << 0)                     # Clear bit 0 (CF)
 			uc.reg_write(UC_X86_REG_FLAGS, flags)  # Write back modified flags			
-			print("DOS Interrupt 21h Function 3Fh - Read file", files_handles[handle]["filename"], count)
+			if DEBUG_DOS: print("DOS Interrupt 21h Function 3Fh - Read file", files_handles[handle]["filename"], count)
 		elif ah == 0x44:
 			# https://www.gladir.com/LEXIQUE/INTR/int21f4400.htm
 			handle = uc.reg_read(UC_X86_REG_BX)
@@ -280,11 +277,11 @@ def hook_interrupt(uc, intno, user_data):
 			uc.reg_write(UC_X86_REG_FLAGS, flags)  # Write back modified flags			
 			dx = (1 << 15)
 			uc.reg_write(UC_X86_REG_DX, dx)
-			print(f"DOS Interrupt 21h Function 44h - IOCTL subfunction {hex(al)} {hex(handle)}")
+			if DEBUG_DOS: print(f"DOS Interrupt 21h Function 44h - IOCTL subfunction {hex(al)} {hex(handle)}")
 
 		elif ah == 0x4c:
 			# https://www.gladir.com/LEXIQUE/INTR/int21f4c.htm
-			print("DOS Interrupt 21h Function 4Ch - End Program", hex(al))
+			if DEBUG_DOS: print("DOS Interrupt 21h Function 4Ch - End Program", hex(al))
 			done()
 		else:
 			print("DOS Interrupt 21h Unknown Function", f"{hex(ah)}:{hex(al)}")
@@ -294,12 +291,28 @@ def hook_interrupt(uc, intno, user_data):
 		if ah == 0x02:  # Set Cursor Position
 			dh = uc.reg_read(UC_X86_REG_DH)  # Row
 			dl = uc.reg_read(UC_X86_REG_DL)  # Column
+			bh = uc.reg_read(UC_X86_REG_BH)  # Page
 			TEXT_MODE_CURSOR_OFFSET = dl+dh*80
-			print(f"BIOS Interrupt 10h (Video) - Set cursor position to ({dl},{dh}) {TEXT_MODE_CURSOR_OFFSET}")
+			if DEBUG_BIOS: print(f"BIOS Interrupt 10h (Video) - Set cursor position to ({dl},{dh}) for page {bh} {TEXT_MODE_CURSOR_OFFSET}")
+		elif ah == 0x03:  # Get Cursor Position
+			bh = uc.reg_read(UC_X86_REG_BH)  # Page
+			x = TEXT_MODE_CURSOR_OFFSET % 80
+			y = TEXT_MODE_CURSOR_OFFSET // 80
+			uc.reg_write(UC_X86_REG_CL, 0)
+			uc.reg_write(UC_X86_REG_CH, 0)
+			uc.reg_write(UC_X86_REG_DL, x)
+			uc.reg_write(UC_X86_REG_DH, y)
+			if DEBUG_BIOS: print(f"BIOS Interrupt 10h (Video) - Get cursor position page {bh} {TEXT_MODE_CURSOR_OFFSET}")
 
+		elif ah == 0x09:  # Write Char to Screen
+			bl = uc.reg_read(UC_X86_REG_BL)
+			TEXT_MODE_MEMORY[TEXT_MODE_CURSOR_OFFSET*2+0] = al & 0xFF  # Store only 1 byte
+			TEXT_MODE_MEMORY[TEXT_MODE_CURSOR_OFFSET*2+1] = bl & 0xFF  # Store only 1 byte
+			TEXT_MODE_CURSOR_OFFSET+=1
+			if DEBUG_BIOS: print(f"BIOS Interrupt 10h (Video) - Write char {chr(al)} {TEXT_MODE_CURSOR_OFFSET}")
 		elif ah == 0x0E:  # Teletype Output
 			al = uc.reg_read(UC_X86_REG_AL)
-			print(f"[TTY] Printed '{chr(al)}' at cursor")
+			print(f"BIOS Interrupt 10h (Video) - Print TTY char {chr(al)} {TEXT_MODE_CURSOR_OFFSET}")
 
 		elif ah == 0x6:
 			#if al == 0:
@@ -315,7 +328,7 @@ def hook_interrupt(uc, intno, user_data):
 			dh = uc.reg_read(UC_X86_REG_DH)  # Lower-right row
 			dl = uc.reg_read(UC_X86_REG_DL)  # Lower-right col
 
-			print(f"[BIOS] INT 10h, AH=06h: Scroll {al} lines from ({ch},{cl}) to ({dh},{dl}) with attribute {bh:02X}")
+			if DEBUG_BIOS: print(f"[BIOS] INT 10h, AH=06h: Scroll {al} lines from ({ch},{cl}) to ({dh},{dl}) with attribute {bh:02X}")
 
 			# Simulate clearing the screen (if AL == 0)
 			if al == 0:
@@ -327,6 +340,7 @@ def hook_interrupt(uc, intno, user_data):
 
 			# Simulate a screen scroll (if AL > 0)
 			else:
+				return
 				for row in range(ch, dh + 1 - al):
 					for col in range(cl, dl + 1):
 						src_idx = ((row + al) * 80 + col) * 2
@@ -344,23 +358,23 @@ def hook_interrupt(uc, intno, user_data):
 
 		elif ah == 0xf:
 			# https://www.gladir.com/LEXIQUE/INTR/int10f0f.htm
-			print("BIOS Interrupt 10h (Video) - Video Mode", hex(al))
-			uc.reg_write(UC_X86_REG_AX, 0x5007)
+			if DEBUG_BIOS: print("BIOS Interrupt 10h (Video) - Video Mode", hex(al))
+			uc.reg_write(UC_X86_REG_AX, 0x5002)
 		elif ah == 0x8:
 			# https://www.gladir.com/LEXIQUE/INTR/int10f08.htm
-			print("BIOS Interrupt 10h (Video) - Read character and attribute at cursor position")
+			if DEBUG_BIOS: print("BIOS Interrupt 10h (Video) - Read character and attribute at cursor position")
 			#uc.reg_write(UC_X86_REG_AH, SCREEN.get_curs_color())
 			#uc.reg_write(UC_X86_REG_AL, SCREEN.get_curs_char())
 		elif ah == 0x11:
 			# https://www.gladir.com/LEXIQUE/INTR/int10f1130.htm
-			print("BIOS Interrupt 10h (Video) - Change text mode character set", hex(al))
+			if DEBUG_BIOS: print("BIOS Interrupt 10h (Video) - Change text mode character set", hex(al))
 		else:
 			print("BIOS Interrupt 10h (Video) Unknown Function", f"{hex(ah)}:{hex(al)}")
 			done()
 	elif intno == 0x16:
 		if ah == 0x0:
 			# https://www.gladir.com/LEXIQUE/INTR/int10f1130.htm
-			print("BIOS Interrupt 16h (Keyboard) - Read key press", hex(al))
+			if DEBUG_BIOS: print("BIOS Interrupt 16h (Keyboard) - Read key press", hex(al))
 			uc.reg_write(UC_X86_REG_AL, get_key())
 		else:
 			print("BIOS Interrupt 16h (Keyboard) Unknown Function", f"{hex(ah)}:{hex(al)}")
@@ -394,12 +408,16 @@ def hook_ioport(uc, port, size, user_data):
 
 def hook_mem_video_write(uc, access, address, size, value, user_data):
 	"""Intercept writes to video memory and update TEXT_MODE_MEMORY."""
-	global TEXT_MODE_MEMORY, TEXT_MODE_CURSOR_OFFSET
+	global TEXT_MODE_MEMORY, TEXT_MODE_CURSOR_OFFSET, TEXT_MODE_SEQ
 	if VIDEO_MEMORY_ADDR <= address < VIDEO_MEMORY_ADDR + VIDEO_MEMORY_SIZE:
 		offset = address - VIDEO_MEMORY_ADDR  # Convert to index
-		offset += TEXT_MODE_CURSOR_OFFSET
-		TEXT_MODE_MEMORY[offset*2] = value & 0xFF  # Store only 1 byte
-		print(f"[VIDEO] Write {hex(value)} {chr(value & 0xFF)} to 0x{address:X} (offset {offset})")
+		if offset == 0:
+			TEXT_MODE_SEQ = 0
+		elif offset == TEXT_MODE_SEQ+2:
+			TEXT_MODE_SEQ = offset
+			TEXT_MODE_CURSOR_OFFSET+=1
+		TEXT_MODE_MEMORY[TEXT_MODE_CURSOR_OFFSET*2] = value & 0xFF  # Store only 1 byte
+		if DEBUG_VIDEO: print(f"[VIDEO] Write {hex(value)} {chr(value & 0xFF)} to 0x{address:X} (offset {offset}) (cursor {TEXT_MODE_CURSOR_OFFSET})")
 		#monitor.refresh()
 
 def hook_mem_video_read(uc, access, address, size, value, user_data):

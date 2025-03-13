@@ -1,6 +1,8 @@
 from unicorn.x86_const import *
 import struct
 
+DEBUG_EXE=False
+
 def exe_load(uc, exe="TEST.EXE"):
 	LOAD_SEG = 0x1000  # Typical DOS EXE load segment
 
@@ -48,11 +50,12 @@ def exe_load(uc, exe="TEST.EXE"):
 
 	header_size = e_cparhdr * 16  # Convert paragraphs to bytes
 
-	print(f"EXE Header Parsed:")
-	print(f"  Entry Point: CS:IP = {hex(init_cs)}:{hex(init_ip)}")
-	print(f"  Stack: SS:SP = {hex(init_ss)}:{hex(init_sp)}")
-	print(f"  Header Size: {header_size} bytes")
-	print(f"  Relocation Table: Offset = {hex(e_lfarlc)}, Entries = {e_crlc}")
+	if DEBUG_EXE:
+		print(f"EXE Header Parsed:")
+		print(f"  Entry Point: CS:IP = {hex(init_cs)}:{hex(init_ip)}")
+		print(f"  Stack: SS:SP = {hex(init_ss)}:{hex(init_sp)}")
+		print(f"  Header Size: {header_size} bytes")
+		print(f"  Relocation Table: Offset = {hex(e_lfarlc)}, Entries = {e_crlc}")
 
 	# Apply Relocations
 	for i in range(e_crlc):
