@@ -1,4 +1,5 @@
 DEBUG_BIOS=False
+DEBUG_BIOS=True
 DEBUG_DOS=False
 
 # FileHandle
@@ -135,9 +136,14 @@ def hook_interrupt(uc, intno, user_data):
 						idx = (row * 80 + col) * 2  # Memory index
 						TEXT_MODE_MEMORY[idx] = 0x20  # Space char
 						TEXT_MODE_MEMORY[idx + 1] = bh  # Attribute
+				TEXT_MODE_CURSOR_OFFSET = 0
 
 			# Simulate a screen scroll (if AL > 0)
 			else:
+				#print("BIOS LF")
+				#TEXT_MODE_CURSOR_OFFSET -= 1+TEXT_MODE_CURSOR_OFFSET % 80
+				#TEXT_MODE_CURSOR_OFFSET += 80*al
+				
 				return
 				for row in range(ch, dh + 1 - al):
 					for col in range(cl, dl + 1):

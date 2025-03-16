@@ -1,5 +1,6 @@
 
 DEBUG_VIDEO=False
+DEBUG_VIDEO=True
 DEBUG_TERM=False
 
 VIDEO_MEMORY_ADDR = 0xB8000
@@ -7,7 +8,6 @@ VIDEO_MEMORY_SIZE = 1024*8 # 80x25 characters, 2 bytes each
 
 # Initialize a Python bytearray for text mode
 TEXT_MODE_MEMORY = TEXT_MODE_MEMORY = bytearray(VIDEO_MEMORY_SIZE)
-TEXT_MODE_SEQ = 0
 TEXT_MODE_CURSOR_OFFSET = 0
 
 for row in range(25):
@@ -18,17 +18,23 @@ for row in range(25):
 
 def hook_mem_video_write(uc, access, address, size, value, user_data):
 	"""Intercept writes to video memory and update TEXT_MODE_MEMORY."""
-	global TEXT_MODE_MEMORY, TEXT_MODE_CURSOR_OFFSET, TEXT_MODE_SEQ
+	global TEXT_MODE_MEMORY, TEXT_MODE_CURSOR_OFFSET
+	if VIDEO_MEMORY_ADDR <= address < VIDEO_MEMORY_ADDR + VIDEO_MEMORY_SIZE:
+		char = value & 0xFF
+		if DEBUG_VIDEO: print(f"[VIDEO] Write {chr(char)} {hex(value)} to 0x{address:X} (cursor {TEXT_MODE_CURSOR_OFFSET % 80},{TEXT_MODE_CURSOR_OFFSET // 80})")
+		#offset = address - VIDEO_MEMORY_ADDR  # Convert to index
+		TEXT_MODE_MEMORY[TEXT_MODE_CURSOR_OFFSET*2] = char # Store only 1 byte
+		TEXT_MODE_CURSOR_OFFSET+=1
+		#monitor.refresh()
+
+def hook_mem_video_read(uc, access, address, size, value, user_data):
+	"""Intercept reads from video memory and return the correct value."""
+	global TEXT_MODE_MEMORY
 	if VIDEO_MEMORY_ADDR <= address < VIDEO_MEMORY_ADDR + VIDEO_MEMORY_SIZE:
 		offset = address - VIDEO_MEMORY_ADDR  # Convert to index
-		if offset == 0:
-			TEXT_MODE_SEQ = 0
-		elif offset == TEXT_MODE_SEQ+2:
-			TEXT_MODE_SEQ = offset
-			TEXT_MODE_CURSOR_OFFSET+=1
-		TEXT_MODE_MEMORY[TEXT_MODE_CURSOR_OFFSET*2] = value & 0xFF  # Store only 1 byte
-		if DEBUG_VIDEO: print(f"[VIDEO] Write {hex(value)} {chr(value & 0xFF)} to 0x{address:X} (offset {offset}) (cursor {TEXT_MODE_CURSOR_OFFSET})")
-		#monitor.refresh()
+		value = TEXT_MODE_MEMORY[offset*2]
+		print(f"[VIDEO] Read {hex(value)} from 0x{address:X} (offset {offset})")
+		uc.reg_write(UC_X86_REG_AL, value)  # Store result in AL
 
 
 # Monitor refresh
