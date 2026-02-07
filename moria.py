@@ -27,6 +27,8 @@ exec(open('interrupts.py').read())
 exec(open('exe_loader.py').read())
 
 DEBUG_INST=False
+DEBUG_BLOCK=False
+#DEBUG_BLOCK=True
 
 # Initialize Unicorn & Capstone
 emu = Uc(UC_ARCH_X86, UC_MODE_16)
@@ -48,22 +50,39 @@ starting_point = exe_load(emu, "MORIA.EXE")
 
 # Loop detection
 executed_ips = {}
+
+executed_instructions = []
 code_comments = {}
 HOOK_COMMENT = None
+
+hook_block_count = 0
+hook_code_count = 0
+
+# Read the previous mapping
+mapping = {}
+if os.path.exists('mapping.json'):
+	mapping = json.load(open( 'mapping.json', 'r'))
+
+what_happening = "Initialization"
+
 
 # Handle Terminal resize
 def handle_resize(signum, frame):
 	cols, rows = os.get_terminal_size()
 	print("\033[2J"+"\033[0;0H")
 	if DEBUG_TERM: print(f"Terminal resized to {cols}x{rows}")
-	monitor.pos_x = cols-84
+	monitor.pos_x = cols-82
 	if monitor.pos_x < 0:
 		monitor.pos_x = 0
 
 
 # Read a key
 def get_key():
-	global DEBUG_DOS, DEBUG_BIOS, DEBUG_INST, HOOK_COMMENT
+	global DEBUG_DOS, DEBUG_BIOS, DEBUG_INST, DEBUG_BLOCK, HOOK_COMMENT, what_happening
+
+	# Reset the description between each action
+	what_happening = None
+
 	fd = sys.stdin.fileno()
 	old_settings = termios.tcgetattr(fd)
 	try:
@@ -72,11 +91,24 @@ def get_key():
 	finally:
 		termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
+
 	# Special Keys
 	if key == "Q":
 		done()
-	elif key == "H":
-		DEBUG_INST= not DEBUG_INST
+	elif key == "+":
+		DEBUG_BLOCK = not DEBUG_BLOCK
+		if DEBUG_BLOCK:
+			print("[Installing Block Hook]")
+			emu.hook_add(UC_HOOK_BLOCK, hook_block)
+			#HOOK_COMMENT = input("Comment:")
+			#if len(HOOK_COMMENT) == 0:
+			#	HOOK_COMMENT = None
+		else:
+			print("[Removing Block Hook]")
+			emu.hook_del(UC_HOOK_BLOCK)
+			#HOOK_COMMENT = None
+	elif key == "-":
+		DEBUG_INST = not DEBUG_INST
 		if DEBUG_INST:
 			print("[Installing Code Hook]")
 			#cs = emu.reg_read(UC_X86_REG_CS)
@@ -93,11 +125,21 @@ def get_key():
 			emu.hook_del(UC_HOOK_CODE)
 			HOOK_COMMENT = None
 		
-	elif key == "I":
+	elif key == "/":
 		print("Tracing Interrupts")
 		DEBUG_BIOS = not DEBUG_BIOS	
 		DEBUG_DOS  = not DEBUG_DOS	
-		
+	elif key == "M":
+		print("Dumping memory")
+		memory = emu.mem_read(BASE_ADDR,MEM_SIZE)
+		open('reverse/memory.dump', 'wb').write(memory)
+	
+
+	if DEBUG_BLOCK:
+		what_happening = input("Describe the action:")
+		if len(what_happening) == 0:
+			what_happening = None
+
 	return ord(key)
 
 # Finish
@@ -122,15 +164,20 @@ def print_next_instructions(emu, cs, ip, count=10):
 # Hook Execution
 def hook_code(uc, address, size, user_data):
 	global HOOK_COMMENT
+	global hook_code_count
+
+	hook_code_count += 1 
 
 	cs = uc.reg_read(UC_X86_REG_CS)
-	es = uc.reg_read(UC_X86_REG_ES)
-	ds = uc.reg_read(UC_X86_REG_DS)
 	ip = uc.reg_read(UC_X86_REG_IP)
+
+	return
 
 	code = uc.mem_read(address, size)
 	for insn in md.disasm(code, address):
 		#print(f"CS:IP={hex(cs)}:{hex(insn.address % 0x10000)} | {insn.mnemonic} {insn.op_str}")
+		#es = uc.reg_read(UC_X86_REG_ES)
+		#ds = uc.reg_read(UC_X86_REG_DS)
 		#if es == VIDEO_MEMORY_ADDR or ds == VIDEO_MEMORY_ADDR:
 		#al = uc.reg_read(UC_X86_REG_AL)
 		#ah = uc.reg_read(UC_X86_REG_AH)
@@ -147,12 +194,14 @@ def hook_code(uc, address, size, user_data):
 				print()"""
 
 		# Record was is achieved
-		if HOOK_COMMENT != None:
-			addr = f"{cs:04x}:{ip:04x}"
-			if addr in code_comments:
-				code_comments[addr].append( HOOK_COMMENT )
-			else:
-				code_comments[addr] = [ HOOK_COMMENT ]
+		#if HOOK_COMMENT != None:
+		#	addr = f"{cs:04x}:{ip:04x}"
+		#	if addr in code_comments:
+		#		code_comments[addr].append( HOOK_COMMENT )
+		#	else:
+		#		code_comments[addr] = [ HOOK_COMMENT ]
+
+	executed_address[ip] = True
 
 	# No infinity
 	#executed_ips[ip] = executed_ips.get(ip, 0) + 1
@@ -160,9 +209,30 @@ def hook_code(uc, address, size, user_data):
 	#	print(f"Infinite loop detected at {hex(ip)}")
 	#	uc.emu_stop()
 
+def hook_block(uc, address, size, user_data):
+	global hook_block_count, mapping, what_happening
+
+	hook_block_count += 1 
+	cs = uc.reg_read(UC_X86_REG_CS)
+	ip = uc.reg_read(UC_X86_REG_IP)
 
 
-#emu.hook_add(UC_HOOK_CODE, hook_code)
+	if what_happening != None:
+		addr = f'{cs:04X}:{ip:04X}'
+		if addr not in mapping:
+			mapping[f'{cs:04X}:{ip:04X}'] = [ what_happening ]
+		else:
+			if what_happening not in mapping[f'{cs:04X}:{ip:04X}']:
+				mapping[f'{cs:04X}:{ip:04X}'].append( what_happening )
+
+	return
+
+
+
+
+# https://github-wiki-see.page/m/unicorn-engine/unicorn/wiki/Unicorn-hooks
+if DEBUG_INST: emu.hook_add(UC_HOOK_CODE, hook_code)
+if DEBUG_BLOCK: emu.hook_add(UC_HOOK_BLOCK, hook_block)
 emu.hook_add(UC_HOOK_INTR, hook_interrupt)
 #https://github.com/unicorn-engine/unicorn/issues/1933
 emu.hook_add(UC_HOOK_MEM_WRITE, hook_mem_video_write)
@@ -197,5 +267,8 @@ try:
 	emu.emu_start(starting_point, 0)
 except Exception as e:
 	print(f"Emulation stopped: {e}")
+
+# Write the mapping data
+open('mapping.json', 'w').write(json.dumps(mapping, indent=2))
 
 print("Ze end")

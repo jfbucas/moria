@@ -1,0 +1,809 @@
+================================================================================
+FUNCTION BATCH 10
+Functions 181 to 200
+================================================================================
+
+
+================================================================================
+[181] FUN_214c_01f3
+================================================================================
+Address: 214C:01F3
+Lines: 14569-14605
+Signature: undefined2 __cdecl16far FUN_214c_01f3(void)
+
+
+undefined2 __cdecl16far FUN_214c_01f3(void)
+
+{
+  code *pcVar1;
+  undefined2 uVar2;
+  undefined2 in_AX;
+  undefined2 uVar3;
+  undefined2 uVar4;
+  
+  uVar3 = 0;
+  uVar4 = 0;
+  if ((*(char *)0x5 == -0x3d) || (*(char *)0x5 == -0x3d)) {
+    in_AX = (*DAT_22de_0006)(0x214c);
+  }
+  uVar2 = DAT_22de_e754;
+  DAT_22de_e76c = in_AX;
+  DAT_22de_e76e = uVar3;
+  DAT_22de_e770 = uVar4;
+  if ((int)((ulong)_DAT_22de_e768 >> 0x10) == 0 && (int)_DAT_22de_e768 == 0) {
+    if (*(char *)0x5 != -0x3d) {
+      pcVar1 = (code *)swi(0x21);
+      (*pcVar1)();
+      uVar3 = DAT_22de_e78b;
+      DAT_22de_e78b = 0;
+      return uVar3;
+    }
+    *(undefined1 *)0x5 = 0;
+                    // WARNING: Could not recover jumptable at 0x00021721. Too many branches
+                    // WARNING: Treating indirect jump as call
+    uVar3 = (*(code *)(ulong)*(uint *)0x6)();
+    return uVar3;
+  }
+  _DAT_22de_e768 = 0;
+  DAT_22de_e78b = 0;
+  return 0x232;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[182] FUN_214c_026d
+================================================================================
+Address: 214C:026D
+Lines: 14606-14618
+Signature: undefined2 __cdecl16far FUN_214c_026d(void)
+
+
+
+
+undefined2 __cdecl16far FUN_214c_026d(void)
+
+{
+  undefined2 uVar1;
+  undefined2 unaff_DS;
+  
+  uVar1 = *(undefined2 *)0xe78b;
+  *(undefined2 *)0xe78b = 0;
+  return uVar1;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[183] FUN_214c_0277
+================================================================================
+Address: 214C:0277
+Lines: 14619-14632
+Signature: void __cdecl16far FUN_214c_0277(void)
+
+
+
+
+void __cdecl16far FUN_214c_0277(void)
+
+{
+  undefined2 unaff_DS;
+  
+  if (*(int *)0xe78b == 0) {
+    return;
+  }
+  FUN_214c_01ec();
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[184] FUN_214c_0285
+================================================================================
+Address: 214C:0285
+Lines: 14633-14650
+Signature: void __cdecl16far FUN_214c_0285(void)
+
+
+
+
+void __cdecl16far FUN_214c_0285(void)
+
+{
+  uint in_AX;
+  int in_DX;
+  uint *unaff_DI;
+  undefined2 in_stack_00000002;
+  
+  if ((((int)unaff_DI[1] < in_DX) || (((int)unaff_DI[1] <= in_DX && (*unaff_DI <= in_AX)))) &&
+     ((in_DX < (int)unaff_DI[3] || ((in_DX <= (int)unaff_DI[3] && (in_AX <= unaff_DI[2])))))) {
+    return;
+  }
+  FUN_214c_01ec();
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[185] FUN_214c_02ad
+================================================================================
+Address: 214C:02AD
+Lines: 14651-14664
+Signature: void __cdecl16far FUN_214c_02ad(void)
+
+
+
+
+void __cdecl16far FUN_214c_02ad(void)
+
+{
+  undefined1 *in_AX;
+  
+  if ((in_AX <= &stack0x0000) && (0x1ff < (uint)((int)&stack0x0000 - (int)in_AX))) {
+    return;
+  }
+  FUN_214c_01ec();
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[186] FUN_214c_02c0
+================================================================================
+Address: 214C:02C0
+Lines: 14665-14686
+Signature: void __stdcall16far FUN_214c_02c0(int param_1,undefined1 *param_2,undefined1 *param_3)
+
+
+
+
+void __stdcall16far FUN_214c_02c0(int param_1,undefined1 *param_2,undefined1 *param_3)
+
+{
+  undefined1 *puVar1;
+  undefined1 *puVar2;
+  undefined1 *puVar3;
+  undefined1 *puVar4;
+  
+  puVar3 = (undefined1 *)param_3;
+  puVar4 = (undefined1 *)param_2;
+  for (; param_1 != 0; param_1 = param_1 + -1) {
+    puVar2 = puVar4;
+    puVar4 = puVar4 + 1;
+    puVar1 = puVar3;
+    puVar3 = puVar3 + 1;
+    *puVar2 = *puVar1;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[187] FUN_214c_02dc
+================================================================================
+Address: 214C:02DC
+Lines: 14687-14697
+Signature: int __cdecl16far FUN_214c_02dc(void)
+
+
+
+
+int __cdecl16far FUN_214c_02dc(void)
+
+{
+  int in_AX;
+  int in_CX;
+  
+  return in_AX * in_CX;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[188] FUN_214c_02f7
+================================================================================
+Address: 214C:02F7
+Lines: 14698-14768
+Signature: uint __cdecl16far FUN_214c_02f7(void)
+
+
+
+
+uint __cdecl16far FUN_214c_02f7(void)
+
+{
+  uint uVar1;
+  uint in_AX;
+  uint in_CX;
+  uint uVar2;
+  uint uVar3;
+  uint in_DX;
+  uint in_BX;
+  uint uVar4;
+  uint uVar5;
+  int iVar6;
+  bool bVar7;
+  bool bVar8;
+  bool bVar9;
+  bool bVar10;
+  
+  if (in_CX == 0 && in_BX == 0) {
+    uVar2 = FUN_214c_01ec();
+    return uVar2;
+  }
+  bVar9 = (int)in_BX < 0;
+  if (bVar9) {
+    uVar2 = ~in_CX;
+    in_CX = uVar2 + 1;
+    in_BX = ~in_BX + (uint)(0xfffe < uVar2);
+  }
+  bVar10 = (int)in_DX < 0;
+  if (bVar10) {
+    uVar2 = ~in_AX;
+    in_AX = uVar2 + 1;
+    in_DX = ~in_DX + (uint)(0xfffe < uVar2);
+  }
+  uVar2 = 0;
+  bVar7 = false;
+  uVar4 = 0;
+  iVar6 = 0x21;
+  do {
+    uVar3 = uVar2 << 1 | (uint)bVar7;
+    uVar5 = uVar4 << 1 | (uint)((int)uVar2 < 0);
+    uVar2 = uVar3 - in_CX;
+    uVar3 = (uint)(uVar3 < in_CX);
+    uVar1 = uVar5 - in_BX;
+    bVar7 = uVar5 < in_BX || uVar1 < uVar3;
+    uVar4 = uVar1 - uVar3;
+    if (uVar5 < in_BX || uVar1 < uVar3) {
+      bVar8 = CARRY2(uVar2,in_CX);
+      uVar2 = uVar2 + in_CX;
+      bVar7 = CARRY2(uVar4,in_BX) || CARRY2(uVar4 + in_BX,(uint)bVar8);
+      uVar4 = uVar4 + in_BX + (uint)bVar8;
+    }
+    bVar8 = (int)in_AX < 0;
+    in_AX = in_AX << 1 | (uint)!bVar7;
+    bVar7 = (int)in_DX < 0;
+    in_DX = in_DX << 1 | (uint)bVar8;
+    iVar6 = iVar6 + -1;
+  } while (iVar6 != 0);
+  if (bVar10) {
+    if (bVar9) {
+      return in_AX;
+    }
+  }
+  else if (!bVar9) {
+    return in_AX;
+  }
+  return ~in_AX + 1;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[189] FUN_214c_038e
+================================================================================
+Address: 214C:038E
+Lines: 14769-14797
+Signature: void __stdcall16far FUN_214c_038e(undefined2 param_1,undefined2 *param_2)
+
+
+
+
+void __stdcall16far FUN_214c_038e(undefined2 param_1,undefined2 *param_2)
+
+{
+  int iVar1;
+  undefined2 in_CX;
+  undefined2 in_BX;
+  undefined2 unaff_DS;
+  undefined1 in_CF;
+  
+  do {
+    FUN_214c_04a2();
+    if (!(bool)in_CF) goto LAB_214c_03ab;
+    iVar1 = (*(code *)*(undefined2 *)0xe764)(0x214c,param_1);
+    in_CF = 0;
+    if (iVar1 == 0) {
+      FUN_214c_01ec();
+      return;
+    }
+  } while (iVar1 != 1);
+  in_CX = 0;
+  in_BX = 0;
+LAB_214c_03ab:
+  *param_2 = in_CX;
+  ((undefined2 *)param_2)[1] = in_BX;
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[190] FUN_214c_04a2
+================================================================================
+Address: 214C:04A2
+Lines: 14803-14866
+Signature: void __cdecl16near FUN_214c_04a2(void)
+
+
+void __cdecl16near FUN_214c_04a2(void)
+
+{
+  uint uVar1;
+  int iVar2;
+  uint uVar3;
+  int iVar4;
+  uint unaff_SI;
+  uint *puVar5;
+  undefined2 uVar6;
+  undefined2 unaff_DS;
+  ulong uVar7;
+  
+  uVar7 = FUN_214c_0674();
+  uVar1 = (uint)(uVar7 >> 0x10);
+  uVar6 = (undefined2)((ulong)*(undefined4 *)0xe75e >> 0x10);
+  puVar5 = (uint *)(uint *)*(undefined4 *)0xe75e;
+  do {
+    if (puVar5 == (uint *)0x0) {
+      uVar7 = FUN_214c_062a();
+      iVar4 = -*(int *)0xe75c;
+      iVar2 = unaff_SI - *(uint *)0xe75a;
+      if (unaff_SI < *(uint *)0xe75a) {
+        iVar2 = iVar2 + 0x10;
+        iVar4 = iVar4 + -1;
+      }
+      if (uVar7 <= CONCAT22(iVar4,iVar2)) {
+        iVar4 = (int)(uVar7 >> 0x10) + *(int *)0xe75c;
+        uVar1 = (int)uVar7 + *(int *)0xe75a;
+        if (0xf < uVar1) {
+          uVar1 = uVar1 - 0x10;
+          iVar4 = iVar4 + 1;
+        }
+        *(uint *)0xe75a = uVar1;
+        *(int *)0xe75c = iVar4;
+      }
+      return;
+    }
+    uVar3 = puVar5[3] - puVar5[1];
+    if (uVar1 <= uVar3) {
+      iVar4 = puVar5[2] - *puVar5;
+      if (puVar5[2] < *puVar5) {
+        iVar4 = iVar4 + 0x10;
+        uVar3 = uVar3 - 1;
+      }
+      if (uVar7 <= CONCAT22(uVar3,iVar4)) {
+        uVar1 = uVar1 + puVar5[1];
+        uVar3 = (int)uVar7 + *puVar5;
+        if (0xf < uVar3) {
+          uVar3 = uVar3 - 0x10;
+          uVar1 = uVar1 + 1;
+        }
+        *puVar5 = uVar3;
+        puVar5[1] = uVar1;
+        if ((uVar1 == puVar5[3]) && (uVar3 == puVar5[2])) {
+          FUN_214c_0615();
+        }
+        return;
+      }
+    }
+    puVar5 = puVar5 + 4;
+  } while( true );
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[191] FUN_214c_0615
+================================================================================
+Address: 214C:0615
+Lines: 14867-14885
+Signature: void __cdecl16near FUN_214c_0615(void)
+
+
+
+
+void __cdecl16near FUN_214c_0615(void)
+
+{
+  undefined2 *puVar1;
+  undefined2 *unaff_DI;
+  undefined2 unaff_ES;
+  undefined2 unaff_DS;
+  
+  puVar1 = (undefined2 *)*(undefined2 *)0xe75e;
+  *unaff_DI = *puVar1;
+  unaff_DI[1] = puVar1[1];
+  unaff_DI[2] = puVar1[2];
+  unaff_DI[3] = puVar1[3];
+  *(int *)0xe75e = (int)(puVar1 + 4);
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[192] FUN_214c_062a
+================================================================================
+Address: 214C:062A
+Lines: 14886-14898
+Signature: void __cdecl16near FUN_214c_062a(void)
+
+
+
+
+void __cdecl16near FUN_214c_062a(void)
+
+{
+  undefined2 unaff_DS;
+  
+  if ((*(int *)0xe75e == 0) && (*(int *)0xe762 == 0)) {
+    return;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[193] FUN_214c_0674
+================================================================================
+Address: 214C:0674
+Lines: 14899-14908
+Signature: ulong __cdecl16near FUN_214c_0674(void)
+
+
+
+
+ulong __cdecl16near FUN_214c_0674(void)
+
+{
+  uint in_AX;
+  
+  return CONCAT22(in_AX >> 4,in_AX) & 0xffff000f;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[194] FUN_214c_0693
+================================================================================
+Address: 214C:0693
+Lines: 14909-14933
+Signature: void __stdcall16far FUN_214c_0693(byte *param_1,byte *param_2)
+
+
+
+
+void __stdcall16far FUN_214c_0693(byte *param_1,byte *param_2)
+
+{
+  byte bVar1;
+  uint uVar2;
+  byte *pbVar3;
+  byte *pbVar4;
+  
+  pbVar4 = (byte *)param_2;
+  pbVar3 = (byte *)param_1;
+  bVar1 = *param_1;
+  *param_2 = bVar1;
+  uVar2 = (uint)bVar1;
+  while( true ) {
+    pbVar4 = pbVar4 + 1;
+    pbVar3 = pbVar3 + 1;
+    if (uVar2 == 0) break;
+    uVar2 = uVar2 - 1;
+    *pbVar4 = *pbVar3;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[195] FUN_214c_06ad
+================================================================================
+Address: 214C:06AD
+Lines: 14934-14961
+Signature: void __stdcall16far FUN_214c_06ad(byte param_1,byte *param_2,byte *param_3)
+
+
+
+
+void __stdcall16far FUN_214c_06ad(byte param_1,byte *param_2,byte *param_3)
+
+{
+  byte bVar1;
+  uint uVar2;
+  byte *pbVar3;
+  byte *pbVar4;
+  
+  pbVar3 = (byte *)param_3;
+  pbVar4 = (byte *)param_2;
+  bVar1 = *param_3;
+  if (param_1 < *param_3) {
+    bVar1 = param_1;
+  }
+  *param_2 = bVar1;
+  uVar2 = (uint)bVar1;
+  while( true ) {
+    pbVar4 = pbVar4 + 1;
+    pbVar3 = pbVar3 + 1;
+    if (uVar2 == 0) break;
+    uVar2 = uVar2 - 1;
+    *pbVar4 = *pbVar3;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[196] FUN_214c_06df
+================================================================================
+Address: 214C:06DF
+Lines: 14962-14997
+Signature: void __stdcall16far FUN_214c_06df(uint param_1,uint param_2,byte *param_3,byte *param_4)
+
+
+
+
+void __stdcall16far FUN_214c_06df(uint param_1,uint param_2,byte *param_3,byte *param_4)
+
+{
+  byte *pbVar1;
+  uint uVar2;
+  byte *pbVar3;
+  byte *pbVar4;
+  
+  pbVar4 = (byte *)param_4;
+  if ((int)param_2 < 1) {
+    param_2 = 1;
+  }
+  pbVar3 = (byte *)param_3 + param_2;
+  if (*param_3 < param_2) {
+    uVar2 = 0;
+  }
+  else {
+    uVar2 = (*param_3 - param_2) + 1;
+    if ((int)param_1 < 0) {
+      param_1 = 0;
+    }
+    if (param_1 < uVar2) {
+      uVar2 = param_1;
+    }
+  }
+  *param_4 = (byte)uVar2;
+  for (; pbVar4 = pbVar4 + 1, uVar2 != 0; uVar2 = uVar2 - 1) {
+    pbVar1 = pbVar3;
+    pbVar3 = pbVar3 + 1;
+    *pbVar4 = *pbVar1;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[197] FUN_214c_0720
+================================================================================
+Address: 214C:0720
+Lines: 14998-15030
+Signature: void __stdcall16far FUN_214c_0720(byte *param_1,byte *param_2)
+
+
+
+
+void __stdcall16far FUN_214c_0720(byte *param_1,byte *param_2)
+
+{
+  byte bVar1;
+  byte bVar2;
+  byte bVar3;
+  uint uVar4;
+  byte *pbVar5;
+  byte *pbVar6;
+  
+  pbVar5 = (byte *)param_1;
+  bVar2 = *param_2;
+  bVar3 = *param_1;
+  bVar1 = *param_2;
+  *param_2 = *param_2 + bVar3;
+  if (CARRY1(bVar1,bVar3)) {
+    *param_2 = 0xff;
+    bVar3 = ~bVar2;
+  }
+  pbVar6 = (byte *)param_2 + bVar2;
+  uVar4 = (uint)bVar3;
+  while( true ) {
+    pbVar6 = pbVar6 + 1;
+    pbVar5 = pbVar5 + 1;
+    if (uVar4 == 0) break;
+    uVar4 = uVar4 - 1;
+    *pbVar6 = *pbVar5;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[198] FUN_214c_074c
+================================================================================
+Address: 214C:074C
+Lines: 15031-15077
+Signature: int __stdcall16far FUN_214c_074c(byte *param_1,byte *param_2)
+
+
+
+
+int __stdcall16far FUN_214c_074c(byte *param_1,byte *param_2)
+
+{
+  byte *pbVar1;
+  int iVar2;
+  uint uVar3;
+  uint uVar4;
+  int iVar5;
+  byte *pbVar6;
+  byte *pbVar7;
+  byte *pbVar8;
+  bool bVar9;
+  
+  pbVar7 = (byte *)param_1;
+  uVar3 = (uint)*param_2;
+  if (uVar3 <= *param_1) {
+    iVar2 = 1;
+    if (uVar3 == 0) {
+      return 1;
+    }
+    iVar5 = (*param_1 - uVar3) + 1;
+    do {
+      pbVar7 = pbVar7 + 1;
+      bVar9 = pbVar7 == (byte *)0x0;
+      uVar4 = uVar3;
+      pbVar8 = pbVar7;
+      pbVar6 = (byte *)param_2;
+      do {
+        pbVar6 = pbVar6 + 1;
+        if (uVar4 == 0) break;
+        uVar4 = uVar4 - 1;
+        pbVar1 = pbVar8;
+        pbVar8 = pbVar8 + 1;
+        bVar9 = *pbVar6 == *pbVar1;
+      } while (bVar9);
+      if (bVar9) {
+        return iVar2;
+      }
+      iVar2 = iVar2 + 1;
+      iVar5 = iVar5 + -1;
+    } while (iVar5 != 0);
+  }
+  return 0;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[199] FUN_214c_0783
+================================================================================
+Address: 214C:0783
+Lines: 15078-15107
+Signature: void __stdcall16far FUN_214c_0783(byte *param_1,byte *param_2)
+
+
+
+
+void __stdcall16far FUN_214c_0783(byte *param_1,byte *param_2)
+
+{
+  byte bVar1;
+  uint uVar2;
+  byte *pbVar3;
+  byte *pbVar4;
+  
+  pbVar3 = (byte *)param_2;
+  pbVar4 = (byte *)param_1;
+  bVar1 = *param_2;
+  if (*param_1 < *param_2) {
+    bVar1 = *param_1;
+  }
+  if (bVar1 != 0) {
+    uVar2 = (uint)bVar1;
+    do {
+      pbVar4 = pbVar4 + 1;
+      pbVar3 = pbVar3 + 1;
+      if (uVar2 == 0) {
+        return;
+      }
+      uVar2 = uVar2 - 1;
+    } while (*pbVar3 == *pbVar4);
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[200] FUN_214c_07ae
+================================================================================
+Address: 214C:07AE
+Lines: 15108-15117
+Signature: void __stdcall16far FUN_214c_07ae(undefined1 param_1,undefined1 *param_2)
+
+
+
+
+void __stdcall16far FUN_214c_07ae(undefined1 param_1,undefined1 *param_2)
+
+{
+  *param_2 = 1;
+  ((undefined1 *)param_2)[1] = param_1;
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+

@@ -1,0 +1,734 @@
+================================================================================
+FUNCTION BATCH 9
+Functions 161 to 180
+================================================================================
+
+
+================================================================================
+[161] FUN_20e6_020d
+================================================================================
+Address: 20E6:020D
+Lines: 14064-14073
+Signature: void __cdecl16far FUN_20e6_020d(void)
+
+
+
+
+void __cdecl16far FUN_20e6_020d(void)
+
+{
+  FUN_20e6_0653();
+  thunk_FUN_20e6_0653();
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[162] FUN_20e6_0227
+================================================================================
+Address: 20E6:0227
+Lines: 14074-14083
+Signature: void __cdecl16far FUN_20e6_0227(void)
+
+
+
+
+void __cdecl16far FUN_20e6_0227(void)
+
+{
+  thunk_FUN_20e6_0653();
+  FUN_20e6_0653();
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[163] FUN_20e6_0260
+================================================================================
+Address: 20E6:0260
+Lines: 14084-14099
+Signature: void __stdcall16far FUN_20e6_0260(char param_1,char param_2)
+
+
+
+
+void __stdcall16far FUN_20e6_0260(char param_1,char param_2)
+
+{
+  undefined2 unaff_DS;
+  
+  if ((((!CARRY1(param_2 - 1U,*(byte *)0xe541)) &&
+       ((byte)((param_2 - 1U) + *(byte *)0xe541) <= *(byte *)0xe543)) &&
+      (!CARRY1(param_1 - 1U,*(byte *)0xe542))) &&
+     ((byte)((param_1 - 1U) + *(byte *)0xe542) <= *(byte *)0xe544)) {
+    thunk_FUN_20e6_0653();
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[164] FUN_20e6_028c
+================================================================================
+Address: 20E6:028C
+Lines: 14100-14111
+Signature: char __cdecl16far FUN_20e6_028c(void)
+
+
+
+
+char __cdecl16far FUN_20e6_028c(void)
+
+{
+  char extraout_DL;
+  undefined2 unaff_DS;
+  
+  thunk_FUN_20e6_0653();
+  return (extraout_DL - *(char *)0xe541) + '\x01';
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[165] FUN_20e6_0298
+================================================================================
+Address: 20E6:0298
+Lines: 14112-14123
+Signature: char __cdecl16far FUN_20e6_0298(void)
+
+
+
+
+char __cdecl16far FUN_20e6_0298(void)
+
+{
+  char extraout_DH;
+  undefined2 unaff_DS;
+  
+  thunk_FUN_20e6_0653();
+  return (extraout_DH - *(char *)0xe542) + '\x01';
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[166] FUN_20e6_02a4
+================================================================================
+Address: 20E6:02A4
+Lines: 14124-14138
+Signature: void __stdcall16far FUN_20e6_02a4(byte param_1)
+
+
+
+
+void __stdcall16far FUN_20e6_02a4(byte param_1)
+
+{
+  undefined2 unaff_DS;
+  
+  if ((param_1 & 0xf0) != 0) {
+    param_1 = param_1 & 0xf | 0x80;
+  }
+  *(byte *)0xe540 = *(byte *)0xe540 & 0x70;
+  *(byte *)0xe540 = *(byte *)0xe540 | param_1;
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[167] FUN_20e6_02be
+================================================================================
+Address: 20E6:02BE
+Lines: 14139-14150
+Signature: void __stdcall16far FUN_20e6_02be(byte param_1)
+
+
+
+
+void __stdcall16far FUN_20e6_02be(byte param_1)
+
+{
+  undefined2 unaff_DS;
+  
+  *(byte *)0xe540 = *(byte *)0xe540 & 0x8f;
+  *(byte *)0xe540 = *(byte *)0xe540 | (param_1 & 7) << 4;
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[168] FUN_20e6_02e9
+================================================================================
+Address: 20E6:02E9
+Lines: 14151-14165
+Signature: void __stdcall16far FUN_20e6_02e9(int param_1)
+
+
+
+
+void __stdcall16far FUN_20e6_02e9(int param_1)
+
+{
+  int extraout_DX;
+  
+  if (param_1 != 0) {
+    do {
+      FUN_20e6_0309();
+    } while (extraout_DX != 1);
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[169] FUN_20e6_0309
+================================================================================
+Address: 20E6:0309
+Lines: 14166-14184
+Signature: void __cdecl16near FUN_20e6_0309(void)
+
+
+
+
+void __cdecl16near FUN_20e6_0309(void)
+
+{
+  char in_AL;
+  int in_CX;
+  char *unaff_DI;
+  undefined2 unaff_ES;
+  
+  do {
+    if (in_AL != *unaff_DI) {
+      return;
+    }
+    in_CX = in_CX + -1;
+  } while (in_CX != 0);
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[170] FUN_20e6_0311
+================================================================================
+Address: 20E6:0311
+Lines: 14185-14208
+Signature: undefined2 __stdcall16far FUN_20e6_0311(uint param_1)
+
+
+
+
+undefined2 __stdcall16far FUN_20e6_0311(uint param_1)
+
+{
+  byte bVar1;
+  undefined2 uVar2;
+  undefined1 uVar3;
+  
+  uVar2 = 0x34dd;
+  if (0x12 < param_1) {
+    uVar3 = (undefined1)(0x1234dd / (ulong)param_1 >> 8);
+    bVar1 = in(0x61);
+    if ((bVar1 & 3) == 0) {
+      out(0x61,bVar1 | 3);
+      out(0x43,0xb6);
+    }
+    out(0x42,(char)(0x1234dd / (ulong)param_1));
+    uVar2 = CONCAT11(uVar3,uVar3);
+    out(0x42,uVar3);
+  }
+  return uVar2;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[171] FUN_20e6_033e
+================================================================================
+Address: 20E6:033E
+Lines: 14209-14220
+Signature: byte __cdecl16far FUN_20e6_033e(void)
+
+
+
+
+byte __cdecl16far FUN_20e6_033e(void)
+
+{
+  byte bVar1;
+  
+  bVar1 = in(0x61);
+  out(0x61,bVar1 & 0xfc);
+  return bVar1 & 0xfc;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[172] FUN_20e6_0357
+================================================================================
+Address: 20E6:0357
+Lines: 14221-14243
+Signature: void __cdecl16far FUN_20e6_0357(void)
+
+
+
+
+void __cdecl16far FUN_20e6_0357(void)
+
+{
+  code *pcVar1;
+  char cVar2;
+  undefined1 extraout_AH;
+  undefined2 unaff_DS;
+  
+  cVar2 = *(char *)0xe552;
+  *(undefined1 *)0xe552 = 0;
+  if (cVar2 == '\0') {
+    pcVar1 = (code *)swi(0x16);
+    cVar2 = (*pcVar1)();
+    if (cVar2 == '\0') {
+      *(undefined1 *)0xe552 = extraout_AH;
+    }
+  }
+  FUN_20e6_0190();
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[173] FUN_20e6_0379
+================================================================================
+Address: 20E6:0379
+Lines: 14244-14263
+Signature: void __stdcall16far FUN_20e6_0379(undefined4 param_1)
+
+
+
+
+void __stdcall16far FUN_20e6_0379(undefined4 param_1)
+
+{
+  int iVar1;
+  undefined2 uVar2;
+  
+  uVar2 = (undefined2)((ulong)param_1 >> 0x10);
+  iVar1 = (int)param_1;
+  *(undefined2 *)(iVar1 + 2) = 0xd7b0;
+  *(undefined2 *)(iVar1 + 4) = 0x80;
+  *(int *)(iVar1 + 0xc) = iVar1 + 0x80;
+  *(undefined2 *)(iVar1 + 0xe) = uVar2;
+  *(undefined2 *)(iVar1 + 0x10) = 0x3a4;
+  *(undefined2 *)(iVar1 + 0x12) = 0x20e6;
+  *(undefined1 *)(iVar1 + 0x30) = 0;
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[174] FUN_20e6_03dc
+================================================================================
+Address: 20E6:03DC
+Lines: 14264-14352
+Signature: void __stdcall16far FUN_20e6_03dc(undefined4 param_1)
+
+
+
+
+void __stdcall16far FUN_20e6_03dc(undefined4 param_1)
+
+{
+  byte bVar1;
+  int iVar2;
+  uint uVar3;
+  uint extraout_DX;
+  uint extraout_DX_00;
+  uint extraout_DX_01;
+  uint uVar4;
+  uint uVar5;
+  int iVar6;
+  int iVar7;
+  undefined2 uVar8;
+  undefined2 uVar9;
+  undefined2 unaff_DS;
+  
+  uVar8 = (undefined2)((ulong)param_1 >> 0x10);
+  iVar6 = (int)param_1;
+  uVar3 = *(int *)(iVar6 + 4) - 2;
+  uVar9 = (undefined2)((ulong)*(undefined4 *)(iVar6 + 0xc) >> 0x10);
+  iVar7 = (int)*(undefined4 *)(iVar6 + 0xc);
+  uVar4 = 0;
+  uVar5 = *(uint *)(iVar6 + 8);
+LAB_20e6_03f2:
+  do {
+    *(undefined1 *)0xe552 = 0;
+    bVar1 = FUN_20e6_0357();
+    iVar2 = 1;
+    if ((bVar1 == 8) || (bVar1 == 0x13)) {
+LAB_20e6_0436:
+      do {
+        if (uVar4 == 0) break;
+        FUN_20e6_04c6();
+        FUN_20e6_04c6();
+        FUN_20e6_04c6();
+        uVar4 = uVar4 - 1;
+        iVar2 = iVar2 + -1;
+        uVar3 = extraout_DX_00;
+      } while (iVar2 != 0);
+      goto LAB_20e6_03f2;
+    }
+    if (bVar1 == 4) {
+LAB_20e6_044e:
+      do {
+        if ((uVar4 == uVar5) || (*(byte *)(uVar4 + iVar7) < 0x20)) break;
+        FUN_20e6_04c6();
+        uVar4 = uVar4 + 1;
+        iVar2 = iVar2 + -1;
+        uVar3 = extraout_DX_01;
+      } while (iVar2 != 0);
+    }
+    else {
+      iVar2 = 0;
+      if ((bVar1 == 0x1b) || (bVar1 == 1)) goto LAB_20e6_0436;
+      if (bVar1 == 6) goto LAB_20e6_044e;
+      if (bVar1 == 0x1a) {
+        if (*(char *)0xe53b != '\0') {
+          *(undefined1 *)(uVar4 + iVar7) = 0x1a;
+          iVar7 = uVar4 + 1;
+LAB_20e6_0478:
+          *(undefined2 *)(iVar6 + 8) = 0;
+          *(int *)(iVar6 + 10) = iVar7;
+          return;
+        }
+      }
+      else {
+        if (bVar1 == 0xd) {
+          FUN_20e6_04bf();
+          *(undefined2 *)(uVar4 + iVar7) = 0xa0d;
+          iVar7 = uVar4 + 2;
+          goto LAB_20e6_0478;
+        }
+        if ((0x1f < bVar1) && (uVar4 != uVar3)) {
+          *(byte *)(uVar4 + iVar7) = bVar1;
+          uVar4 = uVar4 + 1;
+          FUN_20e6_04c6();
+          uVar3 = extraout_DX;
+          if (uVar5 < uVar4) {
+            uVar5 = uVar4;
+          }
+        }
+      }
+    }
+  } while( true );
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[175] FUN_20e6_04bf
+================================================================================
+Address: 20E6:04BF
+Lines: 14362-14371
+Signature: void FUN_20e6_04bf(void)
+
+
+void FUN_20e6_04bf(void)
+
+{
+  FUN_20e6_04c6();
+  thunk_FUN_20e6_0653();
+  FUN_20e6_051f();
+  thunk_FUN_20e6_0653();
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[176] FUN_20e6_04c6
+================================================================================
+Address: 20E6:04C6
+Lines: 14372-14392
+Signature: void __cdecl16near FUN_20e6_04c6(void)
+
+
+
+
+void __cdecl16near FUN_20e6_04c6(void)
+
+{
+  char in_AL;
+  char extraout_DL;
+  undefined2 unaff_DS;
+  
+  thunk_FUN_20e6_0653();
+  if (in_AL == '\a') {
+    FUN_20e6_0653();
+  }
+  else if (((in_AL != '\b') && (in_AL != '\r')) &&
+          ((in_AL == '\n' || (FUN_20e6_0653(), *(byte *)0xe543 < (byte)(extraout_DL + 1U))))) {
+    FUN_20e6_051f();
+  }
+  thunk_FUN_20e6_0653();
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[177] FUN_20e6_051f
+================================================================================
+Address: 20E6:051F
+Lines: 14393-14406
+Signature: void __cdecl16near FUN_20e6_051f(void)
+
+
+
+
+void __cdecl16near FUN_20e6_051f(void)
+
+{
+  undefined2 in_DX;
+  undefined2 unaff_DS;
+  
+  if (*(byte *)0xe544 < (byte)((char)((uint)in_DX >> 8) + 1U)) {
+    FUN_20e6_0653();
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[178] FUN_20e6_0653
+================================================================================
+Address: 20E6:0653
+Lines: 14425-14436
+Signature: void __cdecl16near FUN_20e6_0653(void)
+
+
+
+
+void __cdecl16near FUN_20e6_0653(void)
+
+{
+  code *pcVar1;
+  
+  pcVar1 = (code *)swi(0x10);
+  (*pcVar1)();
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[179] FUN_214c_0000
+================================================================================
+Address: 214C:0000
+Lines: 14437-14520
+Signature: void __cdecl16far FUN_214c_0000(void)
+
+
+
+
+void __cdecl16far FUN_214c_0000(void)
+
+{
+  code *pcVar1;
+  undefined2 uVar2;
+  undefined2 in_BX;
+  undefined2 unaff_ES;
+  int unaff_SS;
+  undefined2 in_stack_00000012;
+  undefined2 in_stack_00000014;
+  undefined2 in_stack_00000016;
+  undefined2 in_stack_00000018;
+  undefined2 in_stack_0000001a;
+  undefined2 in_stack_0000001c;
+  undefined2 in_stack_0000001e;
+  
+  DAT_22de_e758 = ((int)&stack0x0012 + 1U >> 4) + unaff_SS;
+  DAT_22de_e760 = *(int *)0x2 + -0x1000;
+  DAT_22de_e764 = 0xdd;
+  DAT_22de_e766 = 0x214c;
+  DAT_22de_e768 = 0xe2;
+  DAT_22de_e76a = 0x214c;
+  DAT_22de_e78a = 2;
+  DAT_22de_e756 = 0;
+  DAT_22de_e75a = 0;
+  DAT_22de_e75e = 0;
+  DAT_22de_e762 = 0;
+  DAT_22de_e772 = 0;
+  DAT_22de_e774 = 0;
+  DAT_22de_e78b = 0;
+  pcVar1 = (code *)swi(0x21);
+  DAT_22de_e754 = unaff_ES;
+  DAT_22de_e75c = DAT_22de_e758;
+  (*pcVar1)();
+  pcVar1 = (code *)swi(0x21);
+  DAT_22de_e776 = in_BX;
+  DAT_22de_e778 = unaff_ES;
+  (*pcVar1)();
+  pcVar1 = (code *)swi(0x21);
+  DAT_22de_e77a = in_BX;
+  DAT_22de_e77c = unaff_ES;
+  (*pcVar1)();
+  pcVar1 = (code *)swi(0x21);
+  DAT_22de_e77e = in_BX;
+  DAT_22de_e780 = unaff_ES;
+  (*pcVar1)();
+  pcVar1 = (code *)swi(0x21);
+  DAT_22de_e782 = in_BX;
+  DAT_22de_e784 = unaff_ES;
+  (*pcVar1)();
+  in_stack_00000012 = 0x22de;
+  pcVar1 = (code *)swi(0x21);
+  DAT_22de_e786 = in_BX;
+  DAT_22de_e788 = unaff_ES;
+  (*pcVar1)();
+  pcVar1 = (code *)swi(0x21);
+  (*pcVar1)();
+  pcVar1 = (code *)swi(0x21);
+  (*pcVar1)();
+  uVar2 = in_stack_0000001e;
+  in_stack_0000001c = 0xe554;
+  in_stack_0000001a = in_stack_0000001e;
+  in_stack_00000018 = 0xe554;
+  in_stack_00000016 = 0x214c;
+  in_stack_00000014 = 0xdc;
+  in_stack_00000012 = 0x214c;
+  FUN_214c_1383();
+  in_stack_0000001a = 0x214c;
+  in_stack_00000018 = 0x1587;
+  FUN_214c_13f3();
+  in_stack_0000001a = uVar2;
+  in_stack_00000018 = 0xe654;
+  in_stack_00000016 = uVar2;
+  in_stack_00000014 = 0xe654;
+  in_stack_00000012 = 0x214c;
+  FUN_214c_1383();
+  in_stack_00000016 = 0x214c;
+  in_stack_00000014 = 0x159b;
+  FUN_214c_13f8();
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[180] FUN_214c_01ec
+================================================================================
+Address: 214C:01EC
+Lines: 14525-14563
+Signature: undefined2 __cdecl16far FUN_214c_01ec(void)
+
+
+undefined2 __cdecl16far FUN_214c_01ec(void)
+
+{
+  code *pcVar1;
+  int iVar2;
+  undefined2 in_AX;
+  undefined2 uVar3;
+  int in_stack_00000000;
+  int in_stack_00000002;
+  
+  if (in_stack_00000000 != 0 || in_stack_00000002 != 0) {
+    in_stack_00000002 = (in_stack_00000002 - DAT_22de_e754) + -0x10;
+  }
+  if ((*(char *)0x5 == -0x3d) || (*(char *)0x5 == -0x3d)) {
+    in_AX = (*DAT_22de_0006)();
+  }
+  iVar2 = DAT_22de_e754;
+  DAT_22de_e76c = in_AX;
+  DAT_22de_e76e = in_stack_00000000;
+  DAT_22de_e770 = in_stack_00000002;
+  if ((int)((ulong)_DAT_22de_e768 >> 0x10) != 0 || (int)_DAT_22de_e768 != 0) {
+    _DAT_22de_e768 = 0;
+    DAT_22de_e78b = 0;
+    return 0x232;
+  }
+  if (*(char *)0x5 == -0x3d) {
+    *(undefined1 *)0x5 = 0;
+                    // WARNING: Could not recover jumptable at 0x00021721. Too many branches
+                    // WARNING: Treating indirect jump as call
+    uVar3 = (*(code *)(ulong)*(uint *)0x6)();
+    return uVar3;
+  }
+  pcVar1 = (code *)swi(0x21);
+  (*pcVar1)();
+  uVar3 = DAT_22de_e78b;
+  DAT_22de_e78b = 0;
+  return uVar3;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+

@@ -1,0 +1,64 @@
+HIGH PRIORITY FUNCTIONS
+These functions likely have significant game logic
+================================================================================
+
+FUN_1f98_042e                  [Score: 202] Line 13187
+
+FUN_1000_4c49                  [Score: 161] Line 3858
+
+FUN_1000_557c                  [Score: 146] Line 4368
+
+FUN_1000_c8dd                  [Score: 113] Line 10029
+
+FUN_1000_bd2d                  [Score: 105] Line 9480
+
+FUN_1000_9f40                  [Score:  96] Line 7945
+
+FUN_1000_7ebc                  [Score:  87] Line 6353
+
+FUN_1000_e96e                  [Score:  79] Line 11746
+
+FUN_1000_d2bb                  [Score:  74] Line 10558
+
+FUN_1000_8573                  [Score:  72] Line 6691
+
+FUN_1000_f020                  [Score:  70] Line 12124
+
+FUN_1000_b032                  [Score:  67] Line 8882
+
+FUN_1000_e193                  [Score:  65] Line 11298
+
+FUN_1000_65d3                  [Score:  64] Line 5095
+
+FUN_1000_26cf                  [Score:  61] Line 2174
+
+FUN_1000_dc2b                  [Score:  54] Line 11075
+
+FUN_1000_1d47                  [Score:  52] Line 1649
+
+FUN_1f98_0000                  [Score:  52] Line 12967
+
+FUN_1000_6f02                  [Score:  50] Line 5533
+
+FUN_1000_9099                  [Score:  47] Line 7218
+
+FUN_1000_447b                  [Score:  45] Line 3515
+
+FUN_1000_6a56                  [Score:  40] Line 5309
+
+FUN_1000_7364                  [Score:  40] Line 5737
+
+FUN_1000_aa1d                  [Score:  39] Line 8651
+
+FUN_1000_f5f2                  [Score:  39] Line 12467
+
+FUN_1000_0296                  [Score:  36] Line 208
+
+FUN_1000_0e28                  [Score:  36] Line 839
+
+FUN_1000_79ea                  [Score:  36] Line 6115
+
+FUN_1000_11fc                  [Score:  33] Line 1049
+
+FUN_1000_b8c7                  [Score:  32] Line 9218
+

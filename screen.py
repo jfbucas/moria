@@ -1,6 +1,6 @@
 
 DEBUG_VIDEO=False
-DEBUG_VIDEO=True
+#DEBUG_VIDEO=True
 DEBUG_TERM=False
 
 VIDEO_MEMORY_ADDR = 0xB8000
@@ -18,14 +18,19 @@ for row in range(25):
 
 def hook_mem_video_write(uc, access, address, size, value, user_data):
 	"""Intercept writes to video memory and update TEXT_MODE_MEMORY."""
-	global TEXT_MODE_MEMORY, TEXT_MODE_CURSOR_OFFSET
+	global TEXT_MODE_MEMORY, TEXT_MODE_CURSOR_OFFSET, monitor
 	if VIDEO_MEMORY_ADDR <= address < VIDEO_MEMORY_ADDR + VIDEO_MEMORY_SIZE:
 		char = value & 0xFF
 		if DEBUG_VIDEO: print(f"[VIDEO] Write {chr(char)} {hex(value)} to 0x{address:X} (cursor {TEXT_MODE_CURSOR_OFFSET % 80},{TEXT_MODE_CURSOR_OFFSET // 80})")
-		#offset = address - VIDEO_MEMORY_ADDR  # Convert to index
-		TEXT_MODE_MEMORY[TEXT_MODE_CURSOR_OFFSET*2] = char # Store only 1 byte
-		TEXT_MODE_CURSOR_OFFSET+=1
-		#monitor.refresh()
+		if char == 0x0d:
+			print("End-line")
+			TEXT_MODE_CURSOR_OFFSET -= TEXT_MODE_CURSOR_OFFSET % 80
+			TEXT_MODE_CURSOR_OFFSET += 80
+		else:
+			#offset = address - VIDEO_MEMORY_ADDR  # Convert to index
+			TEXT_MODE_MEMORY[TEXT_MODE_CURSOR_OFFSET*2] = char # Store only 1 byte
+			TEXT_MODE_CURSOR_OFFSET+=1
+		monitor.refresh()
 
 def hook_mem_video_read(uc, access, address, size, value, user_data):
 	"""Intercept reads from video memory and return the correct value."""
@@ -50,11 +55,12 @@ class Monitor(threading.Thread):
 		self.do_refresh = True
 
 	def run(self):
-		global TEXT_MODE_MEMORY
+		global TEXT_MODE_MEMORY, hook_block_count, what_happening
 		while not self.finish:
 			if self.do_refresh:
 				#self.do_refresh = False
-				o="\033[s"
+				o="\033[s" # Save cursor
+				# Screen
 				o+=f"\033[2;{self.pos_x}H"+"x"+"-"*80+"x"
 				for y in range(25):
 					o+=f"\033[{y+3};{self.pos_x}H"
@@ -66,7 +72,11 @@ class Monitor(threading.Thread):
 					#print(f"\033[{0y};{0}H{o}",end="")
 					o+="|"
 				o+=f"\033[{25+3};{self.pos_x}H"+"x"+"-"*80+"x"
-				o+="\033[u"
+
+				# Debug info
+				o+=f"\033[{25+4};{self.pos_x}HBlock Count: {hook_block_count} Now:{what_happening}"
+
+				o+="\033[u" # Restore cursor
 				print(o, end="")
 			time.sleep(1/24)
 			#time.sleep(0.5)

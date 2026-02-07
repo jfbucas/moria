@@ -1,0 +1,714 @@
+================================================================================
+FUNCTION BATCH 13
+Functions 241 to 260
+================================================================================
+
+
+================================================================================
+[241] FUN_214c_13f3
+================================================================================
+Address: 214C:13F3
+Lines: 16495-16503
+Signature: void FUN_214c_13f3(void)
+
+
+
+
+void FUN_214c_13f3(void)
+
+{
+  FUN_214c_1400();
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[242] FUN_214c_13f8
+================================================================================
+Address: 214C:13F8
+Lines: 16504-16512
+Signature: void FUN_214c_13f8(void)
+
+
+
+
+void FUN_214c_13f8(void)
+
+{
+  FUN_214c_1400();
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[243] FUN_214c_1400
+================================================================================
+Address: 214C:1400
+Lines: 16513-16545
+Signature: void __stdcall16far FUN_214c_1400(undefined4 param_1)
+
+
+
+
+void __stdcall16far FUN_214c_1400(undefined4 param_1)
+
+{
+  int iVar1;
+  undefined2 in_DX;
+  int iVar2;
+  undefined2 uVar3;
+  undefined2 unaff_DS;
+  bool bVar4;
+  
+  uVar3 = (undefined2)((ulong)param_1 >> 0x10);
+  iVar2 = (int)param_1;
+  iVar1 = *(int *)(iVar2 + 2);
+  if ((iVar1 == -0x284f) || (iVar1 == -0x284e)) {
+    FUN_214c_1490();
+  }
+  else if (iVar1 != -0x2850) {
+    *(undefined2 *)0xe78b = 0x66;
+    return;
+  }
+  bVar4 = true;
+  *(undefined2 *)(iVar2 + 2) = in_DX;
+  *(undefined2 *)(iVar2 + 8) = 0;
+  *(undefined2 *)(iVar2 + 10) = 0;
+  FUN_214c_1496();
+  if (!bVar4) {
+    *(undefined2 *)(iVar2 + 2) = 0xd7b0;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[244] FUN_214c_1456
+================================================================================
+Address: 214C:1456
+Lines: 16546-16560
+Signature: void __stdcall16far FUN_214c_1456(undefined4 param_1)
+
+
+
+
+void __stdcall16far FUN_214c_1456(undefined4 param_1)
+
+{
+  undefined1 in_ZF;
+  
+  FUN_214c_146d();
+  if ((bool)in_ZF) {
+    FUN_214c_1490();
+    *(undefined2 *)((int)param_1 + 2) = 0xd7b0;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[245] FUN_214c_146d
+================================================================================
+Address: 214C:146D
+Lines: 16561-16575
+Signature: void __cdecl16near FUN_214c_146d(void)
+
+
+
+
+void __cdecl16near FUN_214c_146d(void)
+
+{
+  int unaff_DI;
+  undefined2 unaff_ES;
+  undefined2 unaff_DS;
+  
+  if ((*(int *)(unaff_DI + 2) != -0x284f) && (*(int *)(unaff_DI + 2) != -0x284e)) {
+    *(undefined2 *)0xe78b = 0x67;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[246] FUN_214c_1484
+================================================================================
+Address: 214C:1484
+Lines: 16576-16595
+Signature: void __cdecl16near FUN_214c_1484(void)
+
+
+
+
+void __cdecl16near FUN_214c_1484(void)
+
+{
+  int iVar1;
+  int unaff_DI;
+  undefined2 unaff_ES;
+  undefined2 unaff_DS;
+  
+  if (*(int *)(unaff_DI + 2) != -0x284e) {
+    return;
+  }
+  iVar1 = (*(code *)*(undefined2 *)(unaff_DI + 0x14))(0x214c);
+  if (iVar1 != 0) {
+    *(int *)0xe78b = iVar1;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[247] FUN_214c_1490
+================================================================================
+Address: 214C:1490
+Lines: 16596-16612
+Signature: void FUN_214c_1490(void)
+
+
+
+
+void FUN_214c_1490(void)
+
+{
+  int iVar1;
+  int unaff_DI;
+  undefined2 unaff_DS;
+  
+  FUN_214c_1484();
+  iVar1 = (*(code *)*(undefined2 *)(unaff_DI + 0x1c))(0x214c);
+  if (iVar1 != 0) {
+    *(int *)0xe78b = iVar1;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[248] FUN_214c_1496
+================================================================================
+Address: 214C:1496
+Lines: 16613-16629
+Signature: void __cdecl16near FUN_214c_1496(void)
+
+
+
+
+void __cdecl16near FUN_214c_1496(void)
+
+{
+  int iVar1;
+  int in_BX;
+  int unaff_DI;
+  undefined2 unaff_DS;
+  
+  iVar1 = (*(code *)*(undefined2 *)(in_BX + unaff_DI))(0x214c);
+  if (iVar1 != 0) {
+    *(int *)0xe78b = iVar1;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[249] FUN_214c_1618
+================================================================================
+Address: 214C:1618
+Lines: 16630-16653
+Signature: void __cdecl16near FUN_214c_1618(void)
+
+
+
+
+void __cdecl16near FUN_214c_1618(void)
+
+{
+  int unaff_DI;
+  undefined2 unaff_ES;
+  undefined2 unaff_DS;
+  code *in_stack_00000000;
+  
+  if (*(int *)(unaff_DI + 2) == -0x284f) {
+    if (*(int *)0xe78b == 0) {
+                    // WARNING: Could not recover jumptable at 0x00022af7. Too many branches
+                    // WARNING: Treating indirect jump as call
+      (*in_stack_00000000)();
+      return;
+    }
+  }
+  else {
+    *(undefined2 *)0xe78b = 0x68;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[250] FUN_214c_1640
+================================================================================
+Address: 214C:1640
+Lines: 16654-16689
+Signature: undefined1 __cdecl16near FUN_214c_1640(void)
+
+
+
+
+undefined1 __cdecl16near FUN_214c_1640(void)
+
+{
+  int in_DX;
+  int in_BX;
+  int unaff_BP;
+  int unaff_DI;
+  int iVar1;
+  undefined2 unaff_ES;
+  undefined2 uVar2;
+  undefined2 uVar3;
+  undefined2 unaff_SS;
+  
+  if (in_BX == in_DX) {
+    uVar3 = *(undefined2 *)(unaff_BP + -2);
+    uVar2 = (undefined2)((ulong)*(undefined4 *)(unaff_BP + -6) >> 0x10);
+    iVar1 = (int)*(undefined4 *)(unaff_BP + -6);
+    *(int *)(iVar1 + 8) = in_BX;
+    iVar1 = (*(code *)*(undefined2 *)(iVar1 + 0x14))(0x214c,iVar1,uVar2);
+    if (iVar1 != 0) {
+      *(int *)0xe78b = iVar1;
+    }
+    uVar3 = (undefined2)((ulong)*(undefined4 *)(unaff_BP + -6) >> 0x10);
+    iVar1 = (int)*(undefined4 *)(unaff_BP + -6);
+    in_BX = *(int *)(iVar1 + 8);
+    unaff_ES = (undefined2)((ulong)*(undefined4 *)(iVar1 + 0xc) >> 0x10);
+    unaff_DI = (int)*(undefined4 *)(iVar1 + 0xc);
+    if (in_BX == *(int *)(iVar1 + 10)) {
+      return 0x1a;
+    }
+  }
+  return *(undefined1 *)(in_BX + unaff_DI);
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[251] FUN_214c_167d
+================================================================================
+Address: 214C:167D
+Lines: 16690-16704
+Signature: void FUN_214c_167d(int param_1,undefined2 param_2)
+
+
+
+
+void FUN_214c_167d(int param_1,undefined2 param_2)
+
+{
+  undefined2 in_BX;
+  code *in_stack_00000000;
+  
+  *(undefined2 *)(param_1 + 8) = in_BX;
+                    // WARNING: Could not recover jumptable at 0x00022b45. Too many branches
+                    // WARNING: Treating indirect jump as call
+  (*in_stack_00000000)();
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[252] FUN_214c_1687
+================================================================================
+Address: 214C:1687
+Lines: 16705-16728
+Signature: void __cdecl16near FUN_214c_1687(void)
+
+
+
+
+void __cdecl16near FUN_214c_1687(void)
+
+{
+  int unaff_DI;
+  undefined2 unaff_ES;
+  undefined2 unaff_DS;
+  code *in_stack_00000000;
+  
+  if (*(int *)(unaff_DI + 2) == -0x284e) {
+    if (*(int *)0xe78b == 0) {
+                    // WARNING: Could not recover jumptable at 0x00022b66. Too many branches
+                    // WARNING: Treating indirect jump as call
+      (*in_stack_00000000)();
+      return;
+    }
+  }
+  else {
+    *(undefined2 *)0xe78b = 0x69;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[253] FUN_214c_16af
+================================================================================
+Address: 214C:16AF
+Lines: 16729-16759
+Signature: void __cdecl16near FUN_214c_16af(void)
+
+
+
+
+void __cdecl16near FUN_214c_16af(void)
+
+{
+  undefined2 uVar1;
+  undefined1 in_AL;
+  int in_DX;
+  int in_BX;
+  int unaff_BP;
+  int unaff_DI;
+  int iVar2;
+  undefined2 unaff_ES;
+  undefined2 uVar3;
+  undefined2 unaff_SS;
+  
+  *(undefined1 *)(in_BX + unaff_DI) = in_AL;
+  if (in_BX + 1 != in_DX) {
+    return;
+  }
+  uVar1 = *(undefined2 *)(unaff_BP + -2);
+  uVar3 = (undefined2)((ulong)*(undefined4 *)(unaff_BP + -6) >> 0x10);
+  iVar2 = (int)*(undefined4 *)(unaff_BP + -6);
+  *(int *)(iVar2 + 8) = in_BX + 1;
+  iVar2 = (*(code *)*(undefined2 *)(iVar2 + 0x14))(0x214c,iVar2,uVar3);
+  if (iVar2 != 0) {
+    *(int *)0xe78b = iVar2;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[254] FUN_214c_16e5
+================================================================================
+Address: 214C:16E5
+Lines: 16760-16774
+Signature: void FUN_214c_16e5(int param_1,undefined2 param_2)
+
+
+
+
+void FUN_214c_16e5(int param_1,undefined2 param_2)
+
+{
+  undefined2 in_BX;
+  code *in_stack_00000000;
+  
+  *(undefined2 *)(param_1 + 8) = in_BX;
+                    // WARNING: Could not recover jumptable at 0x00022bad. Too many branches
+                    // WARNING: Treating indirect jump as call
+  (*in_stack_00000000)();
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[255] FUN_214c_16ef
+================================================================================
+Address: 214C:16EF
+Lines: 16775-16813
+Signature: void FUN_214c_16ef(undefined2 param_1,undefined4 param_2)
+
+
+
+
+void FUN_214c_16ef(undefined2 param_1,undefined4 param_2)
+
+{
+  char cVar1;
+  int iVar2;
+  undefined2 uVar3;
+  undefined2 unaff_DS;
+  undefined1 in_ZF;
+  
+  FUN_214c_1618();
+  if ((bool)in_ZF) {
+    do {
+      cVar1 = FUN_214c_1640();
+      if (cVar1 == '\x1a') goto LAB_214c_170e;
+    } while (cVar1 != '\r');
+    FUN_214c_1640();
+LAB_214c_170e:
+    FUN_214c_167d();
+  }
+  uVar3 = (undefined2)((ulong)param_2 >> 0x10);
+  iVar2 = (int)param_2;
+  if (*(int *)(iVar2 + 2) == -0x284f) {
+    if (*(int *)0xe78b != 0) {
+      return;
+    }
+    iVar2 = (*(code *)*(undefined2 *)(iVar2 + 0x18))(0x214c,iVar2,uVar3);
+    if (iVar2 == 0) {
+      return;
+    }
+  }
+  else {
+    iVar2 = 0x68;
+  }
+  *(int *)0xe78b = iVar2;
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[256] FUN_214c_1712
+================================================================================
+Address: 214C:1712
+Lines: 16814-16840
+Signature: void __stdcall16far FUN_214c_1712(undefined4 param_1)
+
+
+
+
+void __stdcall16far FUN_214c_1712(undefined4 param_1)
+
+{
+  int iVar1;
+  undefined2 uVar2;
+  undefined2 unaff_DS;
+  
+  uVar2 = (undefined2)((ulong)param_1 >> 0x10);
+  iVar1 = (int)param_1;
+  if (*(int *)(iVar1 + 2) == -0x284f) {
+    if (*(int *)0xe78b != 0) {
+      return;
+    }
+    iVar1 = (*(code *)*(undefined2 *)(iVar1 + 0x18))(0x214c,iVar1,uVar2);
+    if (iVar1 == 0) {
+      return;
+    }
+  }
+  else {
+    iVar1 = 0x68;
+  }
+  *(int *)0xe78b = iVar1;
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[257] FUN_214c_173c
+================================================================================
+Address: 214C:173C
+Lines: 16841-16874
+Signature: void FUN_214c_173c(undefined2 param_1,undefined4 param_2)
+
+
+
+
+void FUN_214c_173c(undefined2 param_1,undefined4 param_2)
+
+{
+  int iVar1;
+  undefined2 uVar2;
+  undefined2 unaff_DS;
+  undefined1 in_ZF;
+  
+  FUN_214c_1687();
+  if ((bool)in_ZF) {
+    FUN_214c_16af();
+    FUN_214c_16af();
+    FUN_214c_16e5();
+  }
+  uVar2 = (undefined2)((ulong)param_2 >> 0x10);
+  iVar1 = (int)param_2;
+  if (*(int *)(iVar1 + 2) == -0x284e) {
+    if (*(int *)0xe78b != 0) {
+      return;
+    }
+    iVar1 = (*(code *)*(undefined2 *)(iVar1 + 0x18))(0x214c,iVar1,uVar2);
+    if (iVar1 == 0) {
+      return;
+    }
+  }
+  else {
+    iVar1 = 0x69;
+  }
+  *(int *)0xe78b = iVar1;
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[258] FUN_214c_1755
+================================================================================
+Address: 214C:1755
+Lines: 16875-16901
+Signature: void __stdcall16far FUN_214c_1755(undefined4 param_1)
+
+
+
+
+void __stdcall16far FUN_214c_1755(undefined4 param_1)
+
+{
+  int iVar1;
+  undefined2 uVar2;
+  undefined2 unaff_DS;
+  
+  uVar2 = (undefined2)((ulong)param_1 >> 0x10);
+  iVar1 = (int)param_1;
+  if (*(int *)(iVar1 + 2) == -0x284e) {
+    if (*(int *)0xe78b != 0) {
+      return;
+    }
+    iVar1 = (*(code *)*(undefined2 *)(iVar1 + 0x18))(0x214c,iVar1,uVar2);
+    if (iVar1 == 0) {
+      return;
+    }
+  }
+  else {
+    iVar1 = 0x69;
+  }
+  *(int *)0xe78b = iVar1;
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[259] FUN_214c_177f
+================================================================================
+Address: 214C:177F
+Lines: 16902-16920
+Signature: undefined1 __cdecl16far FUN_214c_177f(void)
+
+
+
+
+undefined1 __cdecl16far FUN_214c_177f(void)
+
+{
+  undefined1 uVar1;
+  undefined1 in_ZF;
+  
+  FUN_214c_1618();
+  if ((bool)in_ZF) {
+    FUN_214c_1640();
+    uVar1 = FUN_214c_167d();
+  }
+  else {
+    uVar1 = 0x1a;
+  }
+  return uVar1;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[260] FUN_214c_1799
+================================================================================
+Address: 214C:1799
+Lines: 16921-16943
+Signature: void __stdcall16far FUN_214c_1799(int param_1)
+
+
+
+
+void __stdcall16far FUN_214c_1799(int param_1)
+
+{
+  int iVar1;
+  undefined1 in_ZF;
+  
+  FUN_214c_1687();
+  if ((bool)in_ZF) {
+    iVar1 = param_1 + -1;
+    if (iVar1 != 0 && 0 < param_1) {
+      do {
+        FUN_214c_16af();
+        iVar1 = iVar1 + -1;
+      } while (iVar1 != 0);
+    }
+    FUN_214c_16af();
+    FUN_214c_16e5();
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+

@@ -1,0 +1,850 @@
+================================================================================
+FUNCTION BATCH 1
+Functions 1 to 20
+================================================================================
+
+
+================================================================================
+[1] FUN_1000_0000
+================================================================================
+Address: 1000:0000
+Lines: 32-51
+Signature: undefined2 FUN_1000_0000(int *param_1)
+
+
+
+
+
+undefined2 FUN_1000_0000(int *param_1)
+
+{
+  undefined2 local_4;
+  
+  if (*param_1 == 0) {
+    local_4 = 0;
+  }
+  else if (*param_1 < 1) {
+    local_4 = 0xffff;
+  }
+  else {
+    local_4 = 1;
+  }
+  return local_4;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[2] FUN_1000_0040
+================================================================================
+Address: 1000:0040
+Lines: 52-79
+Signature: void __cdecl16near FUN_1000_0040(void)
+
+
+
+
+void __cdecl16near FUN_1000_0040(void)
+
+{
+  undefined2 uVar1;
+  undefined2 unaff_DS;
+  undefined2 uVar2;
+  undefined2 uVar3;
+  
+  FUN_20e6_0260(1,1);
+  uVar1 = 0x20e6;
+  FUN_20e6_0227();
+  if (*(int *)0xb892 < 100) {
+    uVar2 = 0xe654;
+    uVar3 = unaff_DS;
+    FUN_214c_17f7(0,0x34,0x20e6);
+    uVar1 = 0x214c;
+    FUN_214c_1755(uVar2,uVar3);
+  }
+  if (*(int *)0xb909 < 400) {
+    uVar3 = 0xe654;
+    FUN_214c_17f7(0,0x3a,uVar1);
+    FUN_214c_1755(uVar3,unaff_DS);
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[3] FUN_1000_0094
+================================================================================
+Address: 1000:0094
+Lines: 80-93
+Signature: void __cdecl16near FUN_1000_0094(void)
+
+
+
+
+void __cdecl16near FUN_1000_0094(void)
+
+{
+  undefined2 unaff_DS;
+  undefined2 uVar1;
+  
+  uVar1 = 0xe654;
+  FUN_214c_1799(0,0x20);
+  FUN_214c_1755(uVar1,unaff_DS);
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[4] FUN_1000_00b3
+================================================================================
+Address: 1000:00B3
+Lines: 94-107
+Signature: void __cdecl16near FUN_1000_00b3(void)
+
+
+
+
+void __cdecl16near FUN_1000_00b3(void)
+
+{
+  undefined2 unaff_DS;
+  undefined2 uVar1;
+  
+  uVar1 = 0xe654;
+  FUN_214c_17f7(0,0xb0,0x1000);
+  FUN_214c_1755(uVar1,unaff_DS);
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[5] FUN_1000_00de
+================================================================================
+Address: 1000:00DE
+Lines: 108-139
+Signature: void FUN_1000_00de(int *param_1,int param_2,int param_3)
+
+
+
+
+void FUN_1000_00de(int *param_1,int param_2,int param_3)
+
+{
+  undefined4 uVar1;
+  int *piVar2;
+  undefined2 uVar3;
+  undefined2 unaff_DS;
+  
+  uVar1 = *(undefined4 *)(*(int *)0xe52d * 4 + -0x5499);
+  uVar3 = (undefined2)((ulong)param_1 >> 0x10);
+  piVar2 = (int *)param_1;
+  *param_1 = (int)uVar1;
+  piVar2[1] = (int)((ulong)uVar1 >> 0x10);
+  while ((*param_1 != 0 || piVar2[1] != 0 &&
+         ((*(int *)((int)*(undefined4 *)param_1 + 0x1c) != param_3 ||
+          (*(int *)((int)*(undefined4 *)param_1 + 0x1e) != param_2))))) {
+    uVar1 = *(undefined4 *)((int)*(undefined4 *)param_1 + 0x32);
+    *param_1 = (int)uVar1;
+    piVar2[1] = (int)((ulong)uVar1 >> 0x10);
+  }
+  if (*param_1 == 0 && piVar2[1] == 0) {
+    FUN_1000_0040();
+    uVar3 = 0xe654;
+    FUN_214c_17f7(0,0xd1,0x1000);
+    FUN_214c_1755(uVar3,unaff_DS);
+    FUN_1000_1448();
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[6] FUN_1000_016a
+================================================================================
+Address: 1000:016A
+Lines: 140-207
+Signature: void FUN_1000_016a(int param_1)
+
+
+
+
+void FUN_1000_016a(int param_1)
+
+{
+  int iVar1;
+  undefined2 unaff_DS;
+  undefined2 uVar2;
+  
+  iVar1 = param_1;
+  if (param_1 < 0) {
+    FUN_1000_0040();
+    iVar1 = -param_1;
+  }
+  if (iVar1 < 0x191) {
+    iVar1 = param_1;
+    if (param_1 < 0) {
+      iVar1 = -param_1;
+    }
+    if (iVar1 < 0x12d) {
+      iVar1 = param_1;
+      if (param_1 < 0) {
+        iVar1 = -param_1;
+      }
+      if (iVar1 < 0x65) {
+        uVar2 = 0xe654;
+        iVar1 = param_1;
+        if (param_1 < 0) {
+          iVar1 = -param_1;
+        }
+        FUN_214c_17f7(0,iVar1 * 0x33 + -0x3bb7,unaff_DS);
+        FUN_214c_1755(uVar2,unaff_DS);
+      }
+      else {
+        uVar2 = 0xe654;
+        iVar1 = param_1;
+        if (param_1 < 0) {
+          iVar1 = -param_1;
+        }
+        FUN_214c_17f7(0,(iVar1 + -100) * 0x1f + -0x29b5,unaff_DS);
+        FUN_214c_1755(uVar2,unaff_DS);
+      }
+    }
+    else {
+      uVar2 = 0xe654;
+      iVar1 = param_1;
+      if (param_1 < 0) {
+        iVar1 = -param_1;
+      }
+      FUN_214c_17f7(0,(iVar1 + -300) * 0x49 + -0x44a4,unaff_DS);
+      FUN_214c_1755(uVar2,unaff_DS);
+    }
+  }
+  else {
+    uVar2 = 0xe654;
+    iVar1 = param_1;
+    if (param_1 < 0) {
+      iVar1 = -param_1;
+    }
+    FUN_214c_17f7(0,(iVar1 + -400) * 0x10 + -0x1c73,unaff_DS);
+    FUN_214c_1755(uVar2,unaff_DS);
+  }
+  if (param_1 < 0) {
+    FUN_1000_1448();
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[7] FUN_1000_0296
+================================================================================
+Address: 1000:0296
+Lines: 208-267
+Signature: void __cdecl16near FUN_1000_0296(void)
+
+
+
+
+void __cdecl16near FUN_1000_0296(void)
+
+{
+  undefined1 uVar1;
+  undefined1 uVar2;
+  undefined1 extraout_AH;
+  undefined1 extraout_AH_00;
+  undefined1 extraout_AH_01;
+  undefined2 unaff_DS;
+  undefined2 uVar3;
+  undefined2 uVar4;
+  
+  uVar1 = FUN_20e6_028c();
+  uVar2 = FUN_20e6_0298(uVar1);
+  FUN_20e6_0260(0x19,1);
+  uVar3 = 0xe654;
+  uVar4 = unaff_DS;
+  FUN_214c_17f7(0,0x261,0x20e6);
+  FUN_214c_1882(2,*(int *)0xe52d,*(int *)0xe52d >> 0xf);
+  FUN_214c_1755(uVar3,uVar4);
+  uVar3 = 0xe654;
+  uVar4 = unaff_DS;
+  FUN_214c_17f7(0,0x266,0x214c);
+  FUN_214c_1882(6,*(undefined2 *)0xb8c8,*(undefined2 *)0xb8ca);
+  FUN_214c_17f7(0,0x26a,0x214c);
+  FUN_214c_1882(4,*(int *)0xb870,*(int *)0xb870 >> 0xf);
+  FUN_214c_1799(0,CONCAT11(extraout_AH,0x2f));
+  FUN_214c_1882(3,*(int *)0xb872,*(int *)0xb872 >> 0xf);
+  FUN_214c_17f7(0,0x270,0x214c);
+  FUN_214c_1882(3,*(int *)0xb87a,*(int *)0xb87a >> 0xf);
+  FUN_214c_17f7(0,0x277,0x214c);
+  FUN_214c_1882(3,*(int *)0xb878,*(int *)0xb878 >> 0xf);
+  FUN_214c_17f7(0,0x27e,0x214c);
+  FUN_214c_1882(3,*(int *)0xb874,*(int *)0xb874 >> 0xf);
+  FUN_214c_17f7(0,0x285,0x214c);
+  FUN_214c_1755(uVar3,uVar4);
+  if (*(int *)0xb880 < 1) {
+    FUN_1000_0094();
+  }
+  else {
+    uVar3 = 0xe654;
+    uVar4 = unaff_DS;
+    FUN_214c_17f7(0,0x28b,0x214c);
+    FUN_214c_1755(uVar3,uVar4);
+  }
+  uVar3 = 0xe654;
+  uVar4 = unaff_DS;
+  FUN_214c_1882(1,*(int *)0xb880,*(int *)0xb880 >> 0xf);
+  FUN_214c_17f7(0,0x28e,0x214c);
+  FUN_214c_1882(2,*(int *)0xb888,*(int *)0xb888 >> 0xf);
+  FUN_214c_1799(0,CONCAT11(extraout_AH_00,0x2f));
+  FUN_214c_1882(4,*(int *)0xb886,*(int *)0xb886 >> 0xf);
+  FUN_214c_1755(uVar3,uVar4);
+  FUN_20e6_0227();
+  FUN_20e6_0260(CONCAT11(extraout_AH_01,uVar2),CONCAT11(extraout_AH_01,uVar1));
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[8] FUN_1000_0428
+================================================================================
+Address: 1000:0428
+Lines: 268-289
+Signature: void FUN_1000_0428(undefined1 param_1,undefined1 param_2,int param_3)
+
+
+
+
+void FUN_1000_0428(undefined1 param_1,undefined1 param_2,int param_3)
+
+{
+  undefined1 uVar1;
+  undefined1 uVar2;
+  undefined1 extraout_AH;
+  undefined1 extraout_AH_00;
+  undefined2 unaff_DS;
+  undefined2 uVar3;
+  
+  uVar1 = FUN_20e6_028c();
+  uVar2 = FUN_20e6_0298(uVar1);
+  FUN_20e6_0260(param_3 + 1,param_2);
+  uVar3 = 0xe654;
+  FUN_214c_1799(0,CONCAT11(extraout_AH,param_1));
+  FUN_214c_1755(uVar3,unaff_DS);
+  FUN_20e6_0260(CONCAT11(extraout_AH_00,uVar2),CONCAT11(extraout_AH_00,uVar1));
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[9] FUN_1000_0479
+================================================================================
+Address: 1000:0479
+Lines: 290-299
+Signature: undefined2 FUN_1000_0479(char *param_1)
+
+
+
+
+undefined2 FUN_1000_0479(char *param_1)
+
+{
+  undefined2 unaff_DS;
+  
+  return CONCAT11((char)((uint)(*param_1 + 1) >> 8),*(undefined1 *)(*param_1 + -0x4639));
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[10] FUN_1000_0499
+================================================================================
+Address: 1000:0499
+Lines: 300-326
+Signature: void FUN_1000_0499(char param_1,int param_2)
+
+
+
+
+void FUN_1000_0499(char param_1,int param_2)
+
+{
+  undefined2 unaff_DS;
+  undefined2 uVar1;
+  undefined2 uVar2;
+  
+  if (param_1 == '\0') {
+    uVar1 = 0xe654;
+    uVar2 = unaff_DS;
+    FUN_214c_17f7(0,param_2 * 5 + -0x4985,unaff_DS);
+    FUN_214c_1755(uVar1,uVar2);
+  }
+  else {
+    uVar1 = 0xe654;
+    uVar2 = unaff_DS;
+    FUN_214c_17f7(0,param_2 * 5 + -0x4a34,unaff_DS);
+    FUN_214c_1755(uVar1,uVar2);
+  }
+  uVar2 = 0xe654;
+  FUN_214c_17f7(0,param_2 * 0x2a + -0x5017,unaff_DS);
+  FUN_214c_1755(uVar2,unaff_DS);
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[11] FUN_1000_0510
+================================================================================
+Address: 1000:0510
+Lines: 327-339
+Signature: void FUN_1000_0510(undefined2 param_1,undefined2 param_2)
+
+
+
+
+void FUN_1000_0510(undefined2 param_1,undefined2 param_2)
+
+{
+  undefined1 extraout_AH;
+  
+  FUN_1000_016a(param_2);
+  FUN_1000_0499(CONCAT11(extraout_AH,1),param_1);
+  FUN_1000_00b3();
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[12] FUN_1000_052b
+================================================================================
+Address: 1000:052B
+Lines: 340-355
+Signature: undefined1 FUN_1000_052b(char *param_1)
+
+
+
+
+undefined1 FUN_1000_052b(char *param_1)
+
+{
+  undefined1 uVar1;
+  
+  if ((*param_1 == '\a') && (*(int *)((char *)param_1 + 1) == 0xc)) {
+    uVar1 = 1;
+  }
+  else {
+    uVar1 = 0;
+  }
+  return uVar1;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[13] FUN_1000_0556
+================================================================================
+Address: 1000:0556
+Lines: 356-385
+Signature: void FUN_1000_0556(undefined4 *param_1)
+
+
+
+
+void FUN_1000_0556(undefined4 *param_1)
+
+{
+  undefined4 uVar1;
+  int iVar2;
+  undefined2 uVar3;
+  undefined2 unaff_DS;
+  
+  uVar3 = (undefined2)((ulong)param_1 >> 0x10);
+  if (*(int *)0xaba7 == 0 && *(int *)0xaba9 == 0) {
+    FUN_214c_038e(0x36,(undefined4 *)param_1,uVar3);
+    *(int *)0xe52f = *(int *)0xe52f + 1;
+  }
+  else {
+    uVar1 = *(undefined4 *)0xaba7;
+    *(int *)param_1 = (int)uVar1;
+    *(undefined2 *)((int)(undefined4 *)param_1 + 2) = (int)((ulong)uVar1 >> 0x10);
+    uVar1 = *(undefined4 *)((int)*(undefined4 *)0xaba7 + 0x32);
+    *(undefined2 *)0xaba7 = (int)uVar1;
+    *(undefined2 *)0xaba9 = (int)((ulong)uVar1 >> 0x10);
+    uVar3 = (undefined2)((ulong)*param_1 >> 0x10);
+    iVar2 = (int)*param_1;
+    *(undefined2 *)(iVar2 + 0x32) = 0;
+    *(undefined2 *)(iVar2 + 0x34) = 0;
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[14] FUN_1000_05b0
+================================================================================
+Address: 1000:05B0
+Lines: 386-405
+Signature: void FUN_1000_05b0(undefined4 param_1)
+
+
+
+
+void FUN_1000_05b0(undefined4 param_1)
+
+{
+  undefined4 uVar1;
+  int iVar2;
+  undefined2 uVar3;
+  undefined2 unaff_DS;
+  
+  uVar1 = *(undefined4 *)0xaba7;
+  uVar3 = (undefined2)((ulong)param_1 >> 0x10);
+  iVar2 = (int)param_1;
+  *(undefined2 *)(iVar2 + 0x32) = (int)uVar1;
+  *(undefined2 *)(iVar2 + 0x34) = (int)((ulong)uVar1 >> 0x10);
+  *(int *)0xaba7 = iVar2;
+  *(undefined2 *)0xaba9 = uVar3;
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[15] FUN_1000_05d6
+================================================================================
+Address: 1000:05D6
+Lines: 406-436
+Signature: void FUN_1000_05d6(undefined4 *param_1)
+
+
+
+
+void FUN_1000_05d6(undefined4 *param_1)
+
+{
+  undefined4 uVar1;
+  int iVar2;
+  undefined2 uVar3;
+  undefined2 unaff_DS;
+  
+  uVar3 = (undefined2)((ulong)param_1 >> 0x10);
+  if (*(int *)0xabab == 0 && *(int *)0xabad == 0) {
+    FUN_214c_038e(0x1a,(undefined4 *)param_1,uVar3);
+    *(int *)0xe531 = *(int *)0xe531 + 1;
+  }
+  else {
+    uVar1 = *(undefined4 *)0xabab;
+    *(int *)param_1 = (int)uVar1;
+    *(undefined2 *)((int)(undefined4 *)param_1 + 2) = (int)((ulong)uVar1 >> 0x10);
+    uVar1 = *(undefined4 *)((int)*(undefined4 *)0xabab + 0x16);
+    *(undefined2 *)0xabab = (int)uVar1;
+    *(undefined2 *)0xabad = (int)((ulong)uVar1 >> 0x10);
+  }
+  uVar3 = (undefined2)((ulong)*param_1 >> 0x10);
+  iVar2 = (int)*param_1;
+  *(undefined2 *)(iVar2 + 0x16) = 0;
+  *(undefined2 *)(iVar2 + 0x18) = 0;
+  *(undefined2 *)((int)*param_1 + 3) = 1;
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[16] FUN_1000_063c
+================================================================================
+Address: 1000:063C
+Lines: 437-456
+Signature: void FUN_1000_063c(undefined4 param_1)
+
+
+
+
+void FUN_1000_063c(undefined4 param_1)
+
+{
+  undefined4 uVar1;
+  int iVar2;
+  undefined2 uVar3;
+  undefined2 unaff_DS;
+  
+  uVar1 = *(undefined4 *)0xabab;
+  uVar3 = (undefined2)((ulong)param_1 >> 0x10);
+  iVar2 = (int)param_1;
+  *(undefined2 *)(iVar2 + 0x16) = (int)uVar1;
+  *(undefined2 *)(iVar2 + 0x18) = (int)((ulong)uVar1 >> 0x10);
+  *(int *)0xabab = iVar2;
+  *(undefined2 *)0xabad = uVar3;
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[17] FUN_1000_0662
+================================================================================
+Address: 1000:0662
+Lines: 457-482
+Signature: void FUN_1000_0662(int param_1)
+
+
+
+
+void FUN_1000_0662(int param_1)
+
+{
+  undefined4 uVar1;
+  undefined4 uVar2;
+  bool bVar3;
+  undefined2 unaff_DS;
+  undefined2 local_4;
+  
+  local_4 = 0;
+  bVar3 = false;
+  do {
+    local_4 = local_4 + 1;
+    if ((*(int *)(local_4 * 4 + -0x46cc) != 0 || *(int *)(local_4 * 4 + -0x46ca) != 0) &&
+       (uVar1 = *(undefined4 *)(local_4 * 4 + -0x46cc), *(int *)((int)uVar1 + 1) == param_1)) {
+      uVar1 = *(undefined4 *)(local_4 * 4 + -0x46cc);
+      uVar2 = *(undefined4 *)(local_4 * 4 + -0x46cc);
+      *(int *)((int)uVar2 + 9) = *(int *)((int)uVar1 + 9) + -1;
+      bVar3 = true;
+    }
+  } while ((local_4 != *(int *)0xb936) && (!bVar3));
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[18] FUN_1000_06d5
+================================================================================
+Address: 1000:06D5
+Lines: 483-565
+Signature: undefined2 FUN_1000_06d5(uint param_1)
+
+
+
+
+undefined2 FUN_1000_06d5(uint param_1)
+
+{
+  undefined4 uVar1;
+  uint uVar2;
+  undefined1 extraout_AH;
+  undefined1 extraout_AH_00;
+  undefined2 unaff_SS;
+  undefined2 unaff_DS;
+  undefined1 uVar3;
+  undefined1 *puVar4;
+  undefined2 uVar5;
+  undefined1 local_28 [32];
+  int local_8;
+  int local_6;
+  char local_4;
+  char local_3;
+  
+  local_4 = '\0';
+  local_6 = 0;
+  if (0 < *(int *)0xb936) {
+    local_6 = 1;
+    while( true ) {
+      if ((local_4 == '\0') &&
+         (*(int *)(local_6 * 4 + -0x46cc) == 0 && *(int *)(local_6 * 4 + -0x46ca) == 0)) {
+        local_4 = '\0';
+      }
+      else {
+        local_4 = '\x01';
+      }
+      if (local_6 == *(int *)0xb936) break;
+      local_6 = local_6 + 1;
+    }
+  }
+  if (param_1 == 0) {
+    uVar3 = (undefined1)((uint)local_6 >> 8);
+    local_3 = local_4;
+  }
+  else {
+    local_4 = '\0';
+    local_8 = *(int *)0xb936;
+    local_6 = 0;
+    uVar3 = local_8 == 1;
+    if (0 < local_8) {
+      local_6 = 1;
+      while( true ) {
+        uVar2 = param_1 & 0xff;
+        puVar4 = local_28;
+        uVar5 = unaff_SS;
+        FUN_214c_08af(puVar4);
+        FUN_214c_08be(CONCAT11(extraout_AH,0x12));
+        FUN_214c_08be(CONCAT11(extraout_AH_00,0x13));
+        FUN_214c_0933(puVar4,uVar5,uVar2);
+        if ((bool)uVar3) {
+          if ((local_4 == '\0') &&
+             ((*(int *)(local_6 * 4 + -0x46cc) == 0 && *(int *)(local_6 * 4 + -0x46ca) == 0 ||
+              (uVar1 = *(undefined4 *)(local_6 * 4 + -0x46cc), *(uint *)((int)uVar1 + 1) != param_1)
+              ))) {
+            local_4 = '\0';
+          }
+          else {
+            local_4 = '\x01';
+          }
+        }
+        else if (((*(int *)(local_6 * 4 + -0x46cc) != 0 || *(int *)(local_6 * 4 + -0x46ca) != 0) &&
+                 (uVar1 = *(undefined4 *)(local_6 * 4 + -0x46cc),
+                 *(uint *)((int)uVar1 + 1) == param_1)) &&
+                (uVar1 = *(undefined4 *)(local_6 * 4 + -0x46cc), 0 < *(int *)((int)uVar1 + 9))) {
+          local_4 = '\x01';
+        }
+        if (local_6 == local_8) break;
+        local_6 = local_6 + 1;
+        uVar3 = local_6 == 0;
+      }
+    }
+    uVar3 = (undefined1)((uint)local_6 >> 8);
+    local_3 = local_4;
+  }
+  return CONCAT11(uVar3,local_3);
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[19] FUN_1000_07fb
+================================================================================
+Address: 1000:07FB
+Lines: 566-589
+Signature: void __cdecl16near FUN_1000_07fb(void)
+
+
+
+
+void __cdecl16near FUN_1000_07fb(void)
+
+{
+  int iVar1;
+  char *pcVar2;
+  undefined2 unaff_DS;
+  char *local_6;
+  int local_4;
+  
+  pcVar2 = (char *)*(undefined4 *)0xb91e;
+  while (local_6 = (char *)pcVar2, local_4 = (int)((ulong)pcVar2 >> 0x10),
+        local_6 != (char *)0x0 || local_4 != 0) {
+    if (*pcVar2 == '\b') {
+      iVar1 = *(int *)(local_6 + 1);
+      *(undefined2 *)(iVar1 * 4 + -0x476c) = local_6;
+      *(int *)(iVar1 * 4 + -0x476a) = local_4;
+    }
+    pcVar2 = *(char **)(local_6 + 0x16);
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+
+
+================================================================================
+[20] FUN_1000_084b
+================================================================================
+Address: 1000:084B
+Lines: 590-616
+Signature: void FUN_1000_084b(int *param_1,int param_2)
+
+
+
+
+void FUN_1000_084b(int *param_1,int param_2)
+
+{
+  int iVar1;
+  undefined4 uVar2;
+  undefined2 unaff_DS;
+  undefined2 local_4;
+  
+  *param_1 = 0;
+  iVar1 = *(int *)0xb936;
+  if (0 < iVar1) {
+    local_4 = 1;
+    while( true ) {
+      if ((*(int *)(local_4 * 4 + -0x46cc) != 0 || *(int *)(local_4 * 4 + -0x46ca) != 0) &&
+         (uVar2 = *(undefined4 *)(local_4 * 4 + -0x46cc), *(int *)((int)uVar2 + 1) == param_2)) {
+        uVar2 = *(undefined4 *)(local_4 * 4 + -0x46cc);
+        *param_1 = *param_1 + *(int *)((int)uVar2 + 9);
+      }
+      if (local_4 == iVar1) break;
+      local_4 = local_4 + 1;
+    }
+  }
+  return;
+}
+
+ANALYSIS:
+Name: _______________________________
+Purpose: 
+

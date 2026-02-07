@@ -1,0 +1,3805 @@
+{
+  "total_functions": 191,
+  "functions_with_traces": 163,
+  "functions": [
+    {
+      "name": "FUN_1000_0000",
+      "segment": "1000",
+      "offset": "0000",
+      "address": "1000:0000",
+      "return_type": "undefined2",
+      "line": 36,
+      "contexts": [
+        [
+          "Droite",
+          11
+        ],
+        [
+          "Manger",
+          10
+        ],
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          10
+        ]
+      ],
+      "suggested_name": "droite"
+    },
+    {
+      "name": "FUN_1000_0040",
+      "segment": "1000",
+      "offset": "0040",
+      "address": "1000:0040",
+      "return_type": "void",
+      "line": 55,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          12
+        ],
+        [
+          "Tuer l'araignee",
+          11
+        ],
+        [
+          ".",
+          10
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_1000_0094",
+      "segment": "1000",
+      "offset": "0094",
+      "address": "1000:0094",
+      "return_type": "void",
+      "line": 83,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          9
+        ],
+        [
+          "Tuer l'araignee",
+          8
+        ],
+        [
+          "Intelligence",
+          7
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_1000_00b3",
+      "segment": "1000",
+      "offset": "00B3",
+      "address": "1000:00B3",
+      "return_type": "void",
+      "line": 97,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          10
+        ],
+        [
+          "Tuer l'araignee",
+          8
+        ],
+        [
+          "Frapper et tuer le serpent",
+          7
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_1000_00de",
+      "segment": "1000",
+      "offset": "00DE",
+      "address": "1000:00DE",
+      "return_type": "void",
+      "line": 111,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          7
+        ],
+        [
+          "Tuer l'araignee",
+          7
+        ],
+        [
+          "Initialization",
+          7
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_1000_016a",
+      "segment": "1000",
+      "offset": "016A",
+      "address": "1000:016A",
+      "return_type": "void",
+      "line": 143,
+      "contexts": [
+        [
+          "Initialization",
+          23
+        ],
+        [
+          "Fin des explications de jeu",
+          11
+        ],
+        [
+          "Intelligence",
+          7
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_1000_0296",
+      "segment": "1000",
+      "offset": "0296",
+      "address": "1000:0296",
+      "return_type": "void",
+      "line": 211,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          20
+        ],
+        [
+          "Attendre",
+          20
+        ],
+        [
+          ".",
+          20
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_0428",
+      "segment": "1000",
+      "offset": "0428",
+      "address": "1000:0428",
+      "return_type": "void",
+      "line": 271,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          11
+        ],
+        [
+          "Monte, attaque l'orc et tue l'orc",
+          10
+        ],
+        [
+          "Gauche, attaque crebain, tue crebain",
+          10
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_1000_0479",
+      "segment": "1000",
+      "offset": "0479",
+      "address": "1000:0479",
+      "return_type": "undefined2",
+      "line": 293,
+      "contexts": [
+        [
+          "Frapper et tuer le serpent",
+          11
+        ],
+        [
+          "Descend, attaque gobelin, tue gobelin",
+          11
+        ],
+        [
+          "Droite",
+          11
+        ]
+      ],
+      "suggested_name": "frapper_et_tuer_le_serpent"
+    },
+    {
+      "name": "FUN_1000_0499",
+      "segment": "1000",
+      "offset": "0499",
+      "address": "1000:0499",
+      "return_type": "void",
+      "line": 303,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          12
+        ],
+        [
+          "Descend, attaque gobelin, tue gobelin",
+          12
+        ],
+        [
+          "Droite",
+          12
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_1000_0510",
+      "segment": "1000",
+      "offset": "0510",
+      "address": "1000:0510",
+      "return_type": "void",
+      "line": 330,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          9
+        ],
+        [
+          "Force enter",
+          9
+        ],
+        [
+          "Frapper et tuer le serpent",
+          8
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_052b",
+      "segment": "1000",
+      "offset": "052B",
+      "address": "1000:052B",
+      "return_type": "undefined1",
+      "line": 343,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          10
+        ],
+        [
+          "Force enter",
+          10
+        ],
+        [
+          "Manger",
+          4
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_0556",
+      "segment": "1000",
+      "offset": "0556",
+      "address": "1000:0556",
+      "return_type": "void",
+      "line": 359,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          11
+        ],
+        [
+          "Force enter",
+          11
+        ],
+        [
+          "Frapper et tuer le serpent",
+          3
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_05b0",
+      "segment": "1000",
+      "offset": "05B0",
+      "address": "1000:05B0",
+      "return_type": "void",
+      "line": 389,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          5
+        ],
+        [
+          "Force enter",
+          5
+        ],
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          2
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_05d6",
+      "segment": "1000",
+      "offset": "05D6",
+      "address": "1000:05D6",
+      "return_type": "void",
+      "line": 409,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          7
+        ],
+        [
+          "Force enter",
+          7
+        ],
+        [
+          "Change niveau descend",
+          3
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_063c",
+      "segment": "1000",
+      "offset": "063C",
+      "address": "1000:063C",
+      "return_type": "void",
+      "line": 440,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          11
+        ],
+        [
+          "Force enter",
+          11
+        ],
+        [
+          "Manger",
+          8
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_0662",
+      "segment": "1000",
+      "offset": "0662",
+      "address": "1000:0662",
+      "return_type": "void",
+      "line": 460,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          16
+        ],
+        [
+          "Force enter",
+          16
+        ],
+        [
+          "Attendre",
+          9
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_06d5",
+      "segment": "1000",
+      "offset": "06D5",
+      "address": "1000:06D5",
+      "return_type": "undefined2",
+      "line": 486,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          21
+        ],
+        [
+          "Force enter",
+          21
+        ],
+        [
+          "Attendre",
+          14
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_07fb",
+      "segment": "1000",
+      "offset": "07FB",
+      "address": "1000:07FB",
+      "return_type": "void",
+      "line": 569,
+      "contexts": [
+        [
+          "Droite et ramasse pierre",
+          8
+        ],
+        [
+          "Gauche silmarils",
+          7
+        ],
+        [
+          "Attendre",
+          7
+        ]
+      ],
+      "suggested_name": "droite_et_ramasse_pierre"
+    },
+    {
+      "name": "FUN_1000_084b",
+      "segment": "1000",
+      "offset": "084B",
+      "address": "1000:084B",
+      "return_type": "void",
+      "line": 593,
+      "contexts": [
+        [
+          "Attendre",
+          8
+        ],
+        [
+          "Abandon B",
+          8
+        ],
+        [
+          "arc",
+          7
+        ]
+      ],
+      "suggested_name": "attendre"
+    },
+    {
+      "name": "FUN_1000_08bd",
+      "segment": "1000",
+      "offset": "08BD",
+      "address": "1000:08BD",
+      "return_type": "void",
+      "line": 620,
+      "contexts": [
+        [
+          "Abandon B",
+          7
+        ]
+      ],
+      "suggested_name": "abandon_b"
+    },
+    {
+      "name": "FUN_1000_0a6f",
+      "segment": "1000",
+      "offset": "0A6F",
+      "address": "1000:0A6F",
+      "return_type": "undefined1",
+      "line": 695,
+      "contexts": [
+        [
+          ".",
+          7
+        ],
+        [
+          "Attendre et chauve souris",
+          7
+        ],
+        [
+          "Attendrre et chauve souris 2",
+          7
+        ]
+      ],
+      "suggested_name": ""
+    },
+    {
+      "name": "FUN_1000_0a9f",
+      "segment": "1000",
+      "offset": "0A9F",
+      "address": "1000:0A9F",
+      "return_type": "void",
+      "line": 711,
+      "contexts": [
+        [
+          ".",
+          8
+        ],
+        [
+          "Attendre et chauve souris",
+          8
+        ],
+        [
+          "Attendrre et chauve souris 2",
+          8
+        ]
+      ],
+      "suggested_name": ""
+    },
+    {
+      "name": "FUN_1000_0e28",
+      "segment": "1000",
+      "offset": "0E28",
+      "address": "1000:0E28",
+      "return_type": "void",
+      "line": 842,
+      "contexts": [
+        [
+          "Force enter",
+          13
+        ],
+        [
+          "Personnage standard oui",
+          12
+        ],
+        [
+          "Attendre",
+          7
+        ]
+      ],
+      "suggested_name": "force_enter"
+    },
+    {
+      "name": "FUN_1000_11fc",
+      "segment": "1000",
+      "offset": "11FC",
+      "address": "1000:11FC",
+      "return_type": "void",
+      "line": 1052,
+      "contexts": [
+        [
+          "Encore-- pendant l'affichage de l'aide",
+          25
+        ],
+        [
+          "Encore",
+          25
+        ],
+        [
+          "Change niveau descend",
+          25
+        ]
+      ],
+      "suggested_name": "encore_pendant_laffichage_de_l"
+    },
+    {
+      "name": "FUN_1000_1448",
+      "segment": "1000",
+      "offset": "1448",
+      "address": "1000:1448",
+      "return_type": "void",
+      "line": 1177,
+      "contexts": [
+        [
+          "Monte et trouve un potion",
+          9
+        ],
+        [
+          "Trouver un anneau qui s'enfile tout seul",
+          7
+        ],
+        [
+          "Lire le parchemin b",
+          6
+        ]
+      ],
+      "suggested_name": "monte_et_trouve_un_potion"
+    },
+    {
+      "name": "FUN_1000_14ab",
+      "segment": "1000",
+      "offset": "14AB",
+      "address": "1000:14AB",
+      "return_type": "void",
+      "line": 1199,
+      "contexts": [
+        [
+          "Monte et trouve un potion",
+          12
+        ],
+        [
+          "Manger",
+          7
+        ],
+        [
+          "Droite et trouver un parchemin",
+          5
+        ]
+      ],
+      "suggested_name": "monte_et_trouve_un_potion"
+    },
+    {
+      "name": "FUN_1000_15a2",
+      "segment": "1000",
+      "offset": "15A2",
+      "address": "1000:15A2",
+      "return_type": "void",
+      "line": 1254,
+      "contexts": [
+        [
+          "Abandon B",
+          10
+        ],
+        [
+          "Manger",
+          8
+        ],
+        [
+          "Boire une potion grise",
+          7
+        ]
+      ],
+      "suggested_name": "abandon_b"
+    },
+    {
+      "name": "FUN_1000_15d3",
+      "segment": "1000",
+      "offset": "15D3",
+      "address": "1000:15D3",
+      "return_type": "void",
+      "line": 1274,
+      "contexts": [
+        [
+          "Abandon B",
+          10
+        ],
+        [
+          "Manger",
+          9
+        ],
+        [
+          "Boire une potion grise",
+          8
+        ]
+      ],
+      "suggested_name": "abandon_b"
+    },
+    {
+      "name": "FUN_1000_17aa",
+      "segment": "1000",
+      "offset": "17AA",
+      "address": "1000:17AA",
+      "return_type": "undefined2",
+      "line": 1348,
+      "contexts": [
+        [
+          "Lire Parchemin",
+          24
+        ]
+      ],
+      "suggested_name": "lire_parchemin"
+    },
+    {
+      "name": "FUN_1000_1885",
+      "segment": "1000",
+      "offset": "1885",
+      "address": "1000:1885",
+      "return_type": "void",
+      "line": 1391,
+      "contexts": [
+        [
+          "Lire Parchemin",
+          26
+        ]
+      ],
+      "suggested_name": "lire_parchemin"
+    },
+    {
+      "name": "FUN_1000_1988",
+      "segment": "1000",
+      "offset": "1988",
+      "address": "1000:1988",
+      "return_type": "void",
+      "line": 1451,
+      "contexts": [
+        [
+          "Monte et trouve un potion",
+          9
+        ],
+        [
+          "Monter et trouver de l'or",
+          5
+        ],
+        [
+          "Droite et trouver un parchemin",
+          4
+        ]
+      ],
+      "suggested_name": "monte_et_trouve_un_potion"
+    },
+    {
+      "name": "FUN_1000_1a1a",
+      "segment": "1000",
+      "offset": "1A1A",
+      "address": "1000:1A1A",
+      "return_type": "void",
+      "line": 1483,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          13
+        ],
+        [
+          "Force enter",
+          13
+        ],
+        [
+          "Change niveau descend",
+          3
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_1b91",
+      "segment": "1000",
+      "offset": "1B91",
+      "address": "1000:1B91",
+      "return_type": "void",
+      "line": 1540,
+      "contexts": [
+        [
+          "Tableau des scores --encore--",
+          18
+        ]
+      ],
+      "suggested_name": "tableau_des_scores_encore"
+    },
+    {
+      "name": "FUN_1000_1cd1",
+      "segment": "1000",
+      "offset": "1CD1",
+      "address": "1000:1CD1",
+      "return_type": "undefined2",
+      "line": 1615,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          6
+        ],
+        [
+          "Tuer l'araignee",
+          6
+        ],
+        [
+          "Frapper et tuer le serpent",
+          6
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_1000_1d47",
+      "segment": "1000",
+      "offset": "1D47",
+      "address": "1000:1D47",
+      "return_type": "void",
+      "line": 1652,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          13
+        ],
+        [
+          "Tuer l'araignee",
+          13
+        ],
+        [
+          "Frapper et tuer le serpent",
+          13
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_1000_20dd",
+      "segment": "1000",
+      "offset": "20DD",
+      "address": "1000:20DD",
+      "return_type": "void",
+      "line": 1838,
+      "contexts": [
+        [
+          "Change niveau descend",
+          6
+        ],
+        [
+          "Change niveau remonte",
+          3
+        ]
+      ],
+      "suggested_name": "change_niveau_descend"
+    },
+    {
+      "name": "FUN_1000_2138",
+      "segment": "1000",
+      "offset": "2138",
+      "address": "1000:2138",
+      "return_type": "void",
+      "line": 1860,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_21b0",
+      "segment": "1000",
+      "offset": "21B0",
+      "address": "1000:21B0",
+      "return_type": "uint",
+      "line": 1881,
+      "contexts": [
+        [
+          "arc",
+          5
+        ]
+      ],
+      "suggested_name": "arc"
+    },
+    {
+      "name": "FUN_1000_2214",
+      "segment": "1000",
+      "offset": "2214",
+      "address": "1000:2214",
+      "return_type": "void",
+      "line": 1906,
+      "contexts": [
+        [
+          "S",
+          10
+        ],
+        [
+          "arc",
+          7
+        ],
+        [
+          "Confirmer le suicide",
+          6
+        ]
+      ],
+      "suggested_name": "s"
+    },
+    {
+      "name": "FUN_1000_227b",
+      "segment": "1000",
+      "offset": "227B",
+      "address": "1000:227B",
+      "return_type": "void",
+      "line": 1928,
+      "contexts": [
+        [
+          "S",
+          14
+        ],
+        [
+          "Confirmer le suicide",
+          10
+        ],
+        [
+          "arc",
+          8
+        ]
+      ],
+      "suggested_name": "s"
+    },
+    {
+      "name": "FUN_1000_22c8",
+      "segment": "1000",
+      "offset": "22C8",
+      "address": "1000:22C8",
+      "return_type": "void",
+      "line": 1958,
+      "contexts": [
+        [
+          "S",
+          15
+        ],
+        [
+          "Confirmer le suicide",
+          11
+        ],
+        [
+          "Personnage standard oui",
+          6
+        ]
+      ],
+      "suggested_name": "s"
+    },
+    {
+      "name": "FUN_1000_2363",
+      "segment": "1000",
+      "offset": "2363",
+      "address": "1000:2363",
+      "return_type": "void",
+      "line": 2002,
+      "contexts": [
+        [
+          "arc",
+          9
+        ],
+        [
+          "Personnage standard oui",
+          8
+        ],
+        [
+          "Force enter",
+          8
+        ]
+      ],
+      "suggested_name": "arc"
+    },
+    {
+      "name": "FUN_1000_23da",
+      "segment": "1000",
+      "offset": "23DA",
+      "address": "1000:23DA",
+      "return_type": "void",
+      "line": 2023,
+      "contexts": [
+        [
+          "arc",
+          16
+        ],
+        [
+          "Attendre pour tomber sur l araignee",
+          15
+        ],
+        [
+          "Frapper et tuer le serpent",
+          15
+        ]
+      ],
+      "suggested_name": "arc"
+    },
+    {
+      "name": "FUN_1000_2574",
+      "segment": "1000",
+      "offset": "2574",
+      "address": "1000:2574",
+      "return_type": "void",
+      "line": 2109,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          22
+        ],
+        [
+          "Force enter",
+          21
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_260c",
+      "segment": "1000",
+      "offset": "260C",
+      "address": "1000:260C",
+      "return_type": "int",
+      "line": 2136,
+      "contexts": [
+        [
+          "Force enter",
+          30
+        ],
+        [
+          "Personnage standard oui",
+          29
+        ]
+      ],
+      "suggested_name": "force_enter"
+    },
+    {
+      "name": "FUN_1000_26cf",
+      "segment": "1000",
+      "offset": "26CF",
+      "address": "1000:26CF",
+      "return_type": "void",
+      "line": 2177,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          21
+        ],
+        [
+          "Force enter",
+          21
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_2d29",
+      "segment": "1000",
+      "offset": "2D29",
+      "address": "1000:2D29",
+      "return_type": "void",
+      "line": 2522,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          5
+        ],
+        [
+          "Force enter",
+          5
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_2fe0",
+      "segment": "1000",
+      "offset": "2FE0",
+      "address": "1000:2FE0",
+      "return_type": "void",
+      "line": 2621,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          29
+        ],
+        [
+          "Force enter",
+          29
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_3086",
+      "segment": "1000",
+      "offset": "3086",
+      "address": "1000:3086",
+      "return_type": "void",
+      "line": 2664,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          31
+        ],
+        [
+          "Force enter",
+          31
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_30ec",
+      "segment": "1000",
+      "offset": "30EC",
+      "address": "1000:30EC",
+      "return_type": "void",
+      "line": 2688,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          27
+        ],
+        [
+          "Force enter",
+          27
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_325e",
+      "segment": "1000",
+      "offset": "325E",
+      "address": "1000:325E",
+      "return_type": "void",
+      "line": 2748,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          15
+        ],
+        [
+          "Force enter",
+          15
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_33a1",
+      "segment": "1000",
+      "offset": "33A1",
+      "address": "1000:33A1",
+      "return_type": "void",
+      "line": 2821,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          11
+        ],
+        [
+          "Force enter",
+          11
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_3408",
+      "segment": "1000",
+      "offset": "3408",
+      "address": "1000:3408",
+      "return_type": "void",
+      "line": 2851,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          11
+        ],
+        [
+          "Force enter",
+          11
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_3442",
+      "segment": "1000",
+      "offset": "3442",
+      "address": "1000:3442",
+      "return_type": "void",
+      "line": 2867,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          9
+        ],
+        [
+          "Force enter",
+          9
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_3486",
+      "segment": "1000",
+      "offset": "3486",
+      "address": "1000:3486",
+      "return_type": "void",
+      "line": 2887,
+      "contexts": [
+        [
+          "Attendre",
+          7
+        ],
+        [
+          "arc",
+          7
+        ],
+        [
+          "Personnage standard oui",
+          6
+        ]
+      ],
+      "suggested_name": "attendre"
+    },
+    {
+      "name": "FUN_1000_34ea",
+      "segment": "1000",
+      "offset": "34EA",
+      "address": "1000:34EA",
+      "return_type": "void",
+      "line": 2914,
+      "contexts": [
+        [
+          "arc",
+          17
+        ],
+        [
+          "Attendre",
+          14
+        ],
+        [
+          "Attendre pour tomber sur l araignee",
+          11
+        ]
+      ],
+      "suggested_name": "arc"
+    },
+    {
+      "name": "FUN_1000_3544",
+      "segment": "1000",
+      "offset": "3544",
+      "address": "1000:3544",
+      "return_type": "void",
+      "line": 2938,
+      "contexts": [
+        [
+          "arc",
+          19
+        ],
+        [
+          "Attendre",
+          15
+        ],
+        [
+          "Attendre pour tomber sur l araignee",
+          13
+        ]
+      ],
+      "suggested_name": "arc"
+    },
+    {
+      "name": "FUN_1000_3691",
+      "segment": "1000",
+      "offset": "3691",
+      "address": "1000:3691",
+      "return_type": "int",
+      "line": 3010,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          13
+        ],
+        [
+          "Force enter",
+          13
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_36f8",
+      "segment": "1000",
+      "offset": "36F8",
+      "address": "1000:36F8",
+      "return_type": "void",
+      "line": 3028,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          16
+        ],
+        [
+          "Force enter",
+          16
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_3a12",
+      "segment": "1000",
+      "offset": "3A12",
+      "address": "1000:3A12",
+      "return_type": "void",
+      "line": 3127,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          27
+        ],
+        [
+          "Force enter",
+          27
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_3b34",
+      "segment": "1000",
+      "offset": "3B34",
+      "address": "1000:3B34",
+      "return_type": "void",
+      "line": 3173,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          7
+        ],
+        [
+          "Force enter",
+          7
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_40c0",
+      "segment": "1000",
+      "offset": "40C0",
+      "address": "1000:40C0",
+      "return_type": "void",
+      "line": 3348,
+      "contexts": [
+        [
+          "Force enter",
+          17
+        ],
+        [
+          "Personnage standard oui",
+          11
+        ],
+        [
+          "Change niveau descend",
+          9
+        ]
+      ],
+      "suggested_name": "force_enter"
+    },
+    {
+      "name": "FUN_1000_425e",
+      "segment": "1000",
+      "offset": "425E",
+      "address": "1000:425E",
+      "return_type": "void",
+      "line": 3424,
+      "contexts": [
+        [
+          "Valider le nom",
+          15
+        ],
+        [
+          "Commencer a jouer",
+          9
+        ]
+      ],
+      "suggested_name": "valider_le_nom"
+    },
+    {
+      "name": "FUN_1000_447b",
+      "segment": "1000",
+      "offset": "447B",
+      "address": "1000:447B",
+      "return_type": "void",
+      "line": 3518,
+      "contexts": [
+        [
+          "Personnage standard non",
+          11
+        ],
+        [
+          "Valider le nom",
+          9
+        ],
+        [
+          "Personnage standard oui",
+          3
+        ]
+      ],
+      "suggested_name": "personnage_standard_non"
+    },
+    {
+      "name": "FUN_1000_48b7",
+      "segment": "1000",
+      "offset": "48B7",
+      "address": "1000:48B7",
+      "return_type": "void",
+      "line": 3715,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          14
+        ],
+        [
+          "Force enter",
+          14
+        ],
+        [
+          "Gauche attaqque voleur, tue voleur",
+          4
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_491d",
+      "segment": "1000",
+      "offset": "491D",
+      "address": "1000:491D",
+      "return_type": "void",
+      "line": 3744,
+      "contexts": [
+        [
+          "Gauche attaqque voleur, tue voleur",
+          9
+        ],
+        [
+          "Droite",
+          9
+        ]
+      ],
+      "suggested_name": "gauche_attaqque_voleur_tue_vol"
+    },
+    {
+      "name": "FUN_1000_4a27",
+      "segment": "1000",
+      "offset": "4A27",
+      "address": "1000:4A27",
+      "return_type": "void",
+      "line": 3802,
+      "contexts": [
+        [
+          "Gauche attaqque voleur, tue voleur",
+          8
+        ]
+      ],
+      "suggested_name": "gauche_attaqque_voleur_tue_vol"
+    },
+    {
+      "name": "FUN_1000_4b52",
+      "segment": "1000",
+      "offset": "4B52",
+      "address": "1000:4B52",
+      "return_type": "void",
+      "line": 3851,
+      "contexts": [
+        [
+          "Affiche la fiche personnage",
+          1
+        ]
+      ],
+      "suggested_name": "affiche_la_fiche_personnage"
+    },
+    {
+      "name": "FUN_1000_4c49",
+      "segment": "1000",
+      "offset": "4C49",
+      "address": "1000:4C49",
+      "return_type": "void",
+      "line": 3861,
+      "contexts": [
+        [
+          "Affiche la fiche personnage",
+          23
+        ]
+      ],
+      "suggested_name": "affiche_la_fiche_personnage"
+    },
+    {
+      "name": "FUN_1000_53c9",
+      "segment": "1000",
+      "offset": "53C9",
+      "address": "1000:53C9",
+      "return_type": "void",
+      "line": 4270,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_5422",
+      "segment": "1000",
+      "offset": "5422",
+      "address": "1000:5422",
+      "return_type": "void",
+      "line": 4294,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_54d2",
+      "segment": "1000",
+      "offset": "54D2",
+      "address": "1000:54D2",
+      "return_type": "void",
+      "line": 4329,
+      "contexts": [
+        [
+          "Intelligence",
+          13
+        ],
+        [
+          "* pour la liste des armes",
+          11
+        ],
+        [
+          "* pour l'inventaire",
+          7
+        ]
+      ],
+      "suggested_name": "intelligence"
+    },
+    {
+      "name": "FUN_1000_5527",
+      "segment": "1000",
+      "offset": "5527",
+      "address": "1000:5527",
+      "return_type": "void",
+      "line": 4354,
+      "contexts": [
+        [
+          "Intelligence",
+          23
+        ],
+        [
+          "* pour l'inventaire",
+          15
+        ],
+        [
+          "* pour la liste des armes",
+          14
+        ]
+      ],
+      "suggested_name": "intelligence"
+    },
+    {
+      "name": "FUN_1000_557c",
+      "segment": "1000",
+      "offset": "557C",
+      "address": "1000:557C",
+      "return_type": "void",
+      "line": 4371,
+      "contexts": [
+        [
+          "Intelligence",
+          18
+        ],
+        [
+          "* pour l'inventaire",
+          12
+        ],
+        [
+          "Inventory",
+          11
+        ]
+      ],
+      "suggested_name": "intelligence"
+    },
+    {
+      "name": "FUN_1000_5fd2",
+      "segment": "1000",
+      "offset": "5FD2",
+      "address": "1000:5FD2",
+      "return_type": "void",
+      "line": 4796,
+      "contexts": [
+        [
+          "* pour l'inventaire",
+          23
+        ],
+        [
+          "Intelligence",
+          20
+        ],
+        [
+          "Inventory",
+          14
+        ]
+      ],
+      "suggested_name": "_pour_linventaire"
+    },
+    {
+      "name": "FUN_1000_610b",
+      "segment": "1000",
+      "offset": "610B",
+      "address": "1000:610B",
+      "return_type": "void",
+      "line": 4872,
+      "contexts": [
+        [
+          "* pour la liste des armes",
+          23
+        ],
+        [
+          "Liste potions",
+          23
+        ],
+        [
+          "* pour la liste des potions",
+          17
+        ]
+      ],
+      "suggested_name": "_pour_la_liste_des_armes"
+    },
+    {
+      "name": "FUN_1000_6249",
+      "segment": "1000",
+      "offset": "6249",
+      "address": "1000:6249",
+      "return_type": "void",
+      "line": 4949,
+      "contexts": [
+        [
+          "Afficher l'aide",
+          12
+        ],
+        [
+          "Show commands",
+          12
+        ],
+        [
+          "Encore-- pendant l'affichage de l'aide",
+          2
+        ]
+      ],
+      "suggested_name": "afficher_laide"
+    },
+    {
+      "name": "FUN_1000_62b7",
+      "segment": "1000",
+      "offset": "62B7",
+      "address": "1000:62B7",
+      "return_type": "void",
+      "line": 4979,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_6431",
+      "segment": "1000",
+      "offset": "6431",
+      "address": "1000:6431",
+      "return_type": "void",
+      "line": 5045,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_65d3",
+      "segment": "1000",
+      "offset": "65D3",
+      "address": "1000:65D3",
+      "return_type": "void",
+      "line": 5098,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_6887",
+      "segment": "1000",
+      "offset": "6887",
+      "address": "1000:6887",
+      "return_type": "void",
+      "line": 5208,
+      "contexts": [
+        [
+          "Explication sur le jeu",
+          11
+        ],
+        [
+          "Taper espace pour la suite pendant les explications tu jeu",
+          3
+        ],
+        [
+          "Fin des explications de jeu",
+          2
+        ]
+      ],
+      "suggested_name": "explication_sur_le_jeu"
+    },
+    {
+      "name": "FUN_1000_6921",
+      "segment": "1000",
+      "offset": "6921",
+      "address": "1000:6921",
+      "return_type": "void",
+      "line": 5244,
+      "contexts": [
+        [
+          "Explication sur le jeu",
+          21
+        ],
+        [
+          "Taper espace pour la suite pendant les explications tu jeu",
+          18
+        ],
+        [
+          "Fin des explications de jeu",
+          10
+        ]
+      ],
+      "suggested_name": "explication_sur_le_jeu"
+    },
+    {
+      "name": "FUN_1000_6a56",
+      "segment": "1000",
+      "offset": "6A56",
+      "address": "1000:6A56",
+      "return_type": "void",
+      "line": 5312,
+      "contexts": [
+        [
+          "Controle T",
+          24
+        ],
+        [
+          "Affichage du tableau de chasse",
+          20
+        ]
+      ],
+      "suggested_name": "controle_t"
+    },
+    {
+      "name": "FUN_1000_6c94",
+      "segment": "1000",
+      "offset": "6C94",
+      "address": "1000:6C94",
+      "return_type": "void",
+      "line": 5437,
+      "contexts": [
+        [
+          "Commencer a jouer",
+          17
+        ],
+        [
+          "Confirmer le suicide",
+          13
+        ]
+      ],
+      "suggested_name": "commencer_a_jouer"
+    },
+    {
+      "name": "FUN_1000_6f02",
+      "segment": "1000",
+      "offset": "6F02",
+      "address": "1000:6F02",
+      "return_type": "void",
+      "line": 5536,
+      "contexts": [
+        [
+          "S",
+          31
+        ],
+        [
+          "Confirmer le suicide",
+          27
+        ]
+      ],
+      "suggested_name": "s"
+    },
+    {
+      "name": "FUN_1000_71a1",
+      "segment": "1000",
+      "offset": "71A1",
+      "address": "1000:71A1",
+      "return_type": "void",
+      "line": 5677,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_7364",
+      "segment": "1000",
+      "offset": "7364",
+      "address": "1000:7364",
+      "return_type": "void",
+      "line": 5740,
+      "contexts": [
+        [
+          "Confirmer le suicide",
+          16
+        ]
+      ],
+      "suggested_name": "confirmer_le_suicide"
+    },
+    {
+      "name": "FUN_1000_763d",
+      "segment": "1000",
+      "offset": "763D",
+      "address": "1000:763D",
+      "return_type": "void",
+      "line": 5882,
+      "contexts": [
+        [
+          "Suicide",
+          7
+        ],
+        [
+          "Confirmer le suicide",
+          6
+        ],
+        [
+          "Tableau des scores --encore--",
+          1
+        ]
+      ],
+      "suggested_name": "suicide"
+    },
+    {
+      "name": "FUN_1000_76a4",
+      "segment": "1000",
+      "offset": "76A4",
+      "address": "1000:76A4",
+      "return_type": "void",
+      "line": 5918,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_772e",
+      "segment": "1000",
+      "offset": "772E",
+      "address": "1000:772E",
+      "return_type": "void",
+      "line": 5962,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_77fe",
+      "segment": "1000",
+      "offset": "77FE",
+      "address": "1000:77FE",
+      "return_type": "void",
+      "line": 6000,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_7849",
+      "segment": "1000",
+      "offset": "7849",
+      "address": "1000:7849",
+      "return_type": "void",
+      "line": 6020,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_7923",
+      "segment": "1000",
+      "offset": "7923",
+      "address": "1000:7923",
+      "return_type": "void",
+      "line": 6090,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          5
+        ],
+        [
+          "Tuer l'araignee",
+          5
+        ],
+        [
+          "Frapper et tuer le serpent",
+          5
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_1000_79ea",
+      "segment": "1000",
+      "offset": "79EA",
+      "address": "1000:79EA",
+      "return_type": "void",
+      "line": 6118,
+      "contexts": [
+        [
+          "Tuer l'araignee",
+          10
+        ],
+        [
+          "Frapper et tuer le serpent",
+          10
+        ],
+        [
+          "Gauche attaque et tue l'oeil",
+          10
+        ]
+      ],
+      "suggested_name": "tuer_laraignee"
+    },
+    {
+      "name": "FUN_1000_7d66",
+      "segment": "1000",
+      "offset": "7D66",
+      "address": "1000:7D66",
+      "return_type": "void",
+      "line": 6271,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_7dab",
+      "segment": "1000",
+      "offset": "7DAB",
+      "address": "1000:7DAB",
+      "return_type": "void",
+      "line": 6292,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_7e29",
+      "segment": "1000",
+      "offset": "7E29",
+      "address": "1000:7E29",
+      "return_type": "void",
+      "line": 6334,
+      "contexts": [
+        [
+          "Attendre et chauve souris",
+          7
+        ],
+        [
+          "Attendrre et chauve souris 2",
+          7
+        ],
+        [
+          "Attendre et chauve souris rate",
+          7
+        ]
+      ],
+      "suggested_name": "attendre_et_chauve_souris"
+    },
+    {
+      "name": "FUN_1000_7ebc",
+      "segment": "1000",
+      "offset": "7EBC",
+      "address": "1000:7EBC",
+      "return_type": "void",
+      "line": 6356,
+      "contexts": [
+        [
+          "Attendre et chauve souris",
+          11
+        ],
+        [
+          "Attendrre et chauve souris 2",
+          11
+        ],
+        [
+          "Attendre et chauve souris rate",
+          11
+        ]
+      ],
+      "suggested_name": "attendre_et_chauve_souris"
+    },
+    {
+      "name": "FUN_1000_8573",
+      "segment": "1000",
+      "offset": "8573",
+      "address": "1000:8573",
+      "return_type": "void",
+      "line": 6694,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          13
+        ],
+        [
+          "Tuer l'araignee",
+          13
+        ],
+        [
+          "Frapper et tuer le serpent",
+          13
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_1000_8d6d",
+      "segment": "1000",
+      "offset": "8D6D",
+      "address": "1000:8D6D",
+      "return_type": "void",
+      "line": 7059,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_8e03",
+      "segment": "1000",
+      "offset": "8E03",
+      "address": "1000:8E03",
+      "return_type": "void",
+      "line": 7092,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_8f6e",
+      "segment": "1000",
+      "offset": "8F6E",
+      "address": "1000:8F6E",
+      "return_type": "void",
+      "line": 7169,
+      "contexts": [
+        [
+          "Descendre et trouver un anneau",
+          4
+        ],
+        [
+          "L'anneau s'est mis tout seul",
+          3
+        ],
+        [
+          "Trouver un anneau qui s'enfile tout seul",
+          1
+        ]
+      ],
+      "suggested_name": "descendre_et_trouver_un_anneau"
+    },
+    {
+      "name": "FUN_1000_9099",
+      "segment": "1000",
+      "offset": "9099",
+      "address": "1000:9099",
+      "return_type": "void",
+      "line": 7221,
+      "contexts": [
+        [
+          "Monte et trouve un potion",
+          11
+        ],
+        [
+          "Descendre et trouver un anneau",
+          11
+        ],
+        [
+          "Monter et trouver de l'or",
+          10
+        ]
+      ],
+      "suggested_name": "monte_et_trouve_un_potion"
+    },
+    {
+      "name": "FUN_1000_9554",
+      "segment": "1000",
+      "offset": "9554",
+      "address": "1000:9554",
+      "return_type": "void",
+      "line": 7447,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_95ee",
+      "segment": "1000",
+      "offset": "95EE",
+      "address": "1000:95EE",
+      "return_type": "void",
+      "line": 7471,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_99c5",
+      "segment": "1000",
+      "offset": "99C5",
+      "address": "1000:99C5",
+      "return_type": "void",
+      "line": 7635,
+      "contexts": [
+        [
+          "Abandon B",
+          9
+        ]
+      ],
+      "suggested_name": "abandon_b"
+    },
+    {
+      "name": "FUN_1000_9a91",
+      "segment": "1000",
+      "offset": "9A91",
+      "address": "1000:9A91",
+      "return_type": "void",
+      "line": 7674,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_9ca1",
+      "segment": "1000",
+      "offset": "9CA1",
+      "address": "1000:9CA1",
+      "return_type": "void",
+      "line": 7783,
+      "contexts": [
+        [
+          "Identifie C",
+          11
+        ],
+        [
+          "Lire identification baguette",
+          8
+        ],
+        [
+          "arc",
+          6
+        ]
+      ],
+      "suggested_name": "identifie_c"
+    },
+    {
+      "name": "FUN_1000_9d52",
+      "segment": "1000",
+      "offset": "9D52",
+      "address": "1000:9D52",
+      "return_type": "void",
+      "line": 7829,
+      "contexts": [
+        [
+          "arc",
+          12
+        ]
+      ],
+      "suggested_name": "arc"
+    },
+    {
+      "name": "FUN_1000_9f40",
+      "segment": "1000",
+      "offset": "9F40",
+      "address": "1000:9F40",
+      "return_type": "void",
+      "line": 7948,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_a45b",
+      "segment": "1000",
+      "offset": "A45B",
+      "address": "1000:A45B",
+      "return_type": "void",
+      "line": 8303,
+      "contexts": [
+        [
+          "Manger",
+          12
+        ],
+        [
+          "Manger 2",
+          8
+        ],
+        [
+          "Manger plus rien a manger",
+          6
+        ]
+      ],
+      "suggested_name": "manger"
+    },
+    {
+      "name": "FUN_1000_a518",
+      "segment": "1000",
+      "offset": "A518",
+      "address": "1000:A518",
+      "return_type": "void",
+      "line": 8348,
+      "contexts": [
+        [
+          "Attendre",
+          10
+        ],
+        [
+          "arc",
+          9
+        ],
+        [
+          "Manger",
+          5
+        ]
+      ],
+      "suggested_name": "attendre"
+    },
+    {
+      "name": "FUN_1000_a68a",
+      "segment": "1000",
+      "offset": "A68A",
+      "address": "1000:A68A",
+      "return_type": "void",
+      "line": 8436,
+      "contexts": [
+        [
+          "m",
+          4
+        ]
+      ],
+      "suggested_name": "m"
+    },
+    {
+      "name": "FUN_1000_a74b",
+      "segment": "1000",
+      "offset": "A74B",
+      "address": "1000:A74B",
+      "return_type": "void",
+      "line": 8488,
+      "contexts": [
+        [
+          "m",
+          6
+        ]
+      ],
+      "suggested_name": "m"
+    },
+    {
+      "name": "FUN_1000_a85c",
+      "segment": "1000",
+      "offset": "A85C",
+      "address": "1000:A85C",
+      "return_type": "void",
+      "line": 8569,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_a91f",
+      "segment": "1000",
+      "offset": "A91F",
+      "address": "1000:A91F",
+      "return_type": "void",
+      "line": 8613,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_aa1d",
+      "segment": "1000",
+      "offset": "AA1D",
+      "address": "1000:AA1D",
+      "return_type": "void",
+      "line": 8654,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_b032",
+      "segment": "1000",
+      "offset": "B032",
+      "address": "1000:B032",
+      "return_type": "void",
+      "line": 8885,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_b711",
+      "segment": "1000",
+      "offset": "B711",
+      "address": "1000:B711",
+      "return_type": "void",
+      "line": 9156,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_b821",
+      "segment": "1000",
+      "offset": "B821",
+      "address": "1000:B821",
+      "return_type": "void",
+      "line": 9193,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_b8c7",
+      "segment": "1000",
+      "offset": "B8C7",
+      "address": "1000:B8C7",
+      "return_type": "void",
+      "line": 9221,
+      "contexts": [],
+      "suggested_name": null
+    },
+    {
+      "name": "FUN_1000_bafc",
+      "segment": "1000",
+      "offset": "BAFC",
+      "address": "1000:BAFC",
+      "return_type": "void",
+      "line": 9342,
+      "contexts": [
+        [
+          "Lire le parchemin b",
+          16
+        ],
+        [
+          "Lire",
+          15
+        ],
+        [
+          "Boire la potion b (moiree)",
+          12
+        ]
+      ],
+      "suggested_name": "lire_le_parchemin_b"
+    },
+    {
+      "name": "FUN_1000_bcd0",
+      "segment": "1000",
+      "offset": "BCD0",
+      "address": "1000:BCD0",
+      "return_type": "void",
+      "line": 9450,
+      "contexts": [
+        [
+          "Lire le parchemin b",
+          19
+        ],
+        [
+          "Identifie C",
+          9
+        ],
+        [
+          "Lire identification baguette",
+          9
+        ]
+      ],
+      "suggested_name": "lire_le_parchemin_b"
+    },
+    {
+      "name": "FUN_1000_bd12",
+      "segment": "1000",
+      "offset": "BD12",
+      "address": "1000:BD12",
+      "return_type": "void",
+      "line": 9473,
+      "contexts": [
+        [
+          "Lire le parchemin b",
+          15
+        ],
+        [
+          "Lire",
+          10
+        ],
+        [
+          "Boire une potion grise",
+          6
+        ]
+      ],
+      "suggested_name": "lire_le_parchemin_b"
+    },
+    {
+      "name": "FUN_1000_bd2d",
+      "segment": "1000",
+      "offset": "BD2D",
+      "address": "1000:BD2D",
+      "return_type": "void",
+      "line": 9483,
+      "contexts": [
+        [
+          "Lire le parchemin b",
+          10
+        ],
+        [
+          "Lire",
+          8
+        ],
+        [
+          "Lire B",
+          5
+        ]
+      ],
+      "suggested_name": "lire_le_parchemin_b"
+    },
+    {
+      "name": "FUN_1000_c8dd",
+      "segment": "1000",
+      "offset": "C8DD",
+      "address": "1000:C8DD",
+      "return_type": "void",
+      "line": 10032,
+      "contexts": [
+        [
+          "Boire la potion b (moiree)",
+          5
+        ],
+        [
+          "Boire une potion grise",
+          4
+        ],
+        [
+          "Boire une potion albatre",
+          4
+        ]
+      ],
+      "suggested_name": "boire_la_potion_b_moiree"
+    },
+    {
+      "name": "FUN_1000_d26a",
+      "segment": "1000",
+      "offset": "D26A",
+      "address": "1000:D26A",
+      "return_type": "void",
+      "line": 10524,
+      "contexts": [
+        [
+          "Lire un parchemin",
+          8
+        ],
+        [
+          "Brandir une arme",
+          7
+        ],
+        [
+          "Gauche silmarils",
+          7
+        ]
+      ],
+      "suggested_name": "lire_un_parchemin"
+    },
+    {
+      "name": "FUN_1000_d2a4",
+      "segment": "1000",
+      "offset": "D2A4",
+      "address": "1000:D2A4",
+      "return_type": "void",
+      "line": 10549,
+      "contexts": [
+        [
+          "Lire",
+          11
+        ],
+        [
+          "Brandir une arme",
+          9
+        ],
+        [
+          "Gauche silmarils",
+          9
+        ]
+      ],
+      "suggested_name": "lire"
+    },
+    {
+      "name": "FUN_1000_d2bb",
+      "segment": "1000",
+      "offset": "D2BB",
+      "address": "1000:D2BB",
+      "return_type": "void",
+      "line": 10561,
+      "contexts": [
+        [
+          "Brandir une arme",
+          10
+        ],
+        [
+          "Gauche silmarils",
+          10
+        ],
+        [
+          "Lire un parchemin",
+          9
+        ]
+      ],
+      "suggested_name": "brandir_une_arme"
+    },
+    {
+      "name": "FUN_1000_d7c9",
+      "segment": "1000",
+      "offset": "D7C9",
+      "address": "1000:D7C9",
+      "return_type": "void",
+      "line": 10859,
+      "contexts": [
+        [
+          "Monte",
+          6
+        ],
+        [
+          "Monte et explore",
+          4
+        ],
+        [
+          "Monte et trouve un potion",
+          4
+        ]
+      ],
+      "suggested_name": "monte"
+    },
+    {
+      "name": "FUN_1000_d81d",
+      "segment": "1000",
+      "offset": "D81D",
+      "address": "1000:D81D",
+      "return_type": "void",
+      "line": 10881,
+      "contexts": [
+        [
+          "arc",
+          6
+        ],
+        [
+          "Monte et explore",
+          3
+        ],
+        [
+          "Gauche attaqque voleur, tue voleur",
+          3
+        ]
+      ],
+      "suggested_name": "arc"
+    },
+    {
+      "name": "FUN_1000_d827",
+      "segment": "1000",
+      "offset": "D827",
+      "address": "1000:D827",
+      "return_type": "uint",
+      "line": 10889,
+      "contexts": [
+        [
+          "arc",
+          6
+        ],
+        [
+          "Gauche attaqque voleur, tue voleur",
+          4
+        ],
+        [
+          "Monte et explore",
+          3
+        ]
+      ],
+      "suggested_name": "arc"
+    },
+    {
+      "name": "FUN_1000_d873",
+      "segment": "1000",
+      "offset": "D873",
+      "address": "1000:D873",
+      "return_type": "char",
+      "line": 10908,
+      "contexts": [
+        [
+          "arc",
+          12
+        ],
+        [
+          "Monte et explore",
+          7
+        ],
+        [
+          "Manger",
+          5
+        ]
+      ],
+      "suggested_name": "arc"
+    },
+    {
+      "name": "FUN_1000_db14",
+      "segment": "1000",
+      "offset": "DB14",
+      "address": "1000:DB14",
+      "return_type": "void",
+      "line": 11028,
+      "contexts": [
+        [
+          "Frapper et tuer le serpent",
+          14
+        ],
+        [
+          "L'anneau s'est mis tout seul",
+          14
+        ],
+        [
+          "Droite et trouve une baguette magique",
+          14
+        ]
+      ],
+      "suggested_name": "frapper_et_tuer_le_serpent"
+    },
+    {
+      "name": "FUN_1000_dc2b",
+      "segment": "1000",
+      "offset": "DC2B",
+      "address": "1000:DC2B",
+      "return_type": "void",
+      "line": 11078,
+      "contexts": [
+        [
+          "Monte et explore",
+          17
+        ],
+        [
+          "Attendre et chauve souris",
+          14
+        ],
+        [
+          "Attendre pour tomber sur l araignee",
+          14
+        ]
+      ],
+      "suggested_name": "monte_et_explore"
+    },
+    {
+      "name": "FUN_1000_e193",
+      "segment": "1000",
+      "offset": "E193",
+      "address": "1000:E193",
+      "return_type": "void",
+      "line": 11301,
+      "contexts": [
+        [
+          "arc",
+          9
+        ],
+        [
+          "Attendre",
+          6
+        ],
+        [
+          "Attendre pour tomber sur l araignee",
+          4
+        ]
+      ],
+      "suggested_name": "arc"
+    },
+    {
+      "name": "FUN_1000_e7da",
+      "segment": "1000",
+      "offset": "E7DA",
+      "address": "1000:E7DA",
+      "return_type": "void",
+      "line": 11658,
+      "contexts": [
+        [
+          "Change niveau descend",
+          14
+        ],
+        [
+          "Monte",
+          1
+        ]
+      ],
+      "suggested_name": "change_niveau_descend"
+    },
+    {
+      "name": "FUN_1000_e8ad",
+      "segment": "1000",
+      "offset": "E8AD",
+      "address": "1000:E8AD",
+      "return_type": "undefined4",
+      "line": 11701,
+      "contexts": [
+        [
+          "Monte",
+          13
+        ],
+        [
+          "Descend",
+          10
+        ],
+        [
+          "Monte et explore",
+          7
+        ]
+      ],
+      "suggested_name": "monte"
+    },
+    {
+      "name": "FUN_1000_e96e",
+      "segment": "1000",
+      "offset": "E96E",
+      "address": "1000:E96E",
+      "return_type": "void",
+      "line": 11749,
+      "contexts": [
+        [
+          "Monte",
+          13
+        ],
+        [
+          "Descend",
+          9
+        ],
+        [
+          "Monte et explore",
+          7
+        ]
+      ],
+      "suggested_name": "monte"
+    },
+    {
+      "name": "FUN_1000_eed5",
+      "segment": "1000",
+      "offset": "EED5",
+      "address": "1000:EED5",
+      "return_type": "void",
+      "line": 11992,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          7
+        ],
+        [
+          "Force enter",
+          7
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_1000_ef1d",
+      "segment": "1000",
+      "offset": "EF1D",
+      "address": "1000:EF1D",
+      "return_type": "void",
+      "line": 12014,
+      "contexts": [
+        [
+          "Arreter de voler --encore-- prendre une buche 2",
+          1
+        ]
+      ],
+      "suggested_name": "arreter_de_voler_encore_prendr"
+    },
+    {
+      "name": "FUN_1000_f020",
+      "segment": "1000",
+      "offset": "F020",
+      "address": "1000:F020",
+      "return_type": "void",
+      "line": 12127,
+      "contexts": [
+        [
+          "Attendre",
+          11
+        ],
+        [
+          "Intelligence",
+          9
+        ],
+        [
+          "Brandir une arme",
+          9
+        ]
+      ],
+      "suggested_name": "attendre"
+    },
+    {
+      "name": "FUN_1000_f550",
+      "segment": "1000",
+      "offset": "F550",
+      "address": "1000:F550",
+      "return_type": "void",
+      "line": 12433,
+      "contexts": [
+        [
+          "Attendre",
+          9
+        ],
+        [
+          "arc",
+          6
+        ],
+        [
+          "Personnage standard oui",
+          6
+        ]
+      ],
+      "suggested_name": "attendre"
+    },
+    {
+      "name": "FUN_1000_f5f2",
+      "segment": "1000",
+      "offset": "F5F2",
+      "address": "1000:F5F2",
+      "return_type": "void",
+      "line": 12470,
+      "contexts": [
+        [
+          "Attendre",
+          18
+        ],
+        [
+          "arc",
+          14
+        ],
+        [
+          "Attendre encore",
+          8
+        ]
+      ],
+      "suggested_name": "attendre"
+    },
+    {
+      "name": "FUN_1000_f841",
+      "segment": "1000",
+      "offset": "F841",
+      "address": "1000:F841",
+      "return_type": "void",
+      "line": 12583,
+      "contexts": [
+        [
+          "Fin des explications de jeu",
+          17
+        ],
+        [
+          "Initialization",
+          15
+        ],
+        [
+          "Finir le jeu",
+          10
+        ]
+      ],
+      "suggested_name": "fin_des_explications_de_jeu"
+    },
+    {
+      "name": "FUN_1f98_01fb",
+      "segment": "1F98",
+      "offset": "01FB",
+      "address": "1F98:01FB",
+      "return_type": "ulong",
+      "line": 13093,
+      "contexts": [
+        [
+          "Initialization",
+          24
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_1f98_027a",
+      "segment": "1F98",
+      "offset": "027A",
+      "address": "1F98:027A",
+      "return_type": "int",
+      "line": 13122,
+      "contexts": [
+        [
+          "Initialization",
+          27
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_1f98_029f",
+      "segment": "1F98",
+      "offset": "029F",
+      "address": "1F98:029F",
+      "return_type": "void",
+      "line": 13136,
+      "contexts": [
+        [
+          "Initialization",
+          24
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_20e6_002e",
+      "segment": "20E6",
+      "offset": "002E",
+      "address": "20E6:002E",
+      "return_type": "void",
+      "line": 13945,
+      "contexts": [
+        [
+          "Initialization",
+          15
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_20e6_00b9",
+      "segment": "20E6",
+      "offset": "00B9",
+      "address": "20E6:00B9",
+      "return_type": "void",
+      "line": 13972,
+      "contexts": [
+        [
+          "Initialization",
+          8
+        ],
+        [
+          "Finir le jeu",
+          3
+        ],
+        [
+          "Explication sur le jeu",
+          1
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_20e6_011b",
+      "segment": "20E6",
+      "offset": "011B",
+      "address": "20E6:011B",
+      "return_type": "void",
+      "line": 14001,
+      "contexts": [
+        [
+          "Initialization",
+          10
+        ],
+        [
+          "Finir le jeu",
+          3
+        ],
+        [
+          "Explication sur le jeu",
+          2
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_20e6_0190",
+      "segment": "20E6",
+      "offset": "0190",
+      "address": "20E6:0190",
+      "return_type": "void",
+      "line": 14035,
+      "contexts": [
+        [
+          "Initialization",
+          12
+        ],
+        [
+          "Explication sur le jeu",
+          7
+        ],
+        [
+          "Fin des explications de jeu",
+          7
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_20e6_0309",
+      "segment": "20E6",
+      "offset": "0309",
+      "address": "20E6:0309",
+      "return_type": "void",
+      "line": 14169,
+      "contexts": [
+        [
+          "Initialization",
+          10
+        ],
+        [
+          "Premiere lettre du nom",
+          6
+        ],
+        [
+          "Explication sur le jeu",
+          4
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_20e6_04bf",
+      "segment": "20E6",
+      "offset": "04BF",
+      "address": "20E6:04BF",
+      "return_type": "void",
+      "line": 14363,
+      "contexts": [
+        [
+          "Initialization",
+          22
+        ],
+        [
+          "Valider le nom",
+          10
+        ],
+        [
+          "Premiere lettre du nom",
+          10
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_20e6_04c6",
+      "segment": "20E6",
+      "offset": "04C6",
+      "address": "20E6:04C6",
+      "return_type": "void",
+      "line": 14375,
+      "contexts": [
+        [
+          "Initialization",
+          22
+        ],
+        [
+          "Premiere lettre du nom",
+          11
+        ],
+        [
+          "Valider le nom",
+          8
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_20e6_051f",
+      "segment": "20E6",
+      "offset": "051F",
+      "address": "20E6:051F",
+      "return_type": "void",
+      "line": 14396,
+      "contexts": [
+        [
+          "Initialization",
+          28
+        ],
+        [
+          "Explication sur le jeu",
+          8
+        ],
+        [
+          "Taper espace pour la suite pendant les explications tu jeu",
+          7
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_20e6_0653",
+      "segment": "20E6",
+      "offset": "0653",
+      "address": "20E6:0653",
+      "return_type": "void",
+      "line": 14428,
+      "contexts": [
+        [
+          "Initialization",
+          3
+        ],
+        [
+          "Explication sur le jeu",
+          3
+        ],
+        [
+          "Taper espace pour la suite pendant les explications tu jeu",
+          1
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_214c_04a2",
+      "segment": "214C",
+      "offset": "04A2",
+      "address": "214C:04A2",
+      "return_type": "void",
+      "line": 14804,
+      "contexts": [
+        [
+          "Commencer a jouer",
+          11
+        ],
+        [
+          "Personnage standard oui",
+          2
+        ]
+      ],
+      "suggested_name": "commencer_a_jouer"
+    },
+    {
+      "name": "FUN_214c_0615",
+      "segment": "214C",
+      "offset": "0615",
+      "address": "214C:0615",
+      "return_type": "void",
+      "line": 14870,
+      "contexts": [
+        [
+          "Initialization",
+          14
+        ],
+        [
+          "Commencer a jouer",
+          4
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_214c_062a",
+      "segment": "214C",
+      "offset": "062A",
+      "address": "214C:062A",
+      "return_type": "void",
+      "line": 14889,
+      "contexts": [
+        [
+          "Initialization",
+          18
+        ],
+        [
+          "Commencer a jouer",
+          5
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_214c_0674",
+      "segment": "214C",
+      "offset": "0674",
+      "address": "214C:0674",
+      "return_type": "ulong",
+      "line": 14902,
+      "contexts": [
+        [
+          "Initialization",
+          21
+        ],
+        [
+          "Confirmer le suicide",
+          5
+        ],
+        [
+          "S",
+          5
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_214c_09db",
+      "segment": "214C",
+      "offset": "09DB",
+      "address": "214C:09DB",
+      "return_type": "undefined4",
+      "line": 15359,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          24
+        ],
+        [
+          "arc",
+          17
+        ],
+        [
+          "Tuer l'araignee",
+          7
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_214c_09df",
+      "segment": "214C",
+      "offset": "09DF",
+      "address": "214C:09DF",
+      "return_type": "undefined4",
+      "line": 15490,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          23
+        ],
+        [
+          "arc",
+          15
+        ],
+        [
+          "Tuer l'araignee",
+          6
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_214c_0ab5",
+      "segment": "214C",
+      "offset": "0AB5",
+      "address": "214C:0AB5",
+      "return_type": "undefined2",
+      "line": 15620,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          21
+        ],
+        [
+          "Personnage standard oui",
+          16
+        ],
+        [
+          "Force enter",
+          16
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_214c_0b32",
+      "segment": "214C",
+      "offset": "0B32",
+      "address": "214C:0B32",
+      "return_type": "long",
+      "line": 15715,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          32
+        ],
+        [
+          "Force enter",
+          32
+        ],
+        [
+          "Attendre",
+          10
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_214c_0bbb",
+      "segment": "214C",
+      "offset": "0BBB",
+      "address": "214C:0BBB",
+      "return_type": "undefined4",
+      "line": 15832,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          20
+        ],
+        [
+          "Personnage standard oui",
+          18
+        ],
+        [
+          "Force enter",
+          18
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_214c_0bde",
+      "segment": "214C",
+      "offset": "0BDE",
+      "address": "214C:0BDE",
+      "return_type": "void",
+      "line": 15861,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          23
+        ],
+        [
+          "Force enter",
+          23
+        ],
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          23
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_214c_0bf5",
+      "segment": "214C",
+      "offset": "0BF5",
+      "address": "214C:0BF5",
+      "return_type": "void",
+      "line": 15880,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          23
+        ],
+        [
+          "Personnage standard oui",
+          21
+        ],
+        [
+          "Force enter",
+          21
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_214c_0c08",
+      "segment": "214C",
+      "offset": "0C08",
+      "address": "214C:0C08",
+      "return_type": "void",
+      "line": 15888,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          24
+        ],
+        [
+          "Personnage standard oui",
+          17
+        ],
+        [
+          "Force enter",
+          17
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_214c_0c47",
+      "segment": "214C",
+      "offset": "0C47",
+      "address": "214C:0C47",
+      "return_type": "undefined4",
+      "line": 15915,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          22
+        ],
+        [
+          "arc",
+          17
+        ],
+        [
+          "Gauche, attaque crebain, tue crebain",
+          12
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_214c_0cef",
+      "segment": "214C",
+      "offset": "0CEF",
+      "address": "214C:0CEF",
+      "return_type": "void",
+      "line": 16087,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          3
+        ],
+        [
+          "Tuer l'araignee",
+          1
+        ],
+        [
+          "Frapper et tuer le serpent",
+          1
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_214c_10fa",
+      "segment": "214C",
+      "offset": "10FA",
+      "address": "214C:10FA",
+      "return_type": "void",
+      "line": 16165,
+      "contexts": [
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          10
+        ],
+        [
+          "Personnage standard oui",
+          10
+        ],
+        [
+          "Force enter",
+          9
+        ]
+      ],
+      "suggested_name": "monte_et_attaque_chauve_souris"
+    },
+    {
+      "name": "FUN_214c_1113",
+      "segment": "214C",
+      "offset": "1113",
+      "address": "214C:1113",
+      "return_type": "void",
+      "line": 16176,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          12
+        ],
+        [
+          "Force enter",
+          9
+        ],
+        [
+          "Monte et attaque chauve souris et tue chauve souris",
+          7
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_214c_11b0",
+      "segment": "214C",
+      "offset": "11B0",
+      "address": "214C:11B0",
+      "return_type": "void",
+      "line": 16236,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          13
+        ],
+        [
+          "Force enter",
+          11
+        ],
+        [
+          "Personnage standard non",
+          11
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_214c_11f5",
+      "segment": "214C",
+      "offset": "11F5",
+      "address": "214C:11F5",
+      "return_type": "void",
+      "line": 16279,
+      "contexts": [
+        [
+          "Personnage standard oui",
+          12
+        ],
+        [
+          "Personnage standard non",
+          12
+        ],
+        [
+          "Force enter",
+          12
+        ]
+      ],
+      "suggested_name": "personnage_standard_oui"
+    },
+    {
+      "name": "FUN_214c_126f",
+      "segment": "214C",
+      "offset": "126F",
+      "address": "214C:126F",
+      "return_type": "undefined4",
+      "line": 16335,
+      "contexts": [
+        [
+          "Force enter",
+          11
+        ]
+      ],
+      "suggested_name": "force_enter"
+    },
+    {
+      "name": "FUN_214c_13f3",
+      "segment": "214C",
+      "offset": "13F3",
+      "address": "214C:13F3",
+      "return_type": "void",
+      "line": 16498,
+      "contexts": [
+        [
+          "Initialization",
+          22
+        ],
+        [
+          "Finir le jeu",
+          13
+        ],
+        [
+          "Commencer a jouer",
+          10
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_214c_13f8",
+      "segment": "214C",
+      "offset": "13F8",
+      "address": "214C:13F8",
+      "return_type": "void",
+      "line": 16507,
+      "contexts": [
+        [
+          "Initialization",
+          22
+        ],
+        [
+          "Finir le jeu",
+          13
+        ],
+        [
+          "Commencer a jouer",
+          10
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_214c_146d",
+      "segment": "214C",
+      "offset": "146D",
+      "address": "214C:146D",
+      "return_type": "void",
+      "line": 16564,
+      "contexts": [
+        [
+          "Initialization",
+          16
+        ],
+        [
+          "Finir le jeu",
+          10
+        ],
+        [
+          "Commencer a jouer",
+          7
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_214c_1484",
+      "segment": "214C",
+      "offset": "1484",
+      "address": "214C:1484",
+      "return_type": "void",
+      "line": 16579,
+      "contexts": [
+        [
+          "Initialization",
+          17
+        ],
+        [
+          "Finir le jeu",
+          7
+        ],
+        [
+          "Commencer a jouer",
+          5
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_214c_1490",
+      "segment": "214C",
+      "offset": "1490",
+      "address": "214C:1490",
+      "return_type": "void",
+      "line": 16599,
+      "contexts": [
+        [
+          "Initialization",
+          18
+        ],
+        [
+          "Finir le jeu",
+          5
+        ],
+        [
+          "Explication sur le jeu",
+          5
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_214c_1496",
+      "segment": "214C",
+      "offset": "1496",
+      "address": "214C:1496",
+      "return_type": "void",
+      "line": 16616,
+      "contexts": [
+        [
+          "Initialization",
+          19
+        ],
+        [
+          "Explication sur le jeu",
+          5
+        ],
+        [
+          "Finir le jeu",
+          3
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_214c_1618",
+      "segment": "214C",
+      "offset": "1618",
+      "address": "214C:1618",
+      "return_type": "void",
+      "line": 16633,
+      "contexts": [
+        [
+          "Initialization",
+          17
+        ],
+        [
+          "Explication sur le jeu",
+          14
+        ],
+        [
+          "Commencer a jouer",
+          9
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_214c_1640",
+      "segment": "214C",
+      "offset": "1640",
+      "address": "214C:1640",
+      "return_type": "undefined1",
+      "line": 16657,
+      "contexts": [
+        [
+          "Initialization",
+          19
+        ],
+        [
+          "Explication sur le jeu",
+          16
+        ],
+        [
+          "Commencer a jouer",
+          9
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_214c_167d",
+      "segment": "214C",
+      "offset": "167D",
+      "address": "214C:167D",
+      "return_type": "void",
+      "line": 16693,
+      "contexts": [
+        [
+          "Initialization",
+          24
+        ],
+        [
+          "Explication sur le jeu",
+          20
+        ],
+        [
+          "Taper espace pour la suite pendant les explications tu jeu",
+          13
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_214c_1687",
+      "segment": "214C",
+      "offset": "1687",
+      "address": "214C:1687",
+      "return_type": "void",
+      "line": 16708,
+      "contexts": [
+        [
+          "Initialization",
+          24
+        ],
+        [
+          "Explication sur le jeu",
+          18
+        ],
+        [
+          "Taper espace pour la suite pendant les explications tu jeu",
+          13
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_214c_16af",
+      "segment": "214C",
+      "offset": "16AF",
+      "address": "214C:16AF",
+      "return_type": "void",
+      "line": 16732,
+      "contexts": [
+        [
+          "Initialization",
+          26
+        ],
+        [
+          "Explication sur le jeu",
+          18
+        ],
+        [
+          "Taper espace pour la suite pendant les explications tu jeu",
+          13
+        ]
+      ],
+      "suggested_name": "init"
+    },
+    {
+      "name": "FUN_214c_16e5",
+      "segment": "214C",
+      "offset": "16E5",
+      "address": "214C:16E5",
+      "return_type": "void",
+      "line": 16763,
+      "contexts": [
+        [
+          "Explication sur le jeu",
+          26
+        ],
+        [
+          "Initialization",
+          24
+        ],
+        [
+          "Commencer a jouer",
+          18
+        ]
+      ],
+      "suggested_name": "explication_sur_le_jeu"
+    },
+    {
+      "name": "FUN_214c_16ef",
+      "segment": "214C",
+      "offset": "16EF",
+      "address": "214C:16EF",
+      "return_type": "void",
+      "line": 16778,
+      "contexts": [
+        [
+          "Explication sur le jeu",
+          28
+        ],
+        [
+          "Initialization",
+          22
+        ],
+        [
+          "Commencer a jouer",
+          20
+        ]
+      ],
+      "suggested_name": "explication_sur_le_jeu"
+    },
+    {
+      "name": "FUN_214c_173c",
+      "segment": "214C",
+      "offset": "173C",
+      "address": "214C:173C",
+      "return_type": "void",
+      "line": 16844,
+      "contexts": [
+        [
+          "Initialization",
+          26
+        ],
+        [
+          "Explication sur le jeu",
+          23
+        ],
+        [
+          "Taper espace pour la suite pendant les explications tu jeu",
+          18
+        ]
+      ],
+      "suggested_name": "init"
+    }
+  ]
+}

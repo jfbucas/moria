@@ -1,0 +1,2135 @@
+{
+  "total_functions": 266,
+  "batches": 14,
+  "batch_size": 20,
+  "functions": [
+    {
+      "index": 1,
+      "name": "FUN_1000_0000",
+      "address": "1000:0000",
+      "lines": "32-51",
+      "signature": "undefined2 FUN_1000_0000(int *param_1)",
+      "batch": 1
+    },
+    {
+      "index": 2,
+      "name": "FUN_1000_0040",
+      "address": "1000:0040",
+      "lines": "52-79",
+      "signature": "void __cdecl16near FUN_1000_0040(void)",
+      "batch": 1
+    },
+    {
+      "index": 3,
+      "name": "FUN_1000_0094",
+      "address": "1000:0094",
+      "lines": "80-93",
+      "signature": "void __cdecl16near FUN_1000_0094(void)",
+      "batch": 1
+    },
+    {
+      "index": 4,
+      "name": "FUN_1000_00b3",
+      "address": "1000:00B3",
+      "lines": "94-107",
+      "signature": "void __cdecl16near FUN_1000_00b3(void)",
+      "batch": 1
+    },
+    {
+      "index": 5,
+      "name": "FUN_1000_00de",
+      "address": "1000:00DE",
+      "lines": "108-139",
+      "signature": "void FUN_1000_00de(int *param_1,int param_2,int param_3)",
+      "batch": 1
+    },
+    {
+      "index": 6,
+      "name": "FUN_1000_016a",
+      "address": "1000:016A",
+      "lines": "140-207",
+      "signature": "void FUN_1000_016a(int param_1)",
+      "batch": 1
+    },
+    {
+      "index": 7,
+      "name": "FUN_1000_0296",
+      "address": "1000:0296",
+      "lines": "208-267",
+      "signature": "void __cdecl16near FUN_1000_0296(void)",
+      "batch": 1
+    },
+    {
+      "index": 8,
+      "name": "FUN_1000_0428",
+      "address": "1000:0428",
+      "lines": "268-289",
+      "signature": "void FUN_1000_0428(undefined1 param_1,undefined1 param_2,int param_3)",
+      "batch": 1
+    },
+    {
+      "index": 9,
+      "name": "FUN_1000_0479",
+      "address": "1000:0479",
+      "lines": "290-299",
+      "signature": "undefined2 FUN_1000_0479(char *param_1)",
+      "batch": 1
+    },
+    {
+      "index": 10,
+      "name": "FUN_1000_0499",
+      "address": "1000:0499",
+      "lines": "300-326",
+      "signature": "void FUN_1000_0499(char param_1,int param_2)",
+      "batch": 1
+    },
+    {
+      "index": 11,
+      "name": "FUN_1000_0510",
+      "address": "1000:0510",
+      "lines": "327-339",
+      "signature": "void FUN_1000_0510(undefined2 param_1,undefined2 param_2)",
+      "batch": 1
+    },
+    {
+      "index": 12,
+      "name": "FUN_1000_052b",
+      "address": "1000:052B",
+      "lines": "340-355",
+      "signature": "undefined1 FUN_1000_052b(char *param_1)",
+      "batch": 1
+    },
+    {
+      "index": 13,
+      "name": "FUN_1000_0556",
+      "address": "1000:0556",
+      "lines": "356-385",
+      "signature": "void FUN_1000_0556(undefined4 *param_1)",
+      "batch": 1
+    },
+    {
+      "index": 14,
+      "name": "FUN_1000_05b0",
+      "address": "1000:05B0",
+      "lines": "386-405",
+      "signature": "void FUN_1000_05b0(undefined4 param_1)",
+      "batch": 1
+    },
+    {
+      "index": 15,
+      "name": "FUN_1000_05d6",
+      "address": "1000:05D6",
+      "lines": "406-436",
+      "signature": "void FUN_1000_05d6(undefined4 *param_1)",
+      "batch": 1
+    },
+    {
+      "index": 16,
+      "name": "FUN_1000_063c",
+      "address": "1000:063C",
+      "lines": "437-456",
+      "signature": "void FUN_1000_063c(undefined4 param_1)",
+      "batch": 1
+    },
+    {
+      "index": 17,
+      "name": "FUN_1000_0662",
+      "address": "1000:0662",
+      "lines": "457-482",
+      "signature": "void FUN_1000_0662(int param_1)",
+      "batch": 1
+    },
+    {
+      "index": 18,
+      "name": "FUN_1000_06d5",
+      "address": "1000:06D5",
+      "lines": "483-565",
+      "signature": "undefined2 FUN_1000_06d5(uint param_1)",
+      "batch": 1
+    },
+    {
+      "index": 19,
+      "name": "FUN_1000_07fb",
+      "address": "1000:07FB",
+      "lines": "566-589",
+      "signature": "void __cdecl16near FUN_1000_07fb(void)",
+      "batch": 1
+    },
+    {
+      "index": 20,
+      "name": "FUN_1000_084b",
+      "address": "1000:084B",
+      "lines": "590-616",
+      "signature": "void FUN_1000_084b(int *param_1,int param_2)",
+      "batch": 1
+    },
+    {
+      "index": 21,
+      "name": "FUN_1000_08bd",
+      "address": "1000:08BD",
+      "lines": "617-691",
+      "signature": "void FUN_1000_08bd(char param_1,undefined1 *param_2,undefined4 *param_3)",
+      "batch": 2
+    },
+    {
+      "index": 22,
+      "name": "FUN_1000_0a6f",
+      "address": "1000:0A6F",
+      "lines": "692-707",
+      "signature": "undefined1 FUN_1000_0a6f(undefined2 param_1,int param_2,int param_3)",
+      "batch": 2
+    },
+    {
+      "index": 23,
+      "name": "FUN_1000_0a9f",
+      "address": "1000:0A9F",
+      "lines": "708-838",
+      "signature": "void FUN_1000_0a9f(int param_1,int param_2,int param_3)",
+      "batch": 2
+    },
+    {
+      "index": 24,
+      "name": "FUN_1000_0e28",
+      "address": "1000:0E28",
+      "lines": "839-1048",
+      "signature": "void __cdecl16near FUN_1000_0e28(void)",
+      "batch": 2
+    },
+    {
+      "index": 25,
+      "name": "FUN_1000_11fc",
+      "address": "1000:11FC",
+      "lines": "1049-1173",
+      "signature": "void FUN_1000_11fc(int param_1)",
+      "batch": 2
+    },
+    {
+      "index": 26,
+      "name": "FUN_1000_1448",
+      "address": "1000:1448",
+      "lines": "1174-1195",
+      "signature": "void __cdecl16near FUN_1000_1448(void)",
+      "batch": 2
+    },
+    {
+      "index": 27,
+      "name": "FUN_1000_14ab",
+      "address": "1000:14AB",
+      "lines": "1196-1250",
+      "signature": "void FUN_1000_14ab(int *param_1,int *param_2)",
+      "batch": 2
+    },
+    {
+      "index": 28,
+      "name": "FUN_1000_15a2",
+      "address": "1000:15A2",
+      "lines": "1251-1270",
+      "signature": "void FUN_1000_15a2(undefined4 *param_1,undefined4 *param_2)",
+      "batch": 2
+    },
+    {
+      "index": 29,
+      "name": "FUN_1000_15d3",
+      "address": "1000:15D3",
+      "lines": "1271-1344",
+      "signature": "void FUN_1000_15d3(char param_1,char param_2,char *param_3)",
+      "batch": 2
+    },
+    {
+      "index": 30,
+      "name": "FUN_1000_17aa",
+      "address": "1000:17AA",
+      "lines": "1345-1387",
+      "signature": "undefined2 FUN_1000_17aa(undefined4 *param_1)",
+      "batch": 2
+    },
+    {
+      "index": 31,
+      "name": "FUN_1000_1885",
+      "address": "1000:1885",
+      "lines": "1388-1447",
+      "signature": "void __cdecl16near FUN_1000_1885(void)",
+      "batch": 2
+    },
+    {
+      "index": 32,
+      "name": "FUN_1000_1988",
+      "address": "1000:1988",
+      "lines": "1448-1479",
+      "signature": "void FUN_1000_1988(int *param_1,int *param_2,int *param_3)",
+      "batch": 2
+    },
+    {
+      "index": 33,
+      "name": "FUN_1000_1a1a",
+      "address": "1000:1A1A",
+      "lines": "1480-1536",
+      "signature": "void FUN_1000_1a1a(int param_1)",
+      "batch": 2
+    },
+    {
+      "index": 34,
+      "name": "FUN_1000_1b91",
+      "address": "1000:1B91",
+      "lines": "1537-1611",
+      "signature": "void __cdecl16near FUN_1000_1b91(void)",
+      "batch": 2
+    },
+    {
+      "index": 35,
+      "name": "FUN_1000_1cd1",
+      "address": "1000:1CD1",
+      "lines": "1612-1648",
+      "signature": "undefined2 FUN_1000_1cd1(void)",
+      "batch": 2
+    },
+    {
+      "index": 36,
+      "name": "FUN_1000_1d47",
+      "address": "1000:1D47",
+      "lines": "1649-1834",
+      "signature": "void FUN_1000_1d47(byte *param_1)",
+      "batch": 2
+    },
+    {
+      "index": 37,
+      "name": "FUN_1000_20dd",
+      "address": "1000:20DD",
+      "lines": "1835-1856",
+      "signature": "void __cdecl16near FUN_1000_20dd(void)",
+      "batch": 2
+    },
+    {
+      "index": 38,
+      "name": "FUN_1000_2138",
+      "address": "1000:2138",
+      "lines": "1857-1877",
+      "signature": "void FUN_1000_2138(int param_1,int param_2)",
+      "batch": 2
+    },
+    {
+      "index": 39,
+      "name": "FUN_1000_21b0",
+      "address": "1000:21B0",
+      "lines": "1878-1902",
+      "signature": "uint FUN_1000_21b0(int param_1,int param_2)",
+      "batch": 2
+    },
+    {
+      "index": 40,
+      "name": "FUN_1000_2214",
+      "address": "1000:2214",
+      "lines": "1903-1924",
+      "signature": "void FUN_1000_2214(void)",
+      "batch": 2
+    },
+    {
+      "index": 41,
+      "name": "FUN_1000_227b",
+      "address": "1000:227B",
+      "lines": "1925-1954",
+      "signature": "void __cdecl16near FUN_1000_227b(void)",
+      "batch": 3
+    },
+    {
+      "index": 42,
+      "name": "FUN_1000_22c8",
+      "address": "1000:22C8",
+      "lines": "1955-1998",
+      "signature": "void FUN_1000_22c8(int param_1,int param_2)",
+      "batch": 3
+    },
+    {
+      "index": 43,
+      "name": "FUN_1000_2363",
+      "address": "1000:2363",
+      "lines": "1999-2019",
+      "signature": "void FUN_1000_2363(int *param_1,int *param_2,int *param_3)",
+      "batch": 3
+    },
+    {
+      "index": 44,
+      "name": "FUN_1000_23da",
+      "address": "1000:23DA",
+      "lines": "2020-2105",
+      "signature": "void FUN_1000_23da(int *param_1,uint *param_2)",
+      "batch": 3
+    },
+    {
+      "index": 45,
+      "name": "FUN_1000_2574",
+      "address": "1000:2574",
+      "lines": "2106-2132",
+      "signature": "void FUN_1000_2574(int param_1,undefined4 *param_2)",
+      "batch": 3
+    },
+    {
+      "index": 46,
+      "name": "FUN_1000_260c",
+      "address": "1000:260C",
+      "lines": "2133-2173",
+      "signature": "int FUN_1000_260c(int param_1,char param_2)",
+      "batch": 3
+    },
+    {
+      "index": 47,
+      "name": "FUN_1000_26cf",
+      "address": "1000:26CF",
+      "lines": "2174-2518",
+      "signature": "void FUN_1000_26cf(undefined4 *param_1,int param_2,char param_3)",
+      "batch": 3
+    },
+    {
+      "index": 48,
+      "name": "FUN_1000_2d29",
+      "address": "1000:2D29",
+      "lines": "2519-2617",
+      "signature": "void FUN_1000_2d29(undefined4 *param_1,int param_2)",
+      "batch": 3
+    },
+    {
+      "index": 49,
+      "name": "FUN_1000_2fe0",
+      "address": "1000:2FE0",
+      "lines": "2618-2660",
+      "signature": "void __cdecl16near FUN_1000_2fe0(void)",
+      "batch": 3
+    },
+    {
+      "index": 50,
+      "name": "FUN_1000_3086",
+      "address": "1000:3086",
+      "lines": "2661-2684",
+      "signature": "void FUN_1000_3086(int param_1,int param_2)",
+      "batch": 3
+    },
+    {
+      "index": 51,
+      "name": "FUN_1000_30ec",
+      "address": "1000:30EC",
+      "lines": "2685-2744",
+      "signature": "void __cdecl16near FUN_1000_30ec(void)",
+      "batch": 3
+    },
+    {
+      "index": 52,
+      "name": "FUN_1000_325e",
+      "address": "1000:325E",
+      "lines": "2745-2817",
+      "signature": "void __cdecl16near FUN_1000_325e(void)",
+      "batch": 3
+    },
+    {
+      "index": 53,
+      "name": "FUN_1000_33a1",
+      "address": "1000:33A1",
+      "lines": "2818-2847",
+      "signature": "void __cdecl16near FUN_1000_33a1(void)",
+      "batch": 3
+    },
+    {
+      "index": 54,
+      "name": "FUN_1000_3408",
+      "address": "1000:3408",
+      "lines": "2848-2863",
+      "signature": "void __cdecl16near FUN_1000_3408(void)",
+      "batch": 3
+    },
+    {
+      "index": 55,
+      "name": "FUN_1000_3442",
+      "address": "1000:3442",
+      "lines": "2864-2883",
+      "signature": "void __cdecl16near FUN_1000_3442(void)",
+      "batch": 3
+    },
+    {
+      "index": 56,
+      "name": "FUN_1000_3486",
+      "address": "1000:3486",
+      "lines": "2884-2910",
+      "signature": "void __cdecl16near FUN_1000_3486(void)",
+      "batch": 3
+    },
+    {
+      "index": 57,
+      "name": "FUN_1000_34ea",
+      "address": "1000:34EA",
+      "lines": "2911-2934",
+      "signature": "void __cdecl16near FUN_1000_34ea(void)",
+      "batch": 3
+    },
+    {
+      "index": 58,
+      "name": "FUN_1000_3544",
+      "address": "1000:3544",
+      "lines": "2935-3006",
+      "signature": "void __cdecl16near FUN_1000_3544(void)",
+      "batch": 3
+    },
+    {
+      "index": 59,
+      "name": "FUN_1000_3691",
+      "address": "1000:3691",
+      "lines": "3007-3024",
+      "signature": "int FUN_1000_3691(int param_1,int param_2)",
+      "batch": 3
+    },
+    {
+      "index": 60,
+      "name": "FUN_1000_36f8",
+      "address": "1000:36F8",
+      "lines": "3025-3119",
+      "signature": "void FUN_1000_36f8(int param_1)",
+      "batch": 3
+    },
+    {
+      "index": 61,
+      "name": "FUN_1000_3a12",
+      "address": "1000:3A12",
+      "lines": "3126-3169",
+      "signature": "void FUN_1000_3a12(int param_1)",
+      "batch": 4
+    },
+    {
+      "index": 62,
+      "name": "FUN_1000_3b34",
+      "address": "1000:3B34",
+      "lines": "3170-3344",
+      "signature": "void FUN_1000_3b34(int param_1)",
+      "batch": 4
+    },
+    {
+      "index": 63,
+      "name": "FUN_1000_40c0",
+      "address": "1000:40C0",
+      "lines": "3345-3420",
+      "signature": "void FUN_1000_40c0(undefined2 param_1)",
+      "batch": 4
+    },
+    {
+      "index": 64,
+      "name": "FUN_1000_425e",
+      "address": "1000:425E",
+      "lines": "3421-3514",
+      "signature": "void __cdecl16near FUN_1000_425e(void)",
+      "batch": 4
+    },
+    {
+      "index": 65,
+      "name": "FUN_1000_447b",
+      "address": "1000:447B",
+      "lines": "3515-3711",
+      "signature": "void __cdecl16near FUN_1000_447b(void)",
+      "batch": 4
+    },
+    {
+      "index": 66,
+      "name": "FUN_1000_48b7",
+      "address": "1000:48B7",
+      "lines": "3712-3740",
+      "signature": "void __cdecl16near FUN_1000_48b7(void)",
+      "batch": 4
+    },
+    {
+      "index": 67,
+      "name": "FUN_1000_491d",
+      "address": "1000:491D",
+      "lines": "3741-3798",
+      "signature": "void FUN_1000_491d(int *param_1,int *param_2)",
+      "batch": 4
+    },
+    {
+      "index": 68,
+      "name": "FUN_1000_4a27",
+      "address": "1000:4A27",
+      "lines": "3799-3847",
+      "signature": "void FUN_1000_4a27(char param_1)",
+      "batch": 4
+    },
+    {
+      "index": 69,
+      "name": "FUN_1000_4b52",
+      "address": "1000:4B52",
+      "lines": "3848-3857",
+      "signature": "void __cdecl16near FUN_1000_4b52(void)",
+      "batch": 4
+    },
+    {
+      "index": 70,
+      "name": "FUN_1000_4c49",
+      "address": "1000:4C49",
+      "lines": "3858-4266",
+      "signature": "void __cdecl16near FUN_1000_4c49(void)",
+      "batch": 4
+    },
+    {
+      "index": 71,
+      "name": "FUN_1000_53c9",
+      "address": "1000:53C9",
+      "lines": "4267-4290",
+      "signature": "void __cdecl16near FUN_1000_53c9(void)",
+      "batch": 4
+    },
+    {
+      "index": 72,
+      "name": "FUN_1000_5422",
+      "address": "1000:5422",
+      "lines": "4291-4325",
+      "signature": "void FUN_1000_5422(char param_1,char param_2)",
+      "batch": 4
+    },
+    {
+      "index": 73,
+      "name": "FUN_1000_54d2",
+      "address": "1000:54D2",
+      "lines": "4326-4350",
+      "signature": "void FUN_1000_54d2(int param_1)",
+      "batch": 4
+    },
+    {
+      "index": 74,
+      "name": "FUN_1000_5527",
+      "address": "1000:5527",
+      "lines": "4351-4367",
+      "signature": "void FUN_1000_5527(int param_1)",
+      "batch": 4
+    },
+    {
+      "index": 75,
+      "name": "FUN_1000_557c",
+      "address": "1000:557C",
+      "lines": "4368-4792",
+      "signature": "void FUN_1000_557c(char param_1,char param_2,char *param_3)",
+      "batch": 4
+    },
+    {
+      "index": 76,
+      "name": "FUN_1000_5fd2",
+      "address": "1000:5FD2",
+      "lines": "4793-4868",
+      "signature": "void __cdecl16near FUN_1000_5fd2(void)",
+      "batch": 4
+    },
+    {
+      "index": 77,
+      "name": "FUN_1000_610b",
+      "address": "1000:610B",
+      "lines": "4869-4945",
+      "signature": "void FUN_1000_610b(char param_1)",
+      "batch": 4
+    },
+    {
+      "index": 78,
+      "name": "FUN_1000_6249",
+      "address": "1000:6249",
+      "lines": "4946-4975",
+      "signature": "void __cdecl16near FUN_1000_6249(void)",
+      "batch": 4
+    },
+    {
+      "index": 79,
+      "name": "FUN_1000_62b7",
+      "address": "1000:62B7",
+      "lines": "4976-5041",
+      "signature": "void __cdecl16near FUN_1000_62b7(void)",
+      "batch": 4
+    },
+    {
+      "index": 80,
+      "name": "FUN_1000_6431",
+      "address": "1000:6431",
+      "lines": "5042-5094",
+      "signature": "void __cdecl16near FUN_1000_6431(void)",
+      "batch": 4
+    },
+    {
+      "index": 81,
+      "name": "FUN_1000_65d3",
+      "address": "1000:65D3",
+      "lines": "5095-5204",
+      "signature": "void __cdecl16near FUN_1000_65d3(void)",
+      "batch": 5
+    },
+    {
+      "index": 82,
+      "name": "FUN_1000_6887",
+      "address": "1000:6887",
+      "lines": "5205-5240",
+      "signature": "void __cdecl16near FUN_1000_6887(void)",
+      "batch": 5
+    },
+    {
+      "index": 83,
+      "name": "FUN_1000_6921",
+      "address": "1000:6921",
+      "lines": "5241-5308",
+      "signature": "void __cdecl16near FUN_1000_6921(void)",
+      "batch": 5
+    },
+    {
+      "index": 84,
+      "name": "FUN_1000_6a56",
+      "address": "1000:6A56",
+      "lines": "5309-5433",
+      "signature": "void __cdecl16near FUN_1000_6a56(void)",
+      "batch": 5
+    },
+    {
+      "index": 85,
+      "name": "FUN_1000_6c94",
+      "address": "1000:6C94",
+      "lines": "5434-5532",
+      "signature": "void __cdecl16near FUN_1000_6c94(void)",
+      "batch": 5
+    },
+    {
+      "index": 86,
+      "name": "FUN_1000_6f02",
+      "address": "1000:6F02",
+      "lines": "5533-5673",
+      "signature": "void __cdecl16near FUN_1000_6f02(void)",
+      "batch": 5
+    },
+    {
+      "index": 87,
+      "name": "FUN_1000_71a1",
+      "address": "1000:71A1",
+      "lines": "5674-5736",
+      "signature": "void __cdecl16near FUN_1000_71a1(void)",
+      "batch": 5
+    },
+    {
+      "index": 88,
+      "name": "FUN_1000_7364",
+      "address": "1000:7364",
+      "lines": "5737-5878",
+      "signature": "void FUN_1000_7364(undefined1 *param_1,int param_2)",
+      "batch": 5
+    },
+    {
+      "index": 89,
+      "name": "FUN_1000_763d",
+      "address": "1000:763D",
+      "lines": "5879-5914",
+      "signature": "void FUN_1000_763d(undefined4 param_1,char param_2)",
+      "batch": 5
+    },
+    {
+      "index": 90,
+      "name": "FUN_1000_76a4",
+      "address": "1000:76A4",
+      "lines": "5915-5958",
+      "signature": "void __cdecl16near FUN_1000_76a4(void)",
+      "batch": 5
+    },
+    {
+      "index": 91,
+      "name": "FUN_1000_772e",
+      "address": "1000:772E",
+      "lines": "5959-5996",
+      "signature": "void __cdecl16near FUN_1000_772e(void)",
+      "batch": 5
+    },
+    {
+      "index": 92,
+      "name": "FUN_1000_77fe",
+      "address": "1000:77FE",
+      "lines": "5997-6016",
+      "signature": "void __cdecl16near FUN_1000_77fe(void)",
+      "batch": 5
+    },
+    {
+      "index": 93,
+      "name": "FUN_1000_7849",
+      "address": "1000:7849",
+      "lines": "6017-6086",
+      "signature": "void FUN_1000_7849(char param_1)",
+      "batch": 5
+    },
+    {
+      "index": 94,
+      "name": "FUN_1000_7923",
+      "address": "1000:7923",
+      "lines": "6087-6114",
+      "signature": "void __cdecl16near FUN_1000_7923(void)",
+      "batch": 5
+    },
+    {
+      "index": 95,
+      "name": "FUN_1000_79ea",
+      "address": "1000:79EA",
+      "lines": "6115-6267",
+      "signature": "void FUN_1000_79ea(char param_1,char *param_2)",
+      "batch": 5
+    },
+    {
+      "index": 96,
+      "name": "FUN_1000_7d66",
+      "address": "1000:7D66",
+      "lines": "6268-6288",
+      "signature": "void FUN_1000_7d66(undefined1 *param_1)",
+      "batch": 5
+    },
+    {
+      "index": 97,
+      "name": "FUN_1000_7dab",
+      "address": "1000:7DAB",
+      "lines": "6289-6330",
+      "signature": "void __cdecl16near FUN_1000_7dab(void)",
+      "batch": 5
+    },
+    {
+      "index": 98,
+      "name": "FUN_1000_7e29",
+      "address": "1000:7E29",
+      "lines": "6331-6352",
+      "signature": "void FUN_1000_7e29(int param_1)",
+      "batch": 5
+    },
+    {
+      "index": 99,
+      "name": "FUN_1000_7ebc",
+      "address": "1000:7EBC",
+      "lines": "6353-6690",
+      "signature": "void FUN_1000_7ebc(undefined2 param_1,undefined2 param_2,undefined4 param_3,undefined4 *param_4)",
+      "batch": 5
+    },
+    {
+      "index": 100,
+      "name": "FUN_1000_8573",
+      "address": "1000:8573",
+      "lines": "6691-7055",
+      "signature": "void FUN_1000_8573(undefined4 param_1,undefined2 param_2,undefined2 param_3)",
+      "batch": 5
+    },
+    {
+      "index": 101,
+      "name": "FUN_1000_8d6d",
+      "address": "1000:8D6D",
+      "lines": "7056-7088",
+      "signature": "void FUN_1000_8d6d(int param_1)",
+      "batch": 6
+    },
+    {
+      "index": 102,
+      "name": "FUN_1000_8e03",
+      "address": "1000:8E03",
+      "lines": "7089-7165",
+      "signature": "void __cdecl16near FUN_1000_8e03(void)",
+      "batch": 6
+    },
+    {
+      "index": 103,
+      "name": "FUN_1000_8f6e",
+      "address": "1000:8F6E",
+      "lines": "7166-7217",
+      "signature": "void FUN_1000_8f6e(undefined4 *param_1)",
+      "batch": 6
+    },
+    {
+      "index": 104,
+      "name": "FUN_1000_9099",
+      "address": "1000:9099",
+      "lines": "7218-7443",
+      "signature": "void __cdecl16near FUN_1000_9099(void)",
+      "batch": 6
+    },
+    {
+      "index": 105,
+      "name": "FUN_1000_9554",
+      "address": "1000:9554",
+      "lines": "7444-7467",
+      "signature": "void FUN_1000_9554(undefined2 param_1,undefined1 param_2,undefined1 param_3,int param_4,char param_5)",
+      "batch": 6
+    },
+    {
+      "index": 106,
+      "name": "FUN_1000_95ee",
+      "address": "1000:95EE",
+      "lines": "7468-7631",
+      "signature": "void __cdecl16near FUN_1000_95ee(void)",
+      "batch": 6
+    },
+    {
+      "index": 107,
+      "name": "FUN_1000_99c5",
+      "address": "1000:99C5",
+      "lines": "7632-7670",
+      "signature": "void FUN_1000_99c5(char *param_1)",
+      "batch": 6
+    },
+    {
+      "index": 108,
+      "name": "FUN_1000_9a91",
+      "address": "1000:9A91",
+      "lines": "7671-7779",
+      "signature": "void FUN_1000_9a91(char *param_1)",
+      "batch": 6
+    },
+    {
+      "index": 109,
+      "name": "FUN_1000_9ca1",
+      "address": "1000:9CA1",
+      "lines": "7780-7825",
+      "signature": "void FUN_1000_9ca1(byte *param_1)",
+      "batch": 6
+    },
+    {
+      "index": 110,
+      "name": "FUN_1000_9d52",
+      "address": "1000:9D52",
+      "lines": "7826-7944",
+      "signature": "void FUN_1000_9d52(char *param_1)",
+      "batch": 6
+    },
+    {
+      "index": 111,
+      "name": "FUN_1000_9f40",
+      "address": "1000:9F40",
+      "lines": "7945-8299",
+      "signature": "void __cdecl16near FUN_1000_9f40(void)",
+      "batch": 6
+    },
+    {
+      "index": 112,
+      "name": "FUN_1000_a45b",
+      "address": "1000:A45B",
+      "lines": "8300-8344",
+      "signature": "void __cdecl16near FUN_1000_a45b(void)",
+      "batch": 6
+    },
+    {
+      "index": 113,
+      "name": "FUN_1000_a518",
+      "address": "1000:A518",
+      "lines": "8345-8432",
+      "signature": "void FUN_1000_a518(undefined4 param_1)",
+      "batch": 6
+    },
+    {
+      "index": 114,
+      "name": "FUN_1000_a68a",
+      "address": "1000:A68A",
+      "lines": "8433-8484",
+      "signature": "void FUN_1000_a68a(undefined4 param_1)",
+      "batch": 6
+    },
+    {
+      "index": 115,
+      "name": "FUN_1000_a74b",
+      "address": "1000:A74B",
+      "lines": "8485-8565",
+      "signature": "void __cdecl16near FUN_1000_a74b(void)",
+      "batch": 6
+    },
+    {
+      "index": 116,
+      "name": "FUN_1000_a85c",
+      "address": "1000:A85C",
+      "lines": "8566-8609",
+      "signature": "void FUN_1000_a85c(int *param_1,int *param_2)",
+      "batch": 6
+    },
+    {
+      "index": 117,
+      "name": "FUN_1000_a91f",
+      "address": "1000:A91F",
+      "lines": "8610-8650",
+      "signature": "void FUN_1000_a91f(int *param_1,int *param_2,int *param_3,int *param_4,int *param_5)",
+      "batch": 6
+    },
+    {
+      "index": 118,
+      "name": "FUN_1000_aa1d",
+      "address": "1000:AA1D",
+      "lines": "8651-8881",
+      "signature": "void FUN_1000_aa1d(undefined4 param_1)",
+      "batch": 6
+    },
+    {
+      "index": 119,
+      "name": "FUN_1000_b032",
+      "address": "1000:B032",
+      "lines": "8882-9152",
+      "signature": "void FUN_1000_b032(undefined4 param_1)",
+      "batch": 6
+    },
+    {
+      "index": 120,
+      "name": "FUN_1000_b711",
+      "address": "1000:B711",
+      "lines": "9153-9189",
+      "signature": "void FUN_1000_b711(int param_1,undefined2 param_2,undefined2 param_3)",
+      "batch": 6
+    },
+    {
+      "index": 121,
+      "name": "FUN_1000_b821",
+      "address": "1000:B821",
+      "lines": "9190-9217",
+      "signature": "void FUN_1000_b821(int param_1)",
+      "batch": 7
+    },
+    {
+      "index": 122,
+      "name": "FUN_1000_b8c7",
+      "address": "1000:B8C7",
+      "lines": "9218-9338",
+      "signature": "void FUN_1000_b8c7(char *param_1)",
+      "batch": 7
+    },
+    {
+      "index": 123,
+      "name": "FUN_1000_bafc",
+      "address": "1000:BAFC",
+      "lines": "9339-9446",
+      "signature": "void FUN_1000_bafc(char *param_1)",
+      "batch": 7
+    },
+    {
+      "index": 124,
+      "name": "FUN_1000_bcd0",
+      "address": "1000:BCD0",
+      "lines": "9447-9469",
+      "signature": "void FUN_1000_bcd0(char *param_1)",
+      "batch": 7
+    },
+    {
+      "index": 125,
+      "name": "FUN_1000_bd12",
+      "address": "1000:BD12",
+      "lines": "9470-9479",
+      "signature": "void FUN_1000_bd12(undefined2 param_1,undefined2 param_2)",
+      "batch": 7
+    },
+    {
+      "index": 126,
+      "name": "FUN_1000_bd2d",
+      "address": "1000:BD2D",
+      "lines": "9480-10028",
+      "signature": "void FUN_1000_bd2d(undefined4 param_1,char *param_2)",
+      "batch": 7
+    },
+    {
+      "index": 127,
+      "name": "FUN_1000_c8dd",
+      "address": "1000:C8DD",
+      "lines": "10029-10520",
+      "signature": "void FUN_1000_c8dd(undefined2 param_1,undefined4 param_2)",
+      "batch": 7
+    },
+    {
+      "index": 128,
+      "name": "FUN_1000_d26a",
+      "address": "1000:D26A",
+      "lines": "10521-10545",
+      "signature": "void __cdecl16near FUN_1000_d26a(void)",
+      "batch": 7
+    },
+    {
+      "index": 129,
+      "name": "FUN_1000_d2a4",
+      "address": "1000:D2A4",
+      "lines": "10546-10557",
+      "signature": "void FUN_1000_d2a4(int param_1,undefined2 param_2)",
+      "batch": 7
+    },
+    {
+      "index": 130,
+      "name": "FUN_1000_d2bb",
+      "address": "1000:D2BB",
+      "lines": "10558-10855",
+      "signature": "void FUN_1000_d2bb(undefined1 *param_1,byte param_2)",
+      "batch": 7
+    },
+    {
+      "index": 131,
+      "name": "FUN_1000_d7c9",
+      "address": "1000:D7C9",
+      "lines": "10856-10877",
+      "signature": "void FUN_1000_d7c9(undefined4 param_1,undefined1 *param_2)",
+      "batch": 7
+    },
+    {
+      "index": 132,
+      "name": "FUN_1000_d81d",
+      "address": "1000:D81D",
+      "lines": "10878-10885",
+      "signature": "void __cdecl16near FUN_1000_d81d(void)",
+      "batch": 7
+    },
+    {
+      "index": 133,
+      "name": "FUN_1000_d827",
+      "address": "1000:D827",
+      "lines": "10886-10904",
+      "signature": "uint FUN_1000_d827(uint param_1,uint param_2,uint param_3,uint param_4)",
+      "batch": 7
+    },
+    {
+      "index": 134,
+      "name": "FUN_1000_d873",
+      "address": "1000:D873",
+      "lines": "10905-11024",
+      "signature": "char FUN_1000_d873(int param_1,int param_2,int param_3)",
+      "batch": 7
+    },
+    {
+      "index": 135,
+      "name": "FUN_1000_db14",
+      "address": "1000:DB14",
+      "lines": "11025-11074",
+      "signature": "void FUN_1000_db14(int param_1)",
+      "batch": 7
+    },
+    {
+      "index": 136,
+      "name": "FUN_1000_dc2b",
+      "address": "1000:DC2B",
+      "lines": "11075-11297",
+      "signature": "void FUN_1000_dc2b(int param_1,undefined4 param_2)",
+      "batch": 7
+    },
+    {
+      "index": 137,
+      "name": "FUN_1000_e193",
+      "address": "1000:E193",
+      "lines": "11298-11654",
+      "signature": "void FUN_1000_e193(char *param_1)",
+      "batch": 7
+    },
+    {
+      "index": 138,
+      "name": "FUN_1000_e7da",
+      "address": "1000:E7DA",
+      "lines": "11655-11697",
+      "signature": "void FUN_1000_e7da(char param_1)",
+      "batch": 7
+    },
+    {
+      "index": 139,
+      "name": "FUN_1000_e8ad",
+      "address": "1000:E8AD",
+      "lines": "11698-11745",
+      "signature": "undefined4 FUN_1000_e8ad(undefined2 param_1,int param_2,uint param_3)",
+      "batch": 7
+    },
+    {
+      "index": 140,
+      "name": "FUN_1000_e96e",
+      "address": "1000:E96E",
+      "lines": "11746-11988",
+      "signature": "void FUN_1000_e96e(char *param_1,char *param_2,int param_3)",
+      "batch": 7
+    },
+    {
+      "index": 141,
+      "name": "FUN_1000_eed5",
+      "address": "1000:EED5",
+      "lines": "11989-12010",
+      "signature": "void FUN_1000_eed5(int param_1)",
+      "batch": 8
+    },
+    {
+      "index": 142,
+      "name": "FUN_1000_ef1d",
+      "address": "1000:EF1D",
+      "lines": "12011-12123",
+      "signature": "void FUN_1000_ef1d(int param_1,byte param_2)",
+      "batch": 8
+    },
+    {
+      "index": 143,
+      "name": "FUN_1000_f020",
+      "address": "1000:F020",
+      "lines": "12124-12429",
+      "signature": "void FUN_1000_f020(int param_1,undefined1 *param_2)",
+      "batch": 8
+    },
+    {
+      "index": 144,
+      "name": "FUN_1000_f550",
+      "address": "1000:F550",
+      "lines": "12430-12466",
+      "signature": "void FUN_1000_f550(int param_1)",
+      "batch": 8
+    },
+    {
+      "index": 145,
+      "name": "FUN_1000_f5f2",
+      "address": "1000:F5F2",
+      "lines": "12467-12579",
+      "signature": "void __cdecl16near FUN_1000_f5f2(void)",
+      "batch": 8
+    },
+    {
+      "index": 146,
+      "name": "FUN_1000_f841",
+      "address": "1000:F841",
+      "lines": "12580-12664",
+      "signature": "void __cdecl16near FUN_1000_f841(void)",
+      "batch": 8
+    },
+    {
+      "index": 147,
+      "name": "FUN_1f98_0000",
+      "address": "1F98:0000",
+      "lines": "12967-13089",
+      "signature": "void __cdecl16far FUN_1f98_0000(void)",
+      "batch": 8
+    },
+    {
+      "index": 148,
+      "name": "FUN_1f98_01fb",
+      "address": "1F98:01FB",
+      "lines": "13090-13118",
+      "signature": "ulong FUN_1f98_01fb(int param_1)",
+      "batch": 8
+    },
+    {
+      "index": 149,
+      "name": "FUN_1f98_027a",
+      "address": "1F98:027A",
+      "lines": "13119-13132",
+      "signature": "int FUN_1f98_027a(undefined2 param_1)",
+      "batch": 8
+    },
+    {
+      "index": 150,
+      "name": "FUN_1f98_029f",
+      "address": "1F98:029F",
+      "lines": "13133-13186",
+      "signature": "void FUN_1f98_029f(int param_1,byte *param_2)",
+      "batch": 8
+    },
+    {
+      "index": 151,
+      "name": "FUN_1f98_042e",
+      "address": "1F98:042E",
+      "lines": "13187-13717",
+      "signature": "void __cdecl16far FUN_1f98_042e(void)",
+      "batch": 8
+    },
+    {
+      "index": 152,
+      "name": "FUN_1f98_1107",
+      "address": "1F98:1107",
+      "lines": "13718-13736",
+      "signature": "void __cdecl16far FUN_1f98_1107(void)",
+      "batch": 8
+    },
+    {
+      "index": 153,
+      "name": "FUN_1f98_1155",
+      "address": "1F98:1155",
+      "lines": "13737-13855",
+      "signature": "void __cdecl16far FUN_1f98_1155(void)",
+      "batch": 8
+    },
+    {
+      "index": 154,
+      "name": "FUN_1f98_137a",
+      "address": "1F98:137A",
+      "lines": "13856-13908",
+      "signature": "void __cdecl16far FUN_1f98_137a(void)",
+      "batch": 8
+    },
+    {
+      "index": 155,
+      "name": "FUN_1f98_14b7",
+      "address": "1F98:14B7",
+      "lines": "13909-13924",
+      "signature": "void __cdecl16far FUN_1f98_14b7(void)",
+      "batch": 8
+    },
+    {
+      "index": 156,
+      "name": "FUN_20e6_0000",
+      "address": "20E6:0000",
+      "lines": "13925-13939",
+      "signature": "void __cdecl16far FUN_20e6_0000(void)",
+      "batch": 8
+    },
+    {
+      "index": 157,
+      "name": "FUN_20e6_002e",
+      "address": "20E6:002E",
+      "lines": "13944-13966",
+      "signature": "void __cdecl16near FUN_20e6_002e(void)",
+      "batch": 8
+    },
+    {
+      "index": 158,
+      "name": "FUN_20e6_00b9",
+      "address": "20E6:00B9",
+      "lines": "13971-13997",
+      "signature": "void __cdecl16near FUN_20e6_00b9(void)",
+      "batch": 8
+    },
+    {
+      "index": 159,
+      "name": "FUN_20e6_011b",
+      "address": "20E6:011B",
+      "lines": "13998-14031",
+      "signature": "void __cdecl16near FUN_20e6_011b(void)",
+      "batch": 8
+    },
+    {
+      "index": 160,
+      "name": "FUN_20e6_0190",
+      "address": "20E6:0190",
+      "lines": "14032-14063",
+      "signature": "void __cdecl16near FUN_20e6_0190(void)",
+      "batch": 8
+    },
+    {
+      "index": 161,
+      "name": "FUN_20e6_020d",
+      "address": "20E6:020D",
+      "lines": "14064-14073",
+      "signature": "void __cdecl16far FUN_20e6_020d(void)",
+      "batch": 9
+    },
+    {
+      "index": 162,
+      "name": "FUN_20e6_0227",
+      "address": "20E6:0227",
+      "lines": "14074-14083",
+      "signature": "void __cdecl16far FUN_20e6_0227(void)",
+      "batch": 9
+    },
+    {
+      "index": 163,
+      "name": "FUN_20e6_0260",
+      "address": "20E6:0260",
+      "lines": "14084-14099",
+      "signature": "void __stdcall16far FUN_20e6_0260(char param_1,char param_2)",
+      "batch": 9
+    },
+    {
+      "index": 164,
+      "name": "FUN_20e6_028c",
+      "address": "20E6:028C",
+      "lines": "14100-14111",
+      "signature": "char __cdecl16far FUN_20e6_028c(void)",
+      "batch": 9
+    },
+    {
+      "index": 165,
+      "name": "FUN_20e6_0298",
+      "address": "20E6:0298",
+      "lines": "14112-14123",
+      "signature": "char __cdecl16far FUN_20e6_0298(void)",
+      "batch": 9
+    },
+    {
+      "index": 166,
+      "name": "FUN_20e6_02a4",
+      "address": "20E6:02A4",
+      "lines": "14124-14138",
+      "signature": "void __stdcall16far FUN_20e6_02a4(byte param_1)",
+      "batch": 9
+    },
+    {
+      "index": 167,
+      "name": "FUN_20e6_02be",
+      "address": "20E6:02BE",
+      "lines": "14139-14150",
+      "signature": "void __stdcall16far FUN_20e6_02be(byte param_1)",
+      "batch": 9
+    },
+    {
+      "index": 168,
+      "name": "FUN_20e6_02e9",
+      "address": "20E6:02E9",
+      "lines": "14151-14165",
+      "signature": "void __stdcall16far FUN_20e6_02e9(int param_1)",
+      "batch": 9
+    },
+    {
+      "index": 169,
+      "name": "FUN_20e6_0309",
+      "address": "20E6:0309",
+      "lines": "14166-14184",
+      "signature": "void __cdecl16near FUN_20e6_0309(void)",
+      "batch": 9
+    },
+    {
+      "index": 170,
+      "name": "FUN_20e6_0311",
+      "address": "20E6:0311",
+      "lines": "14185-14208",
+      "signature": "undefined2 __stdcall16far FUN_20e6_0311(uint param_1)",
+      "batch": 9
+    },
+    {
+      "index": 171,
+      "name": "FUN_20e6_033e",
+      "address": "20E6:033E",
+      "lines": "14209-14220",
+      "signature": "byte __cdecl16far FUN_20e6_033e(void)",
+      "batch": 9
+    },
+    {
+      "index": 172,
+      "name": "FUN_20e6_0357",
+      "address": "20E6:0357",
+      "lines": "14221-14243",
+      "signature": "void __cdecl16far FUN_20e6_0357(void)",
+      "batch": 9
+    },
+    {
+      "index": 173,
+      "name": "FUN_20e6_0379",
+      "address": "20E6:0379",
+      "lines": "14244-14263",
+      "signature": "void __stdcall16far FUN_20e6_0379(undefined4 param_1)",
+      "batch": 9
+    },
+    {
+      "index": 174,
+      "name": "FUN_20e6_03dc",
+      "address": "20E6:03DC",
+      "lines": "14264-14352",
+      "signature": "void __stdcall16far FUN_20e6_03dc(undefined4 param_1)",
+      "batch": 9
+    },
+    {
+      "index": 175,
+      "name": "FUN_20e6_04bf",
+      "address": "20E6:04BF",
+      "lines": "14362-14371",
+      "signature": "void FUN_20e6_04bf(void)",
+      "batch": 9
+    },
+    {
+      "index": 176,
+      "name": "FUN_20e6_04c6",
+      "address": "20E6:04C6",
+      "lines": "14372-14392",
+      "signature": "void __cdecl16near FUN_20e6_04c6(void)",
+      "batch": 9
+    },
+    {
+      "index": 177,
+      "name": "FUN_20e6_051f",
+      "address": "20E6:051F",
+      "lines": "14393-14406",
+      "signature": "void __cdecl16near FUN_20e6_051f(void)",
+      "batch": 9
+    },
+    {
+      "index": 178,
+      "name": "FUN_20e6_0653",
+      "address": "20E6:0653",
+      "lines": "14425-14436",
+      "signature": "void __cdecl16near FUN_20e6_0653(void)",
+      "batch": 9
+    },
+    {
+      "index": 179,
+      "name": "FUN_214c_0000",
+      "address": "214C:0000",
+      "lines": "14437-14520",
+      "signature": "void __cdecl16far FUN_214c_0000(void)",
+      "batch": 9
+    },
+    {
+      "index": 180,
+      "name": "FUN_214c_01ec",
+      "address": "214C:01EC",
+      "lines": "14525-14563",
+      "signature": "undefined2 __cdecl16far FUN_214c_01ec(void)",
+      "batch": 9
+    },
+    {
+      "index": 181,
+      "name": "FUN_214c_01f3",
+      "address": "214C:01F3",
+      "lines": "14569-14605",
+      "signature": "undefined2 __cdecl16far FUN_214c_01f3(void)",
+      "batch": 10
+    },
+    {
+      "index": 182,
+      "name": "FUN_214c_026d",
+      "address": "214C:026D",
+      "lines": "14606-14618",
+      "signature": "undefined2 __cdecl16far FUN_214c_026d(void)",
+      "batch": 10
+    },
+    {
+      "index": 183,
+      "name": "FUN_214c_0277",
+      "address": "214C:0277",
+      "lines": "14619-14632",
+      "signature": "void __cdecl16far FUN_214c_0277(void)",
+      "batch": 10
+    },
+    {
+      "index": 184,
+      "name": "FUN_214c_0285",
+      "address": "214C:0285",
+      "lines": "14633-14650",
+      "signature": "void __cdecl16far FUN_214c_0285(void)",
+      "batch": 10
+    },
+    {
+      "index": 185,
+      "name": "FUN_214c_02ad",
+      "address": "214C:02AD",
+      "lines": "14651-14664",
+      "signature": "void __cdecl16far FUN_214c_02ad(void)",
+      "batch": 10
+    },
+    {
+      "index": 186,
+      "name": "FUN_214c_02c0",
+      "address": "214C:02C0",
+      "lines": "14665-14686",
+      "signature": "void __stdcall16far FUN_214c_02c0(int param_1,undefined1 *param_2,undefined1 *param_3)",
+      "batch": 10
+    },
+    {
+      "index": 187,
+      "name": "FUN_214c_02dc",
+      "address": "214C:02DC",
+      "lines": "14687-14697",
+      "signature": "int __cdecl16far FUN_214c_02dc(void)",
+      "batch": 10
+    },
+    {
+      "index": 188,
+      "name": "FUN_214c_02f7",
+      "address": "214C:02F7",
+      "lines": "14698-14768",
+      "signature": "uint __cdecl16far FUN_214c_02f7(void)",
+      "batch": 10
+    },
+    {
+      "index": 189,
+      "name": "FUN_214c_038e",
+      "address": "214C:038E",
+      "lines": "14769-14797",
+      "signature": "void __stdcall16far FUN_214c_038e(undefined2 param_1,undefined2 *param_2)",
+      "batch": 10
+    },
+    {
+      "index": 190,
+      "name": "FUN_214c_04a2",
+      "address": "214C:04A2",
+      "lines": "14803-14866",
+      "signature": "void __cdecl16near FUN_214c_04a2(void)",
+      "batch": 10
+    },
+    {
+      "index": 191,
+      "name": "FUN_214c_0615",
+      "address": "214C:0615",
+      "lines": "14867-14885",
+      "signature": "void __cdecl16near FUN_214c_0615(void)",
+      "batch": 10
+    },
+    {
+      "index": 192,
+      "name": "FUN_214c_062a",
+      "address": "214C:062A",
+      "lines": "14886-14898",
+      "signature": "void __cdecl16near FUN_214c_062a(void)",
+      "batch": 10
+    },
+    {
+      "index": 193,
+      "name": "FUN_214c_0674",
+      "address": "214C:0674",
+      "lines": "14899-14908",
+      "signature": "ulong __cdecl16near FUN_214c_0674(void)",
+      "batch": 10
+    },
+    {
+      "index": 194,
+      "name": "FUN_214c_0693",
+      "address": "214C:0693",
+      "lines": "14909-14933",
+      "signature": "void __stdcall16far FUN_214c_0693(byte *param_1,byte *param_2)",
+      "batch": 10
+    },
+    {
+      "index": 195,
+      "name": "FUN_214c_06ad",
+      "address": "214C:06AD",
+      "lines": "14934-14961",
+      "signature": "void __stdcall16far FUN_214c_06ad(byte param_1,byte *param_2,byte *param_3)",
+      "batch": 10
+    },
+    {
+      "index": 196,
+      "name": "FUN_214c_06df",
+      "address": "214C:06DF",
+      "lines": "14962-14997",
+      "signature": "void __stdcall16far FUN_214c_06df(uint param_1,uint param_2,byte *param_3,byte *param_4)",
+      "batch": 10
+    },
+    {
+      "index": 197,
+      "name": "FUN_214c_0720",
+      "address": "214C:0720",
+      "lines": "14998-15030",
+      "signature": "void __stdcall16far FUN_214c_0720(byte *param_1,byte *param_2)",
+      "batch": 10
+    },
+    {
+      "index": 198,
+      "name": "FUN_214c_074c",
+      "address": "214C:074C",
+      "lines": "15031-15077",
+      "signature": "int __stdcall16far FUN_214c_074c(byte *param_1,byte *param_2)",
+      "batch": 10
+    },
+    {
+      "index": 199,
+      "name": "FUN_214c_0783",
+      "address": "214C:0783",
+      "lines": "15078-15107",
+      "signature": "void __stdcall16far FUN_214c_0783(byte *param_1,byte *param_2)",
+      "batch": 10
+    },
+    {
+      "index": 200,
+      "name": "FUN_214c_07ae",
+      "address": "214C:07AE",
+      "lines": "15108-15117",
+      "signature": "void __stdcall16far FUN_214c_07ae(undefined1 param_1,undefined1 *param_2)",
+      "batch": 10
+    },
+    {
+      "index": 201,
+      "name": "FUN_214c_07db",
+      "address": "214C:07DB",
+      "lines": "15118-15145",
+      "signature": "void __stdcall16far FUN_214c_07db(int param_1,undefined2 param_2,undefined4 param_3,undefined4 param_4)",
+      "batch": 11
+    },
+    {
+      "index": 202,
+      "name": "FUN_214c_082f",
+      "address": "214C:082F",
+      "lines": "15146-15173",
+      "signature": "void __stdcall16far FUN_214c_082f(int param_1,int param_2,undefined4 param_3)",
+      "batch": 11
+    },
+    {
+      "index": 203,
+      "name": "FUN_214c_0885",
+      "address": "214C:0885",
+      "lines": "15174-15210",
+      "signature": "void __stdcall16far FUN_214c_0885(uint param_1,undefined1 *param_2,undefined1 *param_3)",
+      "batch": 11
+    },
+    {
+      "index": 204,
+      "name": "FUN_214c_08af",
+      "address": "214C:08AF",
+      "lines": "15211-15228",
+      "signature": "void __cdecl16far FUN_214c_08af(undefined2 *param_1)",
+      "batch": 11
+    },
+    {
+      "index": 205,
+      "name": "FUN_214c_08be",
+      "address": "214C:08BE",
+      "lines": "15229-15240",
+      "signature": "void __stdcall16far FUN_214c_08be(byte param_1,undefined4 param_2)",
+      "batch": 11
+    },
+    {
+      "index": 206,
+      "name": "FUN_214c_08df",
+      "address": "214C:08DF",
+      "lines": "15241-15267",
+      "signature": "void __stdcall16far FUN_214c_08df(byte param_1,byte param_2,undefined4 param_3)",
+      "batch": 11
+    },
+    {
+      "index": 207,
+      "name": "FUN_214c_0913",
+      "address": "214C:0913",
+      "lines": "15268-15289",
+      "signature": "void __stdcall16far FUN_214c_0913(uint param_1,undefined1 *param_2,undefined4 param_3)",
+      "batch": 11
+    },
+    {
+      "index": 208,
+      "name": "FUN_214c_0933",
+      "address": "214C:0933",
+      "lines": "15290-15297",
+      "signature": "char __stdcall16far FUN_214c_0933(undefined2 param_1,undefined2 param_2,byte param_3)",
+      "batch": 11
+    },
+    {
+      "index": 209,
+      "name": "FUN_214c_0954",
+      "address": "214C:0954",
+      "lines": "15298-15326",
+      "signature": "void __stdcall16far FUN_214c_0954(uint *param_1,uint *param_2)",
+      "batch": 11
+    },
+    {
+      "index": 210,
+      "name": "FUN_214c_096f",
+      "address": "214C:096F",
+      "lines": "15327-15355",
+      "signature": "void __stdcall16far FUN_214c_096f(uint *param_1,uint *param_2)",
+      "batch": 11
+    },
+    {
+      "index": 211,
+      "name": "FUN_214c_09db",
+      "address": "214C:09DB",
+      "lines": "15356-15486",
+      "signature": "undefined4 FUN_214c_09db(void)",
+      "batch": 11
+    },
+    {
+      "index": 212,
+      "name": "FUN_214c_09df",
+      "address": "214C:09DF",
+      "lines": "15487-15616",
+      "signature": "undefined4 __cdecl16near FUN_214c_09df(void)",
+      "batch": 11
+    },
+    {
+      "index": 213,
+      "name": "FUN_214c_0ab5",
+      "address": "214C:0AB5",
+      "lines": "15617-15711",
+      "signature": "undefined2 __cdecl16near FUN_214c_0ab5(void)",
+      "batch": 11
+    },
+    {
+      "index": 214,
+      "name": "FUN_214c_0b32",
+      "address": "214C:0B32",
+      "lines": "15712-15828",
+      "signature": "long __cdecl16near FUN_214c_0b32(void)",
+      "batch": 11
+    },
+    {
+      "index": 215,
+      "name": "FUN_214c_0bbb",
+      "address": "214C:0BBB",
+      "lines": "15829-15857",
+      "signature": "undefined4 __cdecl16near FUN_214c_0bbb(void)",
+      "batch": 11
+    },
+    {
+      "index": 216,
+      "name": "FUN_214c_0bde",
+      "address": "214C:0BDE",
+      "lines": "15858-15876",
+      "signature": "void __cdecl16near FUN_214c_0bde(void)",
+      "batch": 11
+    },
+    {
+      "index": 217,
+      "name": "FUN_214c_0bf5",
+      "address": "214C:0BF5",
+      "lines": "15877-15884",
+      "signature": "void __cdecl16near FUN_214c_0bf5(void)",
+      "batch": 11
+    },
+    {
+      "index": 218,
+      "name": "FUN_214c_0c08",
+      "address": "214C:0C08",
+      "lines": "15885-15911",
+      "signature": "void __cdecl16near FUN_214c_0c08(void)",
+      "batch": 11
+    },
+    {
+      "index": 219,
+      "name": "FUN_214c_0c47",
+      "address": "214C:0C47",
+      "lines": "15912-15969",
+      "signature": "undefined4 __cdecl16near FUN_214c_0c47(void)",
+      "batch": 11
+    },
+    {
+      "index": 220,
+      "name": "FUN_214c_0ca3",
+      "address": "214C:0CA3",
+      "lines": "15970-15984",
+      "signature": "void __cdecl16far FUN_214c_0ca3(void)",
+      "batch": 11
+    },
+    {
+      "index": 221,
+      "name": "FUN_214c_0ca9",
+      "address": "214C:0CA9",
+      "lines": "15985-15999",
+      "signature": "void __cdecl16far FUN_214c_0ca9(void)",
+      "batch": 12
+    },
+    {
+      "index": 222,
+      "name": "FUN_214c_0cb5",
+      "address": "214C:0CB5",
+      "lines": "16000-16014",
+      "signature": "void __cdecl16far FUN_214c_0cb5(void)",
+      "batch": 12
+    },
+    {
+      "index": 223,
+      "name": "FUN_214c_0cbb",
+      "address": "214C:0CBB",
+      "lines": "16015-16035",
+      "signature": "void __cdecl16far FUN_214c_0cbb(void)",
+      "batch": 12
+    },
+    {
+      "index": 224,
+      "name": "FUN_214c_0cc5",
+      "address": "214C:0CC5",
+      "lines": "16036-16044",
+      "signature": "void __cdecl16far FUN_214c_0cc5(void)",
+      "batch": 12
+    },
+    {
+      "index": 225,
+      "name": "FUN_214c_0cc9",
+      "address": "214C:0CC9",
+      "lines": "16045-16053",
+      "signature": "void __cdecl16far FUN_214c_0cc9(void)",
+      "batch": 12
+    },
+    {
+      "index": 226,
+      "name": "FUN_214c_0ccd",
+      "address": "214C:0CCD",
+      "lines": "16054-16068",
+      "signature": "void __cdecl16far FUN_214c_0ccd(void)",
+      "batch": 12
+    },
+    {
+      "index": 227,
+      "name": "FUN_214c_0cd5",
+      "address": "214C:0CD5",
+      "lines": "16069-16083",
+      "signature": "void __cdecl16far FUN_214c_0cd5(void)",
+      "batch": 12
+    },
+    {
+      "index": 228,
+      "name": "FUN_214c_0cef",
+      "address": "214C:0CEF",
+      "lines": "16084-16092",
+      "signature": "void __cdecl16near FUN_214c_0cef(void)",
+      "batch": 12
+    },
+    {
+      "index": 229,
+      "name": "FUN_214c_0e79",
+      "address": "214C:0E79",
+      "lines": "16093-16124",
+      "signature": "undefined2 __cdecl16far FUN_214c_0e79(void)",
+      "batch": 12
+    },
+    {
+      "index": 230,
+      "name": "FUN_214c_0f22",
+      "address": "214C:0F22",
+      "lines": "16125-16161",
+      "signature": "char __cdecl16far FUN_214c_0f22(void)",
+      "batch": 12
+    },
+    {
+      "index": 231,
+      "name": "FUN_214c_10fa",
+      "address": "214C:10FA",
+      "lines": "16162-16172",
+      "signature": "void FUN_214c_10fa(void)",
+      "batch": 12
+    },
+    {
+      "index": 232,
+      "name": "FUN_214c_1113",
+      "address": "214C:1113",
+      "lines": "16173-16193",
+      "signature": "void __cdecl16near FUN_214c_1113(void)",
+      "batch": 12
+    },
+    {
+      "index": 233,
+      "name": "FUN_214c_1162",
+      "address": "214C:1162",
+      "lines": "16194-16209",
+      "signature": "uint __stdcall16far FUN_214c_1162(uint param_1)",
+      "batch": 12
+    },
+    {
+      "index": 234,
+      "name": "FUN_214c_1178",
+      "address": "214C:1178",
+      "lines": "16210-16232",
+      "signature": "char __cdecl16far FUN_214c_1178(void)",
+      "batch": 12
+    },
+    {
+      "index": 235,
+      "name": "FUN_214c_11b0",
+      "address": "214C:11B0",
+      "lines": "16233-16258",
+      "signature": "void __cdecl16near FUN_214c_11b0(void)",
+      "batch": 12
+    },
+    {
+      "index": 236,
+      "name": "FUN_214c_11e8",
+      "address": "214C:11E8",
+      "lines": "16259-16275",
+      "signature": "void __cdecl16far FUN_214c_11e8(void)",
+      "batch": 12
+    },
+    {
+      "index": 237,
+      "name": "FUN_214c_11f5",
+      "address": "214C:11F5",
+      "lines": "16276-16331",
+      "signature": "void __cdecl16near FUN_214c_11f5(void)",
+      "batch": 12
+    },
+    {
+      "index": 238,
+      "name": "FUN_214c_126f",
+      "address": "214C:126F",
+      "lines": "16332-16423",
+      "signature": "undefined4 __cdecl16near FUN_214c_126f(void)",
+      "batch": 12
+    },
+    {
+      "index": 239,
+      "name": "FUN_214c_1352",
+      "address": "214C:1352",
+      "lines": "16424-16448",
+      "signature": "undefined2 __stdcall16far FUN_214c_1352(uint *param_1,byte *param_2)",
+      "batch": 12
+    },
+    {
+      "index": 240,
+      "name": "FUN_214c_1383",
+      "address": "214C:1383",
+      "lines": "16449-16494",
+      "signature": "void __stdcall16far FUN_214c_1383(byte *param_1,undefined2 *param_2)",
+      "batch": 12
+    },
+    {
+      "index": 241,
+      "name": "FUN_214c_13f3",
+      "address": "214C:13F3",
+      "lines": "16495-16503",
+      "signature": "void FUN_214c_13f3(void)",
+      "batch": 13
+    },
+    {
+      "index": 242,
+      "name": "FUN_214c_13f8",
+      "address": "214C:13F8",
+      "lines": "16504-16512",
+      "signature": "void FUN_214c_13f8(void)",
+      "batch": 13
+    },
+    {
+      "index": 243,
+      "name": "FUN_214c_1400",
+      "address": "214C:1400",
+      "lines": "16513-16545",
+      "signature": "void __stdcall16far FUN_214c_1400(undefined4 param_1)",
+      "batch": 13
+    },
+    {
+      "index": 244,
+      "name": "FUN_214c_1456",
+      "address": "214C:1456",
+      "lines": "16546-16560",
+      "signature": "void __stdcall16far FUN_214c_1456(undefined4 param_1)",
+      "batch": 13
+    },
+    {
+      "index": 245,
+      "name": "FUN_214c_146d",
+      "address": "214C:146D",
+      "lines": "16561-16575",
+      "signature": "void __cdecl16near FUN_214c_146d(void)",
+      "batch": 13
+    },
+    {
+      "index": 246,
+      "name": "FUN_214c_1484",
+      "address": "214C:1484",
+      "lines": "16576-16595",
+      "signature": "void __cdecl16near FUN_214c_1484(void)",
+      "batch": 13
+    },
+    {
+      "index": 247,
+      "name": "FUN_214c_1490",
+      "address": "214C:1490",
+      "lines": "16596-16612",
+      "signature": "void FUN_214c_1490(void)",
+      "batch": 13
+    },
+    {
+      "index": 248,
+      "name": "FUN_214c_1496",
+      "address": "214C:1496",
+      "lines": "16613-16629",
+      "signature": "void __cdecl16near FUN_214c_1496(void)",
+      "batch": 13
+    },
+    {
+      "index": 249,
+      "name": "FUN_214c_1618",
+      "address": "214C:1618",
+      "lines": "16630-16653",
+      "signature": "void __cdecl16near FUN_214c_1618(void)",
+      "batch": 13
+    },
+    {
+      "index": 250,
+      "name": "FUN_214c_1640",
+      "address": "214C:1640",
+      "lines": "16654-16689",
+      "signature": "undefined1 __cdecl16near FUN_214c_1640(void)",
+      "batch": 13
+    },
+    {
+      "index": 251,
+      "name": "FUN_214c_167d",
+      "address": "214C:167D",
+      "lines": "16690-16704",
+      "signature": "void FUN_214c_167d(int param_1,undefined2 param_2)",
+      "batch": 13
+    },
+    {
+      "index": 252,
+      "name": "FUN_214c_1687",
+      "address": "214C:1687",
+      "lines": "16705-16728",
+      "signature": "void __cdecl16near FUN_214c_1687(void)",
+      "batch": 13
+    },
+    {
+      "index": 253,
+      "name": "FUN_214c_16af",
+      "address": "214C:16AF",
+      "lines": "16729-16759",
+      "signature": "void __cdecl16near FUN_214c_16af(void)",
+      "batch": 13
+    },
+    {
+      "index": 254,
+      "name": "FUN_214c_16e5",
+      "address": "214C:16E5",
+      "lines": "16760-16774",
+      "signature": "void FUN_214c_16e5(int param_1,undefined2 param_2)",
+      "batch": 13
+    },
+    {
+      "index": 255,
+      "name": "FUN_214c_16ef",
+      "address": "214C:16EF",
+      "lines": "16775-16813",
+      "signature": "void FUN_214c_16ef(undefined2 param_1,undefined4 param_2)",
+      "batch": 13
+    },
+    {
+      "index": 256,
+      "name": "FUN_214c_1712",
+      "address": "214C:1712",
+      "lines": "16814-16840",
+      "signature": "void __stdcall16far FUN_214c_1712(undefined4 param_1)",
+      "batch": 13
+    },
+    {
+      "index": 257,
+      "name": "FUN_214c_173c",
+      "address": "214C:173C",
+      "lines": "16841-16874",
+      "signature": "void FUN_214c_173c(undefined2 param_1,undefined4 param_2)",
+      "batch": 13
+    },
+    {
+      "index": 258,
+      "name": "FUN_214c_1755",
+      "address": "214C:1755",
+      "lines": "16875-16901",
+      "signature": "void __stdcall16far FUN_214c_1755(undefined4 param_1)",
+      "batch": 13
+    },
+    {
+      "index": 259,
+      "name": "FUN_214c_177f",
+      "address": "214C:177F",
+      "lines": "16902-16920",
+      "signature": "undefined1 __cdecl16far FUN_214c_177f(void)",
+      "batch": 13
+    },
+    {
+      "index": 260,
+      "name": "FUN_214c_1799",
+      "address": "214C:1799",
+      "lines": "16921-16943",
+      "signature": "void __stdcall16far FUN_214c_1799(int param_1)",
+      "batch": 13
+    },
+    {
+      "index": 261,
+      "name": "FUN_214c_17be",
+      "address": "214C:17BE",
+      "lines": "16944-16975",
+      "signature": "void __stdcall16far FUN_214c_17be(int param_1,char *param_2)",
+      "batch": 14
+    },
+    {
+      "index": 262,
+      "name": "FUN_214c_17f7",
+      "address": "214C:17F7",
+      "lines": "16976-17002",
+      "signature": "void __stdcall16far FUN_214c_17f7(int param_1,byte *param_2)",
+      "batch": 14
+    },
+    {
+      "index": 263,
+      "name": "FUN_214c_182b",
+      "address": "214C:182B",
+      "lines": "17003-17047",
+      "signature": "undefined2 __cdecl16far FUN_214c_182b(void)",
+      "batch": 14
+    },
+    {
+      "index": 264,
+      "name": "FUN_214c_1882",
+      "address": "214C:1882",
+      "lines": "17048-17076",
+      "signature": "void __stdcall16far FUN_214c_1882(int param_1)",
+      "batch": 14
+    },
+    {
+      "index": 265,
+      "name": "FUN_214c_18d2",
+      "address": "214C:18D2",
+      "lines": "17077-17101",
+      "signature": "undefined1 __stdcall16far FUN_214c_18d2(void)",
+      "batch": 14
+    },
+    {
+      "index": 266,
+      "name": "FUN_214c_190c",
+      "address": "214C:190C",
+      "lines": "17102-17112",
+      "signature": "byte __stdcall16far FUN_214c_190c(byte param_1)",
+      "batch": 14
+    }
+  ]
+}

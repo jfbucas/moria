@@ -1,6 +1,7 @@
 DEBUG_BIOS=False
-DEBUG_BIOS=True
+#DEBUG_BIOS=True
 DEBUG_DOS=False
+#DEBUG_DOS=True
 
 # FileHandle
 files_handles = {}
@@ -18,6 +19,7 @@ def hook_interrupt(uc, intno, user_data):
 			ds = uc.reg_read(UC_X86_REG_DS)
 			dx = uc.reg_read(UC_X86_REG_DX)
 			if DEBUG_DOS: print(f"DOS Interrupt 21h Function 25h - Set interrupt vector for INT {hex(al)} -> {hex(ds)}:{hex(dx)}")
+
 		elif ah == 0x2c:
 			# https://www.gladir.com/LEXIQUE/INTR/int21f2c00.htm
 			if DEBUG_DOS: print("DOS Interrupt 21h Function 2ch - Get system time", hex(al))
@@ -30,6 +32,7 @@ def hook_interrupt(uc, intno, user_data):
 		elif ah == 0x35:
 			# https://www.gladir.com/LEXIQUE/INTR/int21f35.htm
 			if DEBUG_DOS: print("DOS Interrupt 21h Function 35h - Get interrupt vector")
+
 		elif ah == 0x3d:
 			# https://www.gladir.com/LEXIQUE/INTR/int21f3d.htm
 			ds = uc.reg_read(UC_X86_REG_DS)
@@ -68,6 +71,7 @@ def hook_interrupt(uc, intno, user_data):
 			flags &= ~(1 << 0)                     # Clear bit 0 (CF)
 			uc.reg_write(UC_X86_REG_FLAGS, flags)  # Write back modified flags			
 			if DEBUG_DOS: print("DOS Interrupt 21h Function 3Fh - Read file", files_handles[handle]["filename"], count)
+
 		elif ah == 0x44:
 			# https://www.gladir.com/LEXIQUE/INTR/int21f4400.htm
 			handle = uc.reg_read(UC_X86_REG_BX)
@@ -93,6 +97,7 @@ def hook_interrupt(uc, intno, user_data):
 			bh = uc.reg_read(UC_X86_REG_BH)  # Page
 			TEXT_MODE_CURSOR_OFFSET = dl+dh*80
 			if DEBUG_BIOS: print(f"BIOS Interrupt 10h (Video) - Set cursor position to ({dl},{dh}) for page {bh} {TEXT_MODE_CURSOR_OFFSET}")
+
 		elif ah == 0x03:  # Get Cursor Position
 			bh = uc.reg_read(UC_X86_REG_BH)  # Page
 			x = TEXT_MODE_CURSOR_OFFSET % 80
@@ -109,9 +114,10 @@ def hook_interrupt(uc, intno, user_data):
 			TEXT_MODE_MEMORY[TEXT_MODE_CURSOR_OFFSET*2+1] = bl & 0xFF  # Store only 1 byte
 			TEXT_MODE_CURSOR_OFFSET+=1
 			if DEBUG_BIOS: print(f"BIOS Interrupt 10h (Video) - Write char {chr(al)} {TEXT_MODE_CURSOR_OFFSET}")
+
 		elif ah == 0x0E:  # Teletype Output
 			al = uc.reg_read(UC_X86_REG_AL)
-			print(f"BIOS Interrupt 10h (Video) - Print TTY char {chr(al)} {TEXT_MODE_CURSOR_OFFSET}")
+			if DEBUG_BIOS: print(f"BIOS Interrupt 10h (Video) - Print TTY char {chr(al)} {TEXT_MODE_CURSOR_OFFSET}")
 
 		elif ah == 0x6:
 			#if al == 0:
