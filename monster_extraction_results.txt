@@ -1,0 +1,10 @@
+MORIA MONSTER EXTRACTION RESULTS
+================================================================================
+
+Monster template region found at: 0x00000
+Total monsters extracted: 0
+
+MONSTER DATABASE
+================================================================================
+  # Offset   Char Form Lvl    HP Atk  Dmg  Spawn Item
+--------------------------------------------------------------------------------

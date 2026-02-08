@@ -106,8 +106,8 @@ typedef enum {
 #define ADDR_PLAYER_X       0xb86e
 #define ADDR_CURRENT_HP     0xb870
 #define ADDR_MAX_HP         0xb872
-#define ADDR_CURRENT_MANA   0xb874
-#define ADDR_MAX_MANA       0xb876
+#define ADDR_CURRENT_FOOD   0xb874  // Food/satiation level (NOT mana!)
+#define ADDR_MAX_FOOD       0xb876  // Maximum food/satiation (NOT mana!)
 #define ADDR_STRENGTH       0xb878
 #define ADDR_INTELLIGENCE   0xb87a
 #define ADDR_BASE_AC        0xb880
@@ -120,19 +120,41 @@ typedef enum {
 /* ========================================================================
  * PLAYER STATUS FLAGS (Memory Addresses)
  * ======================================================================== */
-#define ADDR_IS_PARALYZED   0xb8ec
-#define ADDR_IS_BLIND       0xb8ed
-#define ADDR_NEEDS_UPDATE   0xb8ee
-#define ADDR_CONFUSION_LOCK 0xb8f0
-#define ADDR_IS_TELEPORTING 0xb8f2
-#define ADDR_IS_WIZARD      0xb8f6
-#define ADDR_IS_STUNNED     0xb8f7
-#define ADDR_IS_DYING       0xb915
-#define ADDR_IS_HASTED      0xb916
-#define ADDR_HAS_LIGHT      0xb918
-#define ADDR_IS_CONFUSED    0xb919
-#define ADDR_DEATH_TIMER    0xb91a
-#define ADDR_HASTE_TIMER    0xb91c
+#define ADDR_IS_PARALYZED   0xb8ec  // Paralysis flag
+#define ADDR_IS_BLIND       0xb8ed  // Blindness flag
+#define ADDR_NEEDS_UPDATE   0xb8ee  // Full screen redraw needed
+#define ADDR_SPEED_ACTIVE   0xb8ef  // Speed boost active (potion 5)
+#define ADDR_CONFUSION_LOCK 0xb8f0  // Confusion lock state
+#define ADDR_STATUS_FLAG_1  0xb8f1  // Status flag (potion 19)
+#define ADDR_IS_TELEPORTING 0xb8f2  // Teleportation in progress
+#define ADDR_STATUS_FLAG_3  0xb8f3  // Status flag (potion 18)
+#define ADDR_STATUS_FLAG_5  0xb8f5  // Status flag (potion 21)
+#define ADDR_IS_WIZARD      0xb8f6  // Wizard mode active
+#define ADDR_IS_STUNNED     0xb8f7  // Stunned state
+#define ADDR_TELEPORT_FLAG  0xb8f8  // Teleport/effect flag (potions 16/17)
+#define ADDR_HALLUCINATION  0xb913  // Hallucination active (potion 11)
+#define ADDR_IS_DYING       0xb915  // Death countdown active
+#define ADDR_IS_HASTED      0xb916  // Haste effect active
+#define ADDR_HAS_LIGHT      0xb918  // Light source active
+#define ADDR_IS_CONFUSED    0xb919  // Confused state
+
+/* ========================================================================
+ * TIMED EFFECT TIMERS (Memory Addresses)
+ * ======================================================================== */
+#define ADDR_PARALYZE_TIMER 0xb8f9  // Paralysis duration (potion 9)
+#define ADDR_BLIND_TIMER    0xb8fb  // Blindness duration (potion 12)
+#define ADDR_DETECT_TIMER   0xb8fd  // Detect monsters duration (potion 7)
+#define ADDR_SPEED_TIMER    0xb8ff  // Speed boost duration (potion 5)
+#define ADDR_HALLUC_TIMER   0xb901  // Hallucination duration (potion 11)
+#define ADDR_STATUS_TIMER_1 0xb903  // Status timer (potion 19)
+#define ADDR_TELEPORT_TIMER 0xb905  // Teleport timer (potion 17)
+#define ADDR_STATUS_TIMER_3 0xb907  // Status timer (potion 18)
+#define ADDR_FOOD_LEVEL     0xb909  // Food/satiation level
+#define ADDR_STATUS_TIMER_5 0xb90b  // Status timer (potion 21)
+#define ADDR_WIZARD_TIMER   0xb90d  // Wizard mode duration (potion 22)
+#define ADDR_EFFECT_TIMER_16 0xb911 // Effect timer (potion 16)
+#define ADDR_DEATH_TIMER    0xb91a  // Death countdown timer
+#define ADDR_HASTE_TIMER    0xb91c  // Haste duration timer
 
 /* ========================================================================
  * INVENTORY & EQUIPMENT (Memory Addresses)
@@ -193,24 +215,32 @@ typedef enum {
 } SpellEffect;
 
 /* ========================================================================
- * POTION EFFECTS
+ * POTION EFFECTS (French names from memory dump)
  * ======================================================================== */
 typedef enum {
-    POTION_HEAL         = 1,
-    POTION_GREATER_HEAL = 2,
-    POTION_STAMINA      = 3,
-    POTION_RESTORE_MANA = 4,
-    POTION_SPEED        = 5,
-    POTION_CURE_BLIND   = 7,
-    POTION_DETECT_MONSTER = 8,
-    POTION_CURE_POISON  = 9,
-    POTION_CURE_CONFUSION = 10,
-    POTION_HALLUCINATION = 11,
-    POTION_CONFUSION    = 12,
-    POTION_GAIN_GOLD    = 13,
-    POTION_GAIN_LEVEL   = 14,
-    POTION_LOSE_LEVEL   = 15,
-    // ... more potions
+    POTION_HEAL         = 1,    // de guérison - Heal HP (modest)
+    POTION_GREATER_HEAL = 2,    // d'extra-guérison - Heal HP (full)
+    POTION_STAMINA      = 3,    // nourrissante - Increase food/stamina
+    POTION_RESTORE_FOOD = 4,    // désaltérante - Restore food to maximum
+    POTION_SPEED        = 5,    // accélérante - Speed boost (100-150 turns)
+    POTION_CONSTITUTION = 6,    // de constitution - Increase constitution
+    POTION_DETECT_MONSTERS = 7, // d'extralucidité - Detect monsters (50-125 turns)
+    POTION_AMNESIA      = 8,    // amnésiante - Memory loss/amnesia
+    POTION_PARALYZE     = 9,    // paralysante - Paralyze or remove haste (10-15 turns)
+    POTION_HASTE        = 10,   // accélérante - Haste or cure paralysis (30-35 turns)
+    POTION_HALLUCINATION = 11,  // hallucinogène - Hallucination (350-400 turns)
+    POTION_BLINDNESS    = 12,   // aveuglante - Blindness (200-300 turns)
+    POTION_GAIN_TURNS   = 13,   // ??? - Gain 500+ turns (not in names list)
+    POTION_GAIN_LEVEL   = 14,   // d'expérience - Gain experience level
+    POTION_LOSE_LEVEL   = 15,   // de perte de niveau - Lose experience level
+    POTION_INVISIBILITY = 16,   // d'invisibilité - Invisibility (300-400 turns)
+    POTION_TELEPORT     = 17,   // de téléportation - Teleport (150-250 turns)
+    POTION_PASS_WALL    = 18,   // passe muraille - Pass through walls (15-25 turns)
+    POTION_LEVITATION   = 19,   // de lévitation - Levitation (100-150 turns)
+    POTION_CONFUSION    = 20,   // de confusion - Causes confusion
+    POTION_POISON       = 21,   // empoisonnée - Poison effect (25-40 turns)
+    POTION_WIZARD_MODE  = 22,   // ??? - Wizard mode (25-40 turns)
+    POTION_STRENGTH     = 23,   // de force - Increase strength (permanent)
 } PotionEffect;
 
 /* ========================================================================

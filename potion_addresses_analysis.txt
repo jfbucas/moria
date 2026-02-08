@@ -1,0 +1,92 @@
+DRINK_POTION_EFFECT ADDRESS ANALYSIS
+=====================================
+
+Based on analyzing the drink_potion_effect function in MORIA_final_constants.C:
+
+FOOD/SATIATION SYSTEM (NOT MANA!):
+- 0xb874 = current_food (mislabeled as "current_mana")
+- 0xb876 = max_food (mislabeled as "max_mana")
+- 0xb909 = food_level (increases by 200+random(100) when drinking, line 10074)
+
+Evidence that 0xb874/0xb876 are FOOD, not MANA:
+- Potion effect 3: increases both current and max (stamina potion)
+- Potion effect 4: restores to max (restore stamina)
+- Line 10461: decreases when certain potion consumed
+- Line 10468: if it goes below 0, player dies (starvation)
+- Line 10473: checked against 0x1c (28) - probably "well fed" threshold
+
+POTION EFFECT TIMERS AND FLAGS:
+(Pattern: Each timed effect has a flag byte and a timer word)
+
+Potion 5 (Speed/Haste potion):
+- 0xb8ef = speed_boost_active (flag)
+- 0xb8ff = speed_boost_timer (random(50)+100 turns)
+
+Potion 7 (Detect Monsters / See Invisible):
+- 0xb8fd = detect_monsters_timer (random(75)+50 turns)
+
+Potion 9 (Paralyze/Slow - removes haste or paralyzes):
+- 0xb8f9 = paralyze_timer (random(5)+10 turns)
+  (uses is_paralyzed flag at 0xb8ec)
+
+Potion 11 (Hallucination):
+- 0xb913 = hallucination_active (flag)
+- 0xb901 = hallucination_timer (random(50)+350 turns)
+
+Potion 12 (Blindness):
+- 0xb8fb = blind_timer (random(100)+200 turns)
+  (uses is_blind flag at 0xb8ed)
+
+Potion 16 (Unknown effect):
+- 0xb8f8 = effect_16_active (flag)
+- 0xb911 = effect_16_timer (random(100)+300 turns)
+
+Potion 17 (Teleportation potion):
+- 0xb8f8 = teleport_active (flag, set to 0)
+- 0xb905 = teleport_timer (random(100)+150 turns)
+  (uses is_teleporting flag at 0xb8f2)
+
+Potion 18 (Unknown effect - 0x12):
+- 0xb8f3 = effect_18_active (flag)
+- 0xb907 = effect_18_timer (random(10)+15 turns)
+
+Potion 19 (Unknown effect - 0x13):
+- 0xb8f1 = effect_19_active (flag)
+- 0xb903 = effect_19_timer (random(50)+100 turns)
+
+Potion 21 (Unknown effect - 0x15):
+- 0xb8f5 = effect_21_active (flag)
+- 0xb90b = effect_21_timer (random(15)+25 turns)
+
+Potion 22 (Wizard mode - MAP_HEIGHT = 0x16 = 22):
+- 0xb90d = wizard_mode_timer (random(15)+25 turns)
+  (uses is_wizard flag at 0xb8f6)
+
+OTHER ADDRESSES:
+- 0xb936 = some counter (can be < 4, line 10430)
+- 0xb8b0, 0xb8b2 = item pointers (lines 10431, 10437)
+
+CORRECTED POTION NAMES (from moria_constants.h):
+1 = POTION_HEAL
+2 = POTION_GREATER_HEAL
+3 = POTION_STAMINA (increases food!)
+4 = POTION_RESTORE_MANA -> should be POTION_RESTORE_FOOD
+5 = POTION_SPEED
+7 = POTION_CURE_BLIND -> actually POTION_DETECT_MONSTERS
+8 = POTION_DETECT_MONSTER -> actually something else
+9 = POTION_CURE_POISON -> actually POTION_PARALYZE
+10 = POTION_CURE_CONFUSION -> actually POTION_HASTE
+11 = POTION_HALLUCINATION
+12 = POTION_CONFUSION -> actually POTION_BLINDNESS
+13 = POTION_GAIN_GOLD -> actually gains turns
+14 = POTION_GAIN_LEVEL
+15 = POTION_LOSE_LEVEL
+16 = Unknown
+17 = Unknown (teleport related)
+18 = Unknown (0x12)
+19 = Unknown (0x13)
+21 = Unknown (0x15)
+22 = POTION_WIZARD_MODE
+
+CRITICAL FIX NEEDED:
+All references to "mana" at addresses 0xb874 and 0xb876 should be changed to "food" or "satiation"!
