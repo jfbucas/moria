@@ -1,0 +1,748 @@
+{
+  "memory_addresses": {
+    "player_state": {
+      "0xb86c": {
+        "name": "player_x",
+        "type": "int",
+        "description": "Player X coordinate"
+      },
+      "0xb86e": {
+        "name": "player_y",
+        "type": "int",
+        "description": "Player Y coordinate"
+      },
+      "0xb870": {
+        "name": "player_hp_current",
+        "type": "int",
+        "description": "Current hit points",
+        "initial_value": 1000
+      },
+      "0xb872": {
+        "name": "player_hp_max",
+        "type": "int",
+        "description": "Maximum hit points",
+        "initial_value": 1000
+      },
+      "0xb874": {
+        "name": "player_stat_str",
+        "type": "int",
+        "description": "Strength stat",
+        "initial_value": 100
+      },
+      "0xb876": {
+        "name": "player_stat_str_max",
+        "type": "int",
+        "description": "Maximum strength",
+        "initial_value": 100
+      },
+      "0xb878": {
+        "name": "player_stat_int",
+        "type": "int",
+        "description": "Intelligence stat",
+        "initial_value": 100
+      },
+      "0xb87a": {
+        "name": "player_stat_wis",
+        "type": "int",
+        "description": "Wisdom stat",
+        "initial_value": 100
+      },
+      "0xb87c": {
+        "name": "player_armor_bonus_1",
+        "type": "int",
+        "description": "Armor bonus from equipment slot 1"
+      },
+      "0xb87e": {
+        "name": "player_armor_bonus_2",
+        "type": "int",
+        "description": "Armor bonus from equipment slot 2"
+      },
+      "0xb880": {
+        "name": "player_armor_class_total",
+        "type": "int",
+        "description": "Total armor class (sum of bonuses)"
+      },
+      "0xb882": {
+        "name": "player_weapon_damage",
+        "type": "int",
+        "description": "Weapon damage bonus",
+        "notes": "Capped at 10 or 13 depending on context"
+      },
+      "0xb884": {
+        "name": "player_light_radius",
+        "type": "int",
+        "description": "Light radius around player"
+      },
+      "0xb886": {
+        "name": "player_experience",
+        "type": "int",
+        "description": "Experience points (16-bit)",
+        "initial_value": 0
+      },
+      "0xb888": {
+        "name": "player_level",
+        "type": "int",
+        "description": "Character level",
+        "initial_value": 128
+      },
+      "0xb88a": {
+        "name": "player_temp_var_1",
+        "type": "int",
+        "description": "Temporary storage variable 1"
+      },
+      "0xb88c": {
+        "name": "player_temp_var_2",
+        "type": "int",
+        "description": "Temporary storage variable 2"
+      },
+      "0xb88e": {
+        "name": "player_temp_var_3",
+        "type": "int",
+        "description": "Temporary storage variable 3"
+      },
+      "0xb890": {
+        "name": "player_search_range",
+        "type": "int",
+        "description": "Search range",
+        "initial_value": 5
+      },
+      "0xb892": {
+        "name": "player_gold",
+        "type": "int",
+        "description": "Gold amount",
+        "initial_value": 1000
+      }
+    },
+
+    "player_info": {
+      "0xb84f": {
+        "name": "player_name",
+        "type": "char*",
+        "description": "Player name (Pascal string with length byte)"
+      },
+      "0xb82f": {
+        "name": "player_name_buffer",
+        "type": "char[32]",
+        "description": "Buffer for player name"
+      }
+    },
+
+    "game_state": {
+      "0xb8c0": {
+        "name": "game_state_counter_1",
+        "type": "int",
+        "description": "State counter 1",
+        "initial_value": 3
+      },
+      "0xb8c2": {
+        "name": "game_state_counter_2",
+        "type": "int",
+        "description": "State counter 2",
+        "initial_value": 3
+      },
+      "0xb8c4": {
+        "name": "dungeon_level",
+        "type": "int",
+        "description": "Current dungeon level",
+        "initial_value": 6
+      },
+      "0xb8c6": {
+        "name": "game_state_value_1",
+        "type": "int",
+        "description": "State value 1",
+        "initial_value": 38
+      },
+      "0xb8c8": {
+        "name": "player_experience_32bit",
+        "type": "int32",
+        "description": "32-bit experience value (low word)"
+      },
+      "0xb8ca": {
+        "name": "player_experience_high",
+        "type": "int",
+        "description": "High word of 32-bit experience"
+      },
+      "0xb8cc": {
+        "name": "game_state_value_2",
+        "type": "int",
+        "initial_value": 1
+      },
+      "0xb8ce": {
+        "name": "game_state_value_3",
+        "type": "int",
+        "initial_value": 0
+      },
+      "0xb8e0": {
+        "name": "game_state_value_4",
+        "type": "int",
+        "initial_value": 1
+      },
+      "0xb8e2": {
+        "name": "game_state_value_5",
+        "type": "int",
+        "initial_value": 0
+      },
+      "0xb8e4": {
+        "name": "game_state_value_6",
+        "type": "int",
+        "initial_value": 3
+      },
+      "0xb8e6": {
+        "name": "game_state_value_7",
+        "type": "int",
+        "initial_value": 0
+      }
+    },
+
+    "flags": {
+      "0xb8ed": {
+        "name": "flag_game_mode_1",
+        "type": "char",
+        "description": "Game mode flag 1"
+      },
+      "0xb8ee": {
+        "name": "flag_show_all_terrain",
+        "type": "char",
+        "description": "Show all terrain flag (wizard mode?)"
+      },
+      "0xb8f0": {
+        "name": "flag_random_display",
+        "type": "char",
+        "description": "Random display mode flag"
+      },
+      "0xb8f2": {
+        "name": "flag_full_map_mode",
+        "type": "char",
+        "description": "Full map view mode flag"
+      },
+      "0xb8f4": {
+        "name": "flag_game_active",
+        "type": "char",
+        "description": "Game active flag",
+        "initial_value": 1
+      },
+      "0xb8f6": {
+        "name": "flag_viewport_mode",
+        "type": "char",
+        "description": "Viewport mode flag"
+      },
+      "0xb913": {
+        "name": "flag_game_status_1",
+        "type": "char",
+        "initial_value": 0
+      },
+      "0xb915": {
+        "name": "flag_game_status_2",
+        "type": "char",
+        "initial_value": 0
+      },
+      "0xb916": {
+        "name": "flag_game_status_3",
+        "type": "char",
+        "initial_value": 0
+      },
+      "0xb917": {
+        "name": "flag_game_status_4",
+        "type": "char",
+        "initial_value": 0
+      },
+      "0xb918": {
+        "name": "flag_game_status_5",
+        "type": "char",
+        "initial_value": 0
+      },
+      "0xb919": {
+        "name": "flag_game_status_6",
+        "type": "char",
+        "initial_value": 0
+      }
+    },
+
+    "equipment": {
+      "0xb922": {
+        "name": "equipped_ring",
+        "type": "undefined4*",
+        "description": "Pointer to equipped ring"
+      },
+      "0xb924": {
+        "name": "equipped_ring_seg",
+        "type": "int",
+        "description": "Segment for ring pointer"
+      },
+      "0xb926": {
+        "name": "equipped_weapon",
+        "type": "undefined4*",
+        "description": "Pointer to equipped weapon"
+      },
+      "0xb928": {
+        "name": "equipped_weapon_seg",
+        "type": "int",
+        "description": "Segment for weapon pointer"
+      },
+      "0xb92a": {
+        "name": "equipped_armor",
+        "type": "undefined4*",
+        "description": "Pointer to equipped armor"
+      },
+      "0xb92c": {
+        "name": "equipped_armor_seg",
+        "type": "int",
+        "description": "Segment for armor pointer"
+      },
+      "0xb92e": {
+        "name": "equipped_shield",
+        "type": "undefined4*",
+        "description": "Pointer to equipped shield"
+      },
+      "0xb930": {
+        "name": "equipped_shield_seg",
+        "type": "int",
+        "description": "Segment for shield pointer"
+      },
+      "0xb932": {
+        "name": "equipped_helmet",
+        "type": "undefined4*",
+        "description": "Pointer to equipped helmet"
+      },
+      "0xb934": {
+        "name": "equipped_helmet_seg",
+        "type": "int",
+        "description": "Segment for helmet pointer"
+      },
+      "0xb936": {
+        "name": "inventory_size",
+        "type": "int",
+        "description": "Number of inventory slots",
+        "initial_value": 4
+      }
+    },
+
+    "lists_and_pointers": {
+      "0xb909": {
+        "name": "game_score_threshold",
+        "type": "int",
+        "description": "Score threshold",
+        "initial_value": 3000
+      },
+      "0xb91e": {
+        "name": "item_list_head",
+        "type": "undefined4*",
+        "description": "Head of item linked list"
+      },
+      "0xb9c6": {
+        "name": "lookup_table_size",
+        "type": "char",
+        "description": "Size of lookup table"
+      }
+    },
+
+    "memory_management": {
+      "0xaba7": {
+        "name": "monster_free_list",
+        "type": "undefined4*",
+        "description": "Free list head for monster objects"
+      },
+      "0xaba9": {
+        "name": "monster_free_list_seg",
+        "type": "int",
+        "description": "Segment for monster free list"
+      },
+      "0xabab": {
+        "name": "item_free_list",
+        "type": "undefined4*",
+        "description": "Free list head for item objects"
+      },
+      "0xabad": {
+        "name": "item_free_list_seg",
+        "type": "int",
+        "description": "Segment for item free list"
+      }
+    },
+
+    "global_state": {
+      "0xe52d": {
+        "name": "current_level_index",
+        "type": "int",
+        "description": "Current dungeon level index"
+      },
+      "0xe52f": {
+        "name": "monster_object_count",
+        "type": "int",
+        "description": "Count of allocated monster objects"
+      },
+      "0xe531": {
+        "name": "item_object_count",
+        "type": "int",
+        "description": "Count of allocated item objects"
+      },
+      "0xe535": {
+        "name": "viewport_top",
+        "type": "int",
+        "description": "Top boundary of viewport"
+      },
+      "0xe537": {
+        "name": "viewport_bottom",
+        "type": "int",
+        "description": "Bottom boundary of viewport"
+      },
+      "0xe554": {
+        "name": "input_parse_buffer",
+        "type": "int",
+        "description": "Buffer for parsing numeric input"
+      }
+    },
+
+    "display_constants": {
+      "0xe654": {
+        "name": "display_segment",
+        "type": "int",
+        "description": "Display memory segment"
+      },
+      "0x1000": {
+        "name": "string_segment_1",
+        "type": "int",
+        "description": "String data segment 1"
+      },
+      "0x20e6": {
+        "name": "string_segment_2",
+        "type": "int",
+        "description": "String data segment 2"
+      },
+      "0x214c": {
+        "name": "string_segment_3",
+        "type": "int",
+        "description": "String data segment 3"
+      }
+    }
+  },
+
+  "structure_offsets": {
+    "item": {
+      "size": 26,
+      "size_hex": "0x1a",
+      "fields": {
+        "0x00": {
+          "name": "type",
+          "type": "char",
+          "description": "Item type (1=weapon, 7=special, 8=creature)"
+        },
+        "0x01": {
+          "name": "id",
+          "type": "int",
+          "description": "Item ID within type"
+        },
+        "0x03": {
+          "name": "quantity",
+          "type": "int",
+          "description": "Stack quantity or property"
+        },
+        "0x09": {
+          "name": "uses_remaining",
+          "type": "int",
+          "description": "Uses/charges left"
+        },
+        "0x0b": {
+          "name": "weight",
+          "type": "int",
+          "description": "Item weight"
+        },
+        "0x11": {
+          "name": "flags",
+          "type": "int",
+          "description": "Item flags"
+        },
+        "0x13": {
+          "name": "identified",
+          "type": "char",
+          "description": "Identified flag"
+        },
+        "0x14": {
+          "name": "cursed",
+          "type": "char",
+          "description": "Cursed flag"
+        },
+        "0x16": {
+          "name": "next",
+          "type": "undefined4*",
+          "description": "Next item in linked list"
+        }
+      }
+    },
+
+    "monster": {
+      "size": 54,
+      "size_hex": "0x36",
+      "fields": {
+        "0x00": {
+          "name": "type",
+          "type": "char",
+          "description": "Monster type"
+        },
+        "0x01": {
+          "name": "id",
+          "type": "int",
+          "description": "Monster ID"
+        },
+        "0x05": {
+          "name": "pos_y",
+          "type": "int",
+          "description": "Y position"
+        },
+        "0x07": {
+          "name": "pos_x",
+          "type": "int",
+          "description": "X position"
+        },
+        "0x1c": {
+          "name": "creature_y",
+          "type": "int",
+          "description": "Creature Y coordinate"
+        },
+        "0x1e": {
+          "name": "creature_x",
+          "type": "int",
+          "description": "Creature X coordinate"
+        },
+        "0x23": {
+          "name": "visible",
+          "type": "char",
+          "description": "Visibility flag"
+        },
+        "0x27": {
+          "name": "hidden",
+          "type": "char",
+          "description": "Hidden flag"
+        },
+        "0x2e": {
+          "name": "related_item",
+          "type": "undefined4*",
+          "description": "Related item pointer"
+        },
+        "0x32": {
+          "name": "next",
+          "type": "undefined4*",
+          "description": "Next monster in linked list"
+        }
+      }
+    },
+
+    "level_data": {
+      "fields": {
+        "0x00": {
+          "name": "tiles",
+          "type": "char[1817]",
+          "description": "Tile map (79x22 + 1)"
+        },
+        "0x719": {
+          "name": "explored",
+          "type": "char[1817]",
+          "description": "Exploration flags"
+        }
+      }
+    }
+  },
+
+  "array_offsets": {
+    "-0x46cc": {
+      "name": "inventory_items",
+      "type": "undefined4[]",
+      "description": "Array of inventory item pointers (64 slots)"
+    },
+    "-0x46ca": {
+      "name": "inventory_items_seg",
+      "type": "int[]",
+      "description": "Segment values for inventory items"
+    },
+    "-0x476c": {
+      "name": "object_type_table",
+      "type": "undefined4[]",
+      "description": "Object type lookup table (10 entries)"
+    },
+    "-0x476a": {
+      "name": "object_type_table_seg",
+      "type": "int[]",
+      "description": "Segments for object types"
+    },
+    "-0x4738": {
+      "name": "item_array_1",
+      "type": "undefined4[]",
+      "description": "Item array 1 (8 entries)"
+    },
+    "-0x4736": {
+      "name": "item_array_1_seg",
+      "type": "int[]",
+      "description": "Segments for item array 1"
+    },
+    "-0x4714": {
+      "name": "flag_array",
+      "type": "char[]",
+      "description": "Array of game flags (12 bytes)"
+    },
+    "-0x4707": {
+      "name": "value_array",
+      "type": "int[]",
+      "description": "Array of game values (12 entries)"
+    },
+    "-0x46b8": {
+      "name": "level_exp_table",
+      "type": "int[]",
+      "description": "Experience points per level table"
+    },
+    "-0x464e": {
+      "name": "direction_dy_table",
+      "type": "int[4]",
+      "description": "Y-direction offset table"
+    },
+    "-0x464c": {
+      "name": "direction_dx_table",
+      "type": "int[4]",
+      "description": "X-direction offset table"
+    },
+    "-0x4639": {
+      "name": "lookup_table_b9c7",
+      "type": "char[]",
+      "description": "Character lookup table"
+    },
+    "-0x4985": {
+      "name": "class_name_table_1",
+      "type": "char[]",
+      "description": "Class names (mode 1)"
+    },
+    "-0x4a34": {
+      "name": "class_name_table_2",
+      "type": "char[]",
+      "description": "Class names (mode 2)"
+    },
+    "-0x5017": {
+      "name": "class_desc_table",
+      "type": "char[]",
+      "description": "Class descriptions"
+    },
+    "-0x54d9": {
+      "name": "level_data_array",
+      "type": "undefined4[]",
+      "description": "Level-specific data pointers"
+    },
+    "-0x54d7": {
+      "name": "level_data_array_seg",
+      "type": "int[]",
+      "description": "Segments for level data"
+    },
+    "0xb76f": {
+      "name": "terrain_wall_mask",
+      "type": "char[32]",
+      "description": "Bit mask for wall tiles"
+    },
+    "0xb7cf": {
+      "name": "terrain_door_mask",
+      "type": "char[32]",
+      "description": "Bit mask for door tiles"
+    }
+  },
+
+  "constants": {
+    "MAP_WIDTH": {
+      "value": 79,
+      "hex": "0x4f",
+      "description": "Width of dungeon map in tiles"
+    },
+    "MAP_HEIGHT": {
+      "value": 22,
+      "hex": "0x16",
+      "description": "Height of dungeon map in tiles"
+    },
+    "MAP_SIZE": {
+      "value": 1817,
+      "hex": "0x719",
+      "description": "Total map tiles (79 * 22 + 1)"
+    },
+    "ITEM_SIZE": {
+      "value": 26,
+      "hex": "0x1a",
+      "description": "Size of item structure in bytes"
+    },
+    "MONSTER_SIZE": {
+      "value": 54,
+      "hex": "0x36",
+      "description": "Size of monster structure in bytes"
+    },
+    "STAT_MAX": {
+      "value": 255,
+      "hex": "0xff",
+      "description": "Maximum stat value"
+    },
+    "INVENTORY_MAX": {
+      "value": 12,
+      "hex": "0xc",
+      "description": "Maximum inventory slots"
+    },
+    "CHAR_FLOOR": {
+      "value": 32,
+      "hex": "0x20",
+      "description": "Floor tile character (space)"
+    }
+  },
+
+  "function_signatures": {
+    "get_sign": {
+      "params": ["int* value"],
+      "returns": "undefined2",
+      "description": "Returns sign of integer: -1, 0, or 1"
+    },
+    "find_item_at_coords": {
+      "params": ["int* out_item", "int x", "int y"],
+      "returns": "void",
+      "description": "Finds item at given coordinates, stores in out_item"
+    },
+    "display_score_with_fatal": {
+      "params": ["int score"],
+      "returns": "void",
+      "description": "Displays score message, if score < 0, triggers fatal error"
+    },
+    "allocate_item_object": {
+      "params": ["undefined4* out_item"],
+      "returns": "void",
+      "description": "Allocates item from free pool or creates new"
+    },
+    "free_item_object": {
+      "params": ["undefined4 item_ptr"],
+      "returns": "void",
+      "description": "Returns item to free pool"
+    },
+    "allocate_monster_object": {
+      "params": ["undefined4* out_monster"],
+      "returns": "void",
+      "description": "Allocates monster from free pool or creates new"
+    },
+    "free_monster_object": {
+      "params": ["undefined4 monster_ptr"],
+      "returns": "void",
+      "description": "Returns monster to free pool"
+    }
+  },
+
+  "common_patterns": {
+    "parameter_names": {
+      "param_1_int_ptr": ["out_result", "out_value", "dest_ptr"],
+      "param_1_int": ["value", "amount", "count", "index"],
+      "param_1_char_ptr": ["str", "buffer", "name"],
+      "param_2_int": ["x_coord", "col", "index"],
+      "param_3_int": ["y_coord", "row", "offset"],
+      "param_1_obj_ptr": ["item_ptr", "obj_ptr", "entity_ptr"],
+      "param_1_char": ["flag", "mode", "type", "is_enabled"]
+    },
+
+    "local_variable_names": {
+      "local_4": ["result", "return_value", "temp"],
+      "local_6": ["loop_counter", "index", "i"],
+      "local_8": ["temp_value", "count", "max"],
+      "local_c": ["iterator", "offset"],
+      "local_XX_array": ["buffer", "temp_buffer"],
+      "local_28_32": ["bit_mask", "flags"],
+      "local_16c_256": ["string_buffer", "large_buffer"]
+    },
+
+    "boolean_prefixes": ["is_", "has_", "should_", "can_", "flag_"],
+    "boolean_suffixes": ["_flag", "_enabled", "_active"]
+  }
+}

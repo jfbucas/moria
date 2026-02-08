@@ -1,0 +1,140 @@
+{
+  "memory_addresses": {
+    "0xb86c": "player_y",
+    "0xb86e": "player_x",
+    "0xb870": "current_hp",
+    "0xb872": "max_hp",
+    "0xb874": "current_mana",
+    "0xb876": "max_mana",
+    "0xb878": "strength",
+    "0xb87a": "intelligence",
+    "0xb880": "base_ac",
+    "0xb886": "experience",
+    "0xb888": "player_level",
+    "0xb8c8": "gold_low",
+    "0xb8ca": "gold_high",
+    "0xb8ec": "is_paralyzed",
+    "0xb8ed": "is_blind",
+    "0xb8ee": "needs_full_update",
+    "0xb8f0": "confusion_lock",
+    "0xb8f2": "is_teleporting",
+    "0xb8f6": "is_wizard",
+    "0xb8f7": "is_stunned",
+    "0xb915": "is_dying",
+    "0xb916": "is_hasted",
+    "0xb918": "has_light",
+    "0xb919": "is_confused",
+    "0xb91a": "death_timer",
+    "0xb91c": "haste_timer",
+    "0xb91e": "inventory_list",
+    "0xb922": "wielded_weapon",
+    "0xb926": "equipped_shield",
+    "0xb92a": "equipped_armor",
+    "0xb92e": "equipped_ring1",
+    "0xb932": "equipped_ring2",
+    "0xe52d": "dungeon_level",
+    "0xe535": "min_visible_row",
+    "0xe537": "max_visible_row"
+  },
+
+  "common_parameters": {
+    "param_1": {
+      "int": "value",
+      "int*": "result_ptr",
+      "char*": "string",
+      "undefined2": "segment",
+      "undefined4": "packed_data"
+    },
+    "param_2": {
+      "patterns": {
+        "with_param_1_int": ["x_coord", "y_coord"],
+        "with_param_1_ptr": "buffer_size"
+      }
+    },
+    "param_3": {
+      "common": "flags"
+    },
+    "param_4": {
+      "pointer": "object_ptr"
+    }
+  },
+
+  "local_variable_patterns": {
+    "iVar": "int_temp",
+    "uVar": "uint_temp",
+    "cVar": "char_temp",
+    "bVar": "bool_temp",
+    "pbVar": "ptr_temp",
+    "puVar": "uptr_temp",
+    "pcVar": "char_ptr_temp",
+    "piVar": "int_ptr_temp",
+    "local_": "local_var"
+  },
+
+  "context_patterns": {
+    "loop_counter": {
+      "patterns": ["for.*=.*0", "while.*<", "\\+\\+"],
+      "names": ["i", "j", "k", "index", "count", "loop_var"]
+    },
+    "coordinates": {
+      "patterns": ["0x4f", "79", "0x16", "22", "\\* 0x4f", "row", "col"],
+      "names": ["x", "y", "row", "col", "x_coord", "y_coord"]
+    },
+    "pointers": {
+      "patterns": ["\\*\\(.*\\*\\)", "->", "offset"],
+      "names": ["ptr", "node", "item_ptr", "monster_ptr", "obj_ptr"]
+    },
+    "boolean_flags": {
+      "patterns": ["== 0", "!= 0", "== 1", "== '\\\\0'"],
+      "names": ["flag", "is_", "has_", "found", "success"]
+    },
+    "random": {
+      "patterns": ["random_mod", "rand_lcg", "% "],
+      "names": ["random_value", "roll", "chance"]
+    },
+    "damage": {
+      "patterns": ["hp", "damage", "hit"],
+      "names": ["damage", "dmg", "hit_points", "wounds"]
+    }
+  },
+
+  "function_specific": {
+    "main_game_loop": {
+      "local_9": "is_alive",
+      "local_8": "turn_processed",
+      "local_a": "effect_index"
+    },
+    "monster_attack_player": {
+      "param_1": "monster_x",
+      "param_2": "monster_y",
+      "param_4": "monster_ptr",
+      "uVar1": "num_attacks",
+      "bVar7": "attack_type",
+      "local_9": "to_hit_roll",
+      "local_7": "ac_bonus",
+      "local_f": "damage"
+    },
+    "render_field_of_view": {
+      "local_14": "light_radius",
+      "local_e": "current_row",
+      "local_c": "current_col",
+      "local_a": "saved_cursor_y",
+      "local_8": "saved_cursor_x",
+      "local_58": "column_bitmask",
+      "local_34": "row_bitmask"
+    }
+  },
+
+  "constants": {
+    "0x4f": "MAP_WIDTH",
+    "79": "MAP_WIDTH",
+    "0x16": "MAP_HEIGHT",
+    "22": "MAP_HEIGHT",
+    "0x50": "MAP_STRIDE",
+    "80": "MAP_STRIDE",
+    "0x36": "MONSTER_SIZE",
+    "54": "MONSTER_SIZE",
+    "0x1a": "ITEM_SIZE",
+    "26": "ITEM_SIZE"
+  }
+}
