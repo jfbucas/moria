@@ -1,0 +1,7 @@
+# PyMoria Requirements
+
+# Core dependencies
+# curses is built-in on Linux
+
+# Optional for better Unicode/CP437 support
+unicurses>=2.0.0; platform_system == "Windows"
