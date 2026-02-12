@@ -3,9 +3,10 @@ Item database extracted from reverse-engineered game data.
 Based on memory dump analysis at offset 0x2b000-0x2d800.
 """
 
-from dataclasses import dataclass
-from typing import Optional
-from utils.constants import ItemType
+import random
+from dataclasses import dataclass, field
+from typing import Optional, List
+from utils.constants import ItemType, WandEffect
 
 
 @dataclass
@@ -70,24 +71,87 @@ FOOD_ITEMS = [
     ItemTemplate("morceau de pain", ItemType.FOOD, ":", value=1, weight=0, level=1),
 ]
 
+# Wand wood names from original game memory dump
+WAND_WOODS = [
+    "d'acajou", "d'if", "d'olivier", "d'orme", "d'érable",
+    "de bambou", "de cerisier", "de châtaignier", "de chêne", "de frêne",
+    "de merisier", "de noisetier", "de peuplier", "de pin", "de platane",
+    "de rose noire", "de roseau", "de saule", "de teck", "de verre",
+]
+
+# Wand effects from original game memory dump at 0x2b18f-0x2b407
+# (effect_id, french_name, english_desc, value, level)
+_WAND_EFFECTS = [
+    (WandEffect.TELEPORT, "de téléportation", "teleport", 60, 3),
+    (WandEffect.TRANSMORPH, "de transmorphie", "transmorph", 120, 8),
+    (WandEffect.DESTRUCTION, "de destruction", "destruction", 100, 6),
+    (WandEffect.CREATE_WALL, "pour créer des murs", "create_wall", 40, 3),
+    (WandEffect.SLOW_MONSTER, "de ralentissement de monstre", "slow_monster", 50, 4),
+    (WandEffect.HASTE_MONSTER, "d'accélération de monstre", "haste_monster", 10, 1),
+    (WandEffect.WEAKEN, "d'affaiblissement", "weaken", 60, 5),
+    (WandEffect.FEAR, "pour effrayer", "fear", 50, 4),
+    (WandEffect.DOWSING, "de sourcier", "dowsing", 40, 2),
+    (WandEffect.SUMMON_MONSTER, "d'invocation de monstre", "summon_monster", 10, 1),
+    (WandEffect.CREATE_ITEM, "d'invocation d'objet", "create_item", 80, 5),
+    (WandEffect.COMBAT, "de combat", "combat", 90, 6),
+    (WandEffect.FILL_TRAPS, "pour combler les trappes", "fill_traps", 40, 3),
+    (WandEffect.SLEEP, "assoupissante", "sleep", 50, 4),
+    (WandEffect.PARALYZE, "paralysante", "paralyze", 70, 5),
+    (WandEffect.INVISIBILITY, "d'invisibilité", "invisibility", 150, 8),
+    (WandEffect.CREATE_TRAPS, "de création de trappes", "create_traps", 10, 1),
+    (WandEffect.REINFORCE, "de renforcement", "reinforce", 80, 6),
+    (WandEffect.CAPRICIOUS, "capricieuse", "capricious", 30, 2),
+    (WandEffect.ILLUSION, "d'illusion", "illusion", 60, 5),
+    (WandEffect.PURIFY, "de purification", "purify", 70, 7),
+    (WandEffect.ENERGY_DRAIN, "d'absorption d'énergie", "energy_drain", 100, 9),
+]
+
+# Wands list (populated by initialize_wand_names)
+WANDS: List[ItemTemplate] = []
+
+
+def initialize_wand_names():
+    """Assign random wood names to wand types for a new game."""
+    WANDS.clear()
+    woods = WAND_WOODS[:]
+    random.shuffle(woods)
+    for i, (effect_id, effect_fr, effect_en, value, level) in enumerate(_WAND_EFFECTS):
+        wood = woods[i % len(woods)]
+        WANDS.append(ItemTemplate(
+            name=f"baguette {wood}",
+            type=ItemType.WAND,
+            char="/",
+            damage=effect_en,
+            value=value,
+            weight=1,
+            level=level,
+        ))
+
 
 def get_random_weapon(dungeon_level: int) -> ItemTemplate:
     """Get random weapon appropriate for dungeon level."""
-    import random
     candidates = [w for w in WEAPONS if w.level <= dungeon_level + 3]
     return random.choice(candidates) if candidates else WEAPONS[0]
 
 
 def get_random_armor(dungeon_level: int) -> ItemTemplate:
     """Get random armor appropriate for dungeon level."""
-    import random
     candidates = [a for a in ARMOR if a.level <= dungeon_level + 3]
     return random.choice(candidates) if candidates else ARMOR[0]
 
 
+def get_random_wand(dungeon_level: int) -> ItemTemplate:
+    """Get random wand appropriate for dungeon level."""
+    if not WANDS:
+        initialize_wand_names()
+    candidates = [w for w in WANDS if w.level <= dungeon_level + 3]
+    return random.choice(candidates) if candidates else WANDS[0]
+
+
 def get_random_item(dungeon_level: int) -> ItemTemplate:
     """Get random item appropriate for dungeon level."""
-    import random
-    all_items = WEAPONS + ARMOR + RINGS + FOOD_ITEMS
+    if not WANDS:
+        initialize_wand_names()
+    all_items = WEAPONS + ARMOR + RINGS + FOOD_ITEMS + WANDS
     candidates = [i for i in all_items if i.level <= dungeon_level + 3]
     return random.choice(candidates) if candidates else all_items[0]

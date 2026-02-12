@@ -24,15 +24,15 @@ class MonsterTemplate:
 # Monster database from MORIA.TXT manual
 MONSTERS: List[MonsterTemplate] = [
     # Level 1-2: Weak monsters
-    MonsterTemplate("chauve-souris", "b", 1, 3, 9, "1d2", 12, 1),
+    MonsterTemplate("chauve-souris", "C", 1, 3, 9, "1d2", 12, 1),
     MonsterTemplate("araignée", "a", 1, 3, 9, "1d2", 11, 1),
     MonsterTemplate("rat", "r", 1, 5, 8, "1d3", 10, 4),
     MonsterTemplate("serpent", "s", 2, 8, 8, "1d4", 10, 2),
-    MonsterTemplate("loup", "l", 2, 12, 7, "1d6", 12, 2),
+    MonsterTemplate("loup", "L", 2, 12, 7, "1d6", 12, 2),
 
     # Level 3-5: Medium monsters
     MonsterTemplate("orc", "o", 3, 15, 7, "1d6", 10, 3),
-    MonsterTemplate("yEux de Sauron", "E", 4, 20, 7, "1d8", 11, 5),
+    MonsterTemplate("yEux de Sauron", "E", 4, 20, 7, "1d8", 0, 5),  # speed=0: does not move
 
     # Level 5-9: Strong monsters
     MonsterTemplate("troll", "T", 7, 40, 6, "2d6", 9, 10),

@@ -45,7 +45,7 @@ CHAR_WALL_TL = '┌'
 CHAR_WALL_TR = '┐'
 CHAR_WALL_BL = '└'
 CHAR_WALL_BR = '┘'
-CHAR_PLAYER = '@'
+CHAR_PLAYER = '\u263b'  # ☻ (CP437 0x02)
 CHAR_STAIRS_DOWN = '>'
 CHAR_STAIRS_UP = '<'
 CHAR_GOLD = '$'
@@ -91,6 +91,33 @@ class PotionEffect:
     EXPERIENCE = 20       # d'expérience
     WEAKNESS = 21         # de faiblesse
 
+# Wand effects (from memory dump at 0x2b18f, matched to C code handlers)
+# FUN_1000_aa1d: monster-targeting (1,2,5,6,7,8,12,14,15,16,18,19,20,24)
+# FUN_1000_b032: environment (3,4,9,10,11,13,17,21)
+class WandEffect:
+    TELEPORT = 1          # de téléportation
+    TRANSMORPH = 2        # de transmorphie
+    DESTRUCTION = 3       # de destruction
+    CREATE_WALL = 4       # pour créer des murs
+    SLOW_MONSTER = 5      # de ralentissement de monstre
+    HASTE_MONSTER = 6     # d'accélération de monstre
+    WEAKEN = 7            # d'affaiblissement
+    FEAR = 8              # pour effrayer
+    DOWSING = 9           # de sourcier
+    SUMMON_MONSTER = 10   # d'invocation de monstre
+    CREATE_ITEM = 11      # d'invocation d'objet
+    COMBAT = 12           # de combat
+    FILL_TRAPS = 13       # pour combler les trappes
+    SLEEP = 14            # assoupissante
+    PARALYZE = 15         # paralysante
+    INVISIBILITY = 16     # d'invisibilité
+    CREATE_TRAPS = 17     # de création de trappes
+    REINFORCE = 18        # de renforcement
+    CAPRICIOUS = 19       # capricieuse
+    ILLUSION = 20         # d'illusion
+    PURIFY = 21           # de purification
+    ENERGY_DRAIN = 22     # d'absorption d'énergie
+
 # Equipment slots
 class EquipSlot:
     WEAPON = 0
@@ -109,3 +136,4 @@ class ItemType:
     SCROLL = 5
     FOOD = 6
     GOLD = 7
+    WAND = 8

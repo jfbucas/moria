@@ -8,33 +8,19 @@ from typing import Optional
 
 @dataclass
 class Stats:
-    """Character base statistics."""
-    strength: int = 10
-    intelligence: int = 10
-    wisdom: int = 10
-    dexterity: int = 10
-    constitution: int = 10
-    charisma: int = 10
-
-    def __post_init__(self):
-        """Clamp stats to valid range."""
-        self.clamp_all()
-
-    def clamp_all(self):
-        """Ensure all stats are in valid range (3-18)."""
-        self.strength = max(3, min(18, self.strength))
-        self.intelligence = max(3, min(18, self.intelligence))
-        self.wisdom = max(3, min(18, self.wisdom))
-        self.dexterity = max(3, min(18, self.dexterity))
-        self.constitution = max(3, min(18, self.constitution))
-        self.charisma = max(3, min(18, self.charisma))
+    """Character base statistics (force, dexterity, intelligence)."""
+    strength: int = 100
+    intelligence: int = 100
+    wisdom: int = 0
+    dexterity: int = 100
+    constitution: int = 0
+    charisma: int = 0
 
     def modify(self, stat_name: str, amount: int):
         """Modify a stat by amount."""
         if hasattr(self, stat_name):
             current = getattr(self, stat_name)
-            setattr(self, stat_name, current + amount)
-            self.clamp_all()
+            setattr(self, stat_name, max(0, current + amount))
 
 
 @dataclass

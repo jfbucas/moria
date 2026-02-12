@@ -47,6 +47,7 @@ class Dungeon:
         self._draw_border()
         self._create_room_grid()
         self._generate_corridors()
+        self._generate_room()
         self._place_stairs()
         self._populate()
 
@@ -80,20 +81,21 @@ class Dungeon:
         # Draw vertical walls between room columns
         # Lines 3148-3154: vertical walls (0xb3 = │)
         # These are at x = col*2+1 for col = 1..38
-        for row in range(0, 11):  # rows 0-10
+        for row in range(0, 11+1):  # rows 0-10
             for col in range(1, 39):  # cols 1-38 (between columns)
-                map_y = row * 2
-                map_x = col * 2 + 1
+                map_y = row * 2       +1
+                map_x = col * 2 #+ 1
                 if 1 <= map_y < self.height - 1 and 1 <= map_x < self.width - 1:
                     self.map[map_y][map_x] = '│'
+                    #self.map[map_y][map_x] = 'a'
 
         # Draw horizontal walls between room rows
         # Lines 3157-3165: horizontal walls (0xc4 = ─)
         # These are at y = row*2+1 for row = 1..9
         for row in range(1, 10):  # rows 1-9 (between rows)
-            for col in range(0, 39):  # cols 0-38
-                map_y = row * 2 + 1
-                map_x = col * 2
+            for col in range(0, 39+1):  # cols 0-38
+                map_y = row * 2 #+ 1
+                map_x = col * 2  +1    
                 if 1 <= map_y < self.height - 1 and 1 <= map_x < self.width - 1:
                     self.map[map_y][map_x] = '─'
 
@@ -101,8 +103,8 @@ class Dungeon:
         # Lines 3166-3174: crosses (0xc5 = ┼)
         for row in range(1, 10):  # rows 1-9
             for col in range(1, 39):  # cols 1-38
-                map_y = row * 2 + 1
-                map_x = col * 2 + 1
+                map_y = row * 2 #+ 1
+                map_x = col * 2 #+ 1
                 if 1 <= map_y < self.height - 1 and 1 <= map_x < self.width - 1:
                     self.map[map_y][map_x] = '┼'
 
@@ -189,6 +191,71 @@ class Dungeon:
 
                         # Lines 3119-3126: Union the two rooms
                         uf.union(room1, room2)
+
+    def _generate_room(self):
+        """Generate one room per level, matching original generate_dungeon_level().
+        Lines 3185-3356 in MORIA_with_constants.C.
+        Room overlays the grid, using T-junction chars for walls:
+          ┴ (0xc1) top wall, ┬ (0xc2) bottom wall,
+          ┤ (0xb4) left wall, ├ (0xc3) right wall.
+        Interior grid walls are cleared to spaces."""
+        if self.level < 1:
+            return
+
+        # Room dimensions (from original formulas)
+        max_w_rand = max(1, 16 - self.level)
+        room_w = random.randint(0, max_w_rand - 1) * 2 + 8
+        max_h_rand = max(1, (19 - self.level) // 3)
+        room_h = random.randint(0, max_h_rand - 1) * 2 + 4
+
+        # Room position (converted from 1-indexed original to 0-indexed)
+        max_x_rand = max(1, 38 - room_w // 2)
+        room_x = random.randint(0, max_x_rand - 1) * 2 + 2
+        max_y_rand = max(1, 9 - room_h // 2)
+        room_y = random.randint(0, max_y_rand - 1) * 2 + 2
+
+        # Clamp to dungeon bounds
+        if room_x + room_w >= self.width - 1:
+            room_w = ((self.width - 2 - room_x) // 2) * 2
+        if room_y + room_h >= self.height - 1:
+            room_h = ((self.height - 2 - room_y) // 2) * 2
+
+        if room_w < 4 or room_h < 4:
+            return
+
+        # Phase 1: Top and bottom walls
+        for i in range(1, room_w // 2):
+            x = room_x + i * 2
+            if 1 <= x < self.width - 1:
+                if 1 <= room_y < self.height - 1:
+                    self.map[room_y][x] = '┴'
+                if 1 <= room_y + 1 < self.height - 1:
+                    self.map[room_y + 1][x] = ' '
+                if 1 <= room_y + room_h < self.height - 1:
+                    self.map[room_y + room_h][x] = '┬'
+
+        # Phase 2: Left and right walls
+        for i in range(1, room_h // 2):
+            y = room_y + i * 2
+            if 1 <= y < self.height - 1:
+                if 1 <= room_x < self.width - 1:
+                    self.map[y][room_x] = '┤'
+                if 1 <= room_x + 1 < self.width - 1:
+                    self.map[y][room_x + 1] = ' '
+                if 1 <= room_x + room_w < self.width - 1:
+                    self.map[y][room_x + room_w] = '├'
+
+        # Phase 3: Interior fill - clear ALL cells inside room walls.
+        # Original C code (lines 3288-3313) clears 3 cells per grid unit:
+        #   crossing (even,even), vertical wall below, horizontal wall right.
+        # The 4th cell (odd,odd) is already space in the C grid layout.
+        # Our Python grid has ┼ at (odd,odd) instead, so we must clear all 4.
+        for y in range(room_y + 1, room_y + room_h):
+            for x in range(room_x + 1, room_x + room_w):
+                if 1 <= x < self.width - 1 and 1 <= y < self.height - 1:
+                    self.map[y][x] = ' '
+
+        self.rooms.append((room_x, room_y, room_w, room_h))
 
     def _place_stairs(self):
         floor_tiles = []

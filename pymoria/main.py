@@ -17,9 +17,10 @@ def main():
 
     try:
         game.initialize()
+        if not game.running:
+            return 0
         game.run()
     except Exception as e:
-        game.cleanup()
         print(f"\nErreur: {e}")
         import traceback
         traceback.print_exc()

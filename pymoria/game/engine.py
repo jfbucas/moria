@@ -3,11 +3,13 @@ Main game engine.
 """
 
 import sys
+import curses
 from typing import Optional
 from game.player import Player
 from game.dungeon import Dungeon
 from display.screen import Screen
-from data.potions import get_potion_by_effect
+from data.potions import get_potion_by_effect, initialize_potion_colors
+from data.items import initialize_wand_names
 from utils.constants import PotionEffect
 
 
@@ -33,14 +35,14 @@ class GameEngine:
             choice = menu.show_title()
 
             if choice == 'quit':
-                self.cleanup()
-                sys.exit(0)
+                self.running = False
+                return
             elif choice == 'new':
-                # Character creation
                 self.player = menu.create_character()
-            elif choice == 'load':
-                self.message = "Chargement non implémenté. Nouvelle partie."
-                self.player = menu.create_character()
+
+            # Randomize potion colors and wand wood names for this game session
+            initialize_potion_colors()
+            initialize_wand_names()
 
             self.new_level(1)
             self.running = True
@@ -102,6 +104,15 @@ class GameEngine:
         import random
 
         for monster in self.dungeon.monsters[:]:  # Copy list to allow removal
+            # Eye of Sauron never moves (speed=0)
+            if monster['template'].speed == 0:
+                # Still attacks if player is adjacent
+                dx_abs = abs(monster['x'] - self.player.x)
+                dy_abs = abs(monster['y'] - self.player.y)
+                if dx_abs + dy_abs == 1:
+                    self.monster_attack_player(monster)
+                continue
+
             # Huorns don't move unless disturbed
             if "huorn" in monster['template'].name.lower():
                 # Only move if player is adjacent
@@ -169,7 +180,7 @@ class GameEngine:
         visible_tiles = self.dungeon.update_fov(self.player.x, self.player.y, radius=8)
 
         self.screen.draw_map(self.dungeon, self.player, visible_tiles)
-        self.screen.draw_status(self.player.get_status_string())
+        self.screen.draw_status(self.player.get_status_string(self.current_level))
         if self.message:
             self.screen.draw_message(self.message)
         self.screen.refresh()
@@ -182,23 +193,15 @@ class GameEngine:
             self.message = "Vous ne pouvez pas agir!"
             return
 
-        # Movement (vi keys + numpad)
-        if key == ord('h') or key == ord('4'):  # Left
+        # Movement (numpad + arrow keys, no diagonals - matching original MORIA)
+        if key == ord('4') or key == curses.KEY_LEFT:  # Left
             self.try_move(-1, 0)
-        elif key == ord('l') or key == ord('6'):  # Right
+        elif key == ord('6') or key == curses.KEY_RIGHT:  # Right
             self.try_move(1, 0)
-        elif key == ord('k') or key == ord('8'):  # Up
+        elif key == ord('8') or key == curses.KEY_UP:  # Up
             self.try_move(0, -1)
-        elif key == ord('j') or key == ord('2'):  # Down
+        elif key == ord('2') or key == curses.KEY_DOWN:  # Down
             self.try_move(0, 1)
-        elif key == ord('y') or key == ord('7'):  # Up-left
-            self.try_move(-1, -1)
-        elif key == ord('u') or key == ord('9'):  # Up-right
-            self.try_move(1, -1)
-        elif key == ord('b') or key == ord('1'):  # Down-left
-            self.try_move(-1, 1)
-        elif key == ord('n') or key == ord('3'):  # Down-right
-            self.try_move(1, 1)
 
         # Actions (matching MORIA.TXT manual)
         elif key == ord('i'):  # Inventaire
@@ -219,10 +222,16 @@ class GameEngine:
             self.wear_armor()
         elif key == ord('R'):  # Enlever une armure
             self.remove_armor()
+        elif key == ord('L'):  # Lancer un sort (use wand)
+            self.cast_spell()
+        elif key == ord('.'):  # Rester sur place
+            pass  # Skip turn
         elif key == ord('>'):  # Descendre escalier
             self.try_descend()
         elif key == ord('<'):  # Monter escalier
             self.try_ascend()
+        elif key == ord('c'):  # Fiche de personage
+            self.show_character_sheet()
         elif key == ord('?'):  # Liste des commandes
             self.show_commands()
         elif key == ord('Q'):  # Quitter
@@ -411,28 +420,308 @@ class GameEngine:
             self.message = "Vous ne portez pas d'armure."
 
     def show_commands(self):
-        """Show command list (?)."""
-        self.screen.stdscr.clear()
-        help_text = [
-            "═══ COMMANDES ═══",
-            "",
-            "Déplacement: 2,4,6,8 (pavé numérique)",
-            "Diagonales: 7,9,1,3",
-            "",
-            "i : Inventaire           a : Abandonner objet",
-            "b : Boire potion         m : Manger",
-            "l : Lire parchemin       w : Porter arme",
-            "W : Enlever arme         r : Revêtir armure",
-            "R : Enlever armure       > : Descendre",
-            "< : Monter               ? : Aide",
-            "",
-            "Appuyez sur ESPACE..."
+        """Show command list (?). Matches original FUN_1000_6249 messages 0x134-0x146."""
+        # Page 1: messages 0x134-0x13D
+        page1 = [
+            "a    abandonner un objet",
+            "b    boire une potion                       l    lire un parchemin",
+            "B    brandir une arme                       i,*  faire l'inventaire",
+            "e    enlever une armure                     r    revêtir une armure",
+            "E    enfiler un anneau                      N    eNlever un anneau",
+            "m    manger quelque chose",
+            "R    renommer un objet",
+            "c    fiche de personage",
+            "?    liste des commandes                    s    table des scores",
+            "L    lancer un sort                         T    lancer un objet",
         ]
-        for i, line in enumerate(help_text):
+        # Page 2: messages 0x13E-0x143
+        page2 = [
+            ">    monter                                 <    descendre",
+            "2 \u25bc  mouvement vers le bas de l'\u00e9cran",
+            "4 \u25ba  mouvement vers la gauche de l'\u00e9cran",
+            "6 \u25c4  mouvement vers la droite de l'\u00e9cran",
+            "8 \u25b2  mouvement vers le haut de l'\u00e9cran",
+            ".    rester sur place",
+        ]
+        # Page 3: messages 0x144-0x146
+        page3 = [
+            "^G    couper/retablir le son                 ^T   tableau de chasse",
+            "^S    se suicider                            ^F   abandonner la partie",
+            "^P    raffraichir l'\u00e9cran                    ^H   help...",
+        ]
+        for page in [page1, page2, page3]:
+            self.screen.stdscr.clear()
+            for i, line in enumerate(page):
+                try:
+                    self.screen.stdscr.addstr(i, 0, line)
+                except curses.error:
+                    pass
+            try:
+                self.screen.stdscr.addstr(len(page) + 1, 0, "Appuyez sur ESPACE...")
+            except curses.error:
+                pass
+            self.screen.stdscr.refresh()
+            while self.screen.stdscr.getch() != ord(' '):
+                pass
+        self.screen.stdscr.clear()
+
+    def cast_spell(self):
+        """Cast a spell using a wand (L command).
+        Original: use_item_from_inventory with param_2=0x4c.
+        Message 0x9e: 'Avec quelle baguette ?'"""
+        from utils.constants import ItemType
+        import random
+
+        # Find wands in inventory
+        wand_indices = []
+        for idx in range(self.player.inventory.max_size):
+            item = self.player.inventory.get_item(idx)
+            if item and item.type == ItemType.WAND:
+                wand_indices.append(idx)
+
+        if not wand_indices:
+            self.message = "Vous n'avez pas de baguette!"
+            return
+
+        # Show prompt (message 0x9e from original)
+        self.message = "Avec quelle baguette ? (a-z)"
+        self.draw()
+        ch = self.screen.get_key()
+        if not (ord('a') <= ch <= ord('z')):
+            self.message = ""
+            return
+
+        idx = ch - ord('a')
+        item = self.player.inventory.get_item(idx)
+        if not item or item.type != ItemType.WAND:
+            self.message = "Ce n'est pas une baguette!"
+            return
+
+        # Apply wand effect based on the english effect name stored in damage field
+        effect = item.damage
+
+        if effect in ("teleport", "transmorph", "slow_monster", "haste_monster",
+                       "weaken", "fear", "combat", "sleep", "paralyze",
+                       "illusion", "energy_drain"):
+            self._wand_direction_effect(effect)
+        elif effect == "destruction":
+            self._effect_destruction()
+            self.message = "La zone est d\u00e9vast\u00e9e!"
+        elif effect == "create_wall":
+            self._wand_create_wall()
+        elif effect == "dowsing":
+            self._effect_dowsing()
+            self.message = "Vous d\u00e9tectez des objets!"
+        elif effect == "summon_monster":
+            self._effect_summon_monster()
+            self.message = "Un monstre appara\u00eet!"
+        elif effect == "create_item":
+            self._effect_create_item()
+            self.message = "Un objet appara\u00eet!"
+        elif effect == "fill_traps":
+            self.message = "Les trappes sont combl\u00e9es!"
+        elif effect == "invisibility":
+            self.message = "Vous devenez invisible!"
+        elif effect == "create_traps":
+            self.message = "Des trappes apparaissent!"
+        elif effect == "reinforce":
+            self.message = "Vous vous sentez renforc\u00e9!"
+        elif effect == "capricious":
+            self.message = "La baguette fait un effet al\u00e9atoire!"
+        elif effect == "purify":
+            self.message = "La zone est purifi\u00e9e!"
+        else:
+            self.message = "La baguette n'a aucun effet."
+
+    def _wand_direction_effect(self, effect):
+        """Ask direction and apply wand effect to first monster in line.
+        Message 0x9f: 'Dans quelle direction ?'"""
+        import random
+        self.message = "Dans quelle direction ? (2/4/6/8)"
+        self.draw()
+        ch = self.screen.get_key()
+
+        dx, dy = 0, 0
+        if ch == ord('4') or ch == curses.KEY_LEFT:
+            dx = -1
+        elif ch == ord('6') or ch == curses.KEY_RIGHT:
+            dx = 1
+        elif ch == ord('8') or ch == curses.KEY_UP:
+            dy = -1
+        elif ch == ord('2') or ch == curses.KEY_DOWN:
+            dy = 1
+        else:
+            self.message = ""
+            return
+
+        # Find first monster in that direction (max range 10)
+        x, y = self.player.x + dx, self.player.y + dy
+        target = None
+        for _ in range(10):
+            if not (0 <= x < self.dungeon.width and 0 <= y < self.dungeon.height):
+                break
+            if not self.dungeon.is_walkable(x, y):
+                break
+            for m in self.dungeon.monsters:
+                if m['x'] == x and m['y'] == y:
+                    target = m
+                    break
+            if target:
+                break
+            x += dx
+            y += dy
+
+        if not target:
+            self.message = "Rien dans cette direction."
+            return
+
+        # Apply effect to target monster
+        if effect == "teleport":
+            for _ in range(100):
+                nx = random.randint(1, self.dungeon.width - 2)
+                ny = random.randint(1, self.dungeon.height - 2)
+                if self.dungeon.is_walkable(nx, ny) and not self.dungeon.has_monster(nx, ny):
+                    target['x'] = nx
+                    target['y'] = ny
+                    break
+            self.message = f"Le {target['template'].name} dispara\u00eet!"
+        elif effect == "transmorph":
+            from data.monsters import get_monster_by_level
+            new_t = get_monster_by_level(self.current_level)
+            target['template'] = new_t
+            target['hp'] = new_t.hp
+            self.message = f"Le monstre se transforme en {new_t.name}!"
+        elif effect == "slow_monster":
+            self.message = f"Le {target['template'].name} ralentit!"
+        elif effect == "haste_monster":
+            self.message = f"Le {target['template'].name} acc\u00e9l\u00e8re!"
+        elif effect == "weaken":
+            damage = random.randint(5, 15)
+            target['hp'] -= damage
+            if target['hp'] <= 0:
+                self.message = f"Le {target['template'].name} est d\u00e9truit!"
+                self.dungeon.monsters.remove(target)
+                self.player.gain_experience(target['template'].experience)
+            else:
+                self.message = f"Le {target['template'].name} s'affaiblit! ({damage} d\u00e9g\u00e2ts)"
+        elif effect == "fear":
+            self.message = f"Le {target['template'].name} prend peur!"
+        elif effect == "combat":
+            damage = random.randint(10, 25)
+            target['hp'] -= damage
+            if target['hp'] <= 0:
+                self.message = f"Le {target['template'].name} est d\u00e9truit!"
+                self.dungeon.monsters.remove(target)
+                self.player.gain_experience(target['template'].experience)
+            else:
+                self.message = f"Le {target['template'].name} est frapp\u00e9! ({damage} d\u00e9g\u00e2ts)"
+        elif effect == "sleep":
+            self.message = f"Le {target['template'].name} s'endort!"
+        elif effect == "paralyze":
+            self.message = f"Le {target['template'].name} est paralys\u00e9!"
+        elif effect == "illusion":
+            self.message = f"Le {target['template'].name} est aveugl\u00e9!"
+        elif effect == "energy_drain":
+            damage = random.randint(8, 20)
+            target['hp'] -= damage
+            self.player.heal(damage // 2)
+            if target['hp'] <= 0:
+                self.message = f"Le {target['template'].name} est d\u00e9truit!"
+                self.dungeon.monsters.remove(target)
+                self.player.gain_experience(target['template'].experience)
+            else:
+                self.message = f"L'\u00e9nergie du {target['template'].name} est absorb\u00e9e!"
+
+    def _effect_destruction(self):
+        """Destroy walls and monsters around player (baguette de destruction)."""
+        px, py = self.player.x, self.player.y
+        for dy in range(-2, 3):
+            for dx in range(-2, 3):
+                x, y = px + dx, py + dy
+                if 1 <= x < self.dungeon.width - 1 and 1 <= y < self.dungeon.height - 1:
+                    if (x, y) != (px, py):
+                        self.dungeon.map[y][x] = ' '
+        for m in self.dungeon.monsters[:]:
+            if abs(m['x'] - px) <= 2 and abs(m['y'] - py) <= 2:
+                self.player.gain_experience(m['template'].experience)
+                self.dungeon.monsters.remove(m)
+
+    def _wand_create_wall(self):
+        """Create a wall in a direction (baguette pour cr\u00e9er des murs)."""
+        self.message = "Dans quelle direction ? (2/4/6/8)"
+        self.draw()
+        ch = self.screen.get_key()
+        dx, dy = 0, 0
+        if ch == ord('4') or ch == curses.KEY_LEFT:
+            dx = -1
+        elif ch == ord('6') or ch == curses.KEY_RIGHT:
+            dx = 1
+        elif ch == ord('8') or ch == curses.KEY_UP:
+            dy = -1
+        elif ch == ord('2') or ch == curses.KEY_DOWN:
+            dy = 1
+        else:
+            self.message = ""
+            return
+        x, y = self.player.x + dx, self.player.y + dy
+        if 1 <= x < self.dungeon.width - 1 and 1 <= y < self.dungeon.height - 1:
+            if self.dungeon.map[y][x] == ' ':
+                self.dungeon.map[y][x] = '\u253c'
+                self.message = "Un mur appara\u00eet!"
+            else:
+                self.message = "Il y a d\u00e9j\u00e0 quelque chose ici."
+        else:
+            self.message = ""
+
+    def _effect_dowsing(self):
+        """Detect objects on the level (baguette de sourcier)."""
+        for item in self.dungeon.items:
+            self.dungeon.discovered[item['y']][item['x']] = True
+
+    def _effect_summon_monster(self):
+        """Summon a monster near the player."""
+        from data.monsters import get_monster_by_level
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            x, y = self.player.x + dx, self.player.y + dy
+            if self.dungeon.is_walkable(x, y) and not self.dungeon.has_monster(x, y):
+                monster = get_monster_by_level(self.current_level)
+                self.dungeon.monsters.append({
+                    'template': monster, 'x': x, 'y': y, 'hp': monster.hp
+                })
+                return
+
+    def _effect_create_item(self):
+        """Create a random item near the player."""
+        from data.items import get_random_item
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            x, y = self.player.x + dx, self.player.y + dy
+            if self.dungeon.is_walkable(x, y):
+                item = get_random_item(self.current_level)
+                self.dungeon.items.append({'template': item, 'x': x, 'y': y})
+                return
+
+    def show_character_sheet(self):
+        """Show character info (c command - fiche de personage)."""
+        self.screen.stdscr.clear()
+        lines = [
+            f"=== {self.player.name} ===",
+            "",
+            f"Niveau   : {self.player.level}",
+            f"PV       : {self.player.current_hp}/{self.player.max_hp}",
+            f"Force    : {self.player.stats.strength}",
+            f"Dext\u00e9rit\u00e9: {self.player.stats.dexterity}",
+            f"Intellig.: {self.player.stats.intelligence}",
+            f"CA       : {self.player.base_ac}",
+            f"Or       : {self.player.gold}",
+            f"Exp      : {self.player.experience}",
+            f"\u00c9tage    : {self.current_level}",
+            "",
+            "Appuyez sur une touche...",
+        ]
+        for i, line in enumerate(lines):
             try:
                 self.screen.stdscr.addstr(i, 0, line)
-            except:
+            except curses.error:
                 pass
         self.screen.stdscr.refresh()
-        while self.screen.stdscr.getch() != ord(' '):
-            pass
+        self.screen.stdscr.getch()

@@ -53,7 +53,7 @@ class Player:
         self.name = name
         self.x: int = 0
         self.y: int = 0
-        self.char = '@'
+        self.char = '\u263b'  # ☻ (CP437 0x02)
 
         # Stats
         self.stats = Stats(
@@ -239,26 +239,17 @@ class Player:
         """Check if player can take actions."""
         return self.is_alive() and self.status.can_act()
 
-    def get_status_string(self) -> str:
-        """Get status bar string."""
-        status = f"Niv:{self.level} HP:{self.current_hp}/{self.max_hp} "
-        status += f"Nourriture:{self.current_food} Or:{self.gold} "
-        status += f"CA:{self.current_ac}"
-
-        # Add status effects
-        effects = []
-        if self.status.is_blind:
-            effects.append("Aveugle")
-        if self.status.is_confused:
-            effects.append("Confus")
-        if self.status.is_paralyzed:
-            effects.append("Paralysé")
-        if self.status.is_poisoned:
-            effects.append("Empoisonné")
-        if self.status.is_hasted:
-            effects.append("Rapide")
-
-        if effects:
-            status += " [" + ",".join(effects) + "]"
-
-        return status
+    def get_status_string(self, dungeon_level: int = 1) -> str:
+        """Get status bar string matching original MORIA display_character_stats."""
+        ac = self.base_ac
+        ac_sign = " +" if ac >= 1 else " "
+        return (
+            f"Niv {dungeon_level:2d}"
+            f" Or{self.gold:6d}"
+            f"   PV{self.current_hp:4d}/{self.max_hp:3d}"
+            f"   Int{self.stats.intelligence:3d}"
+            f"   Dex{self.stats.dexterity:3d}"
+            f"   For{self.current_food:3d}"
+            f"   CA{ac_sign}{ac}"
+            f"   Exp {self.level:2d}/{self.experience:4d}"
+        )
