@@ -33,7 +33,7 @@ class Dungeon:
     def __init__(self, level: int):
         self.level = level
         self.width = 79
-        self.height = 22
+        self.height = 21
         self.map = [[' ' for _ in range(self.width)] for _ in range(self.height)]
         self.discovered = [[False for _ in range(self.width)] for _ in range(self.height)]  # Fog of war
         self.rooms = []
@@ -52,210 +52,146 @@ class Dungeon:
         self._populate()
 
     def _draw_border(self):
-        for y in range(self.height):
-            for x in range(self.width):
-                if y == 0:
-                    self.map[y][x] = '┌' if x == 0 else ('┐' if x == self.width - 1 else '─')
-                    self.discovered[y][x] = True  # Border always visible
-                elif y == self.height - 1:
-                    self.map[y][x] = '└' if x == 0 else ('┘' if x == self.width - 1 else '─')
-                    self.discovered[y][x] = True  # Border always visible
-                elif x == 0 or x == self.width - 1:
-                    self.map[y][x] = '│'
-                    self.discovered[y][x] = True  # Border always visible
+        """Draw grid of walls separating 390 rooms and outer border.
+
+        Layout (0-indexed): 10 room rows × 39 room cols.
+        Rooms at odd×odd positions (rows 1,3,...,19 × cols 1,3,...,77).
+        """
+        # Vertical walls │ between horizontally adjacent rooms
+        for a in range(1, 11):       # 10 room rows
+            for b in range(1, 39):   # 38 vertical walls per row
+                self.map[2*a - 1][2*b] = '│'
+
+        # Horizontal walls ─ between vertically adjacent rooms
+        for a in range(1, 10):       # 9 wall rows between 10 room rows
+            for b in range(1, 40):
+                self.map[2*a][2*b - 1] = '─'
+
+        # Intersections ┼ at wall crossings
+        for a in range(1, 10):
+            for b in range(1, 39):
+                self.map[2*a][2*b] = '┼'
+
+        # Outer border
+        # Top: ┌─┬─┬─...─┬─┐
+        self.map[0][0] = '┌'
+        self.map[0][self.width - 1] = '┐'
+        for c in range(1, self.width - 1):
+            self.map[0][c] = '┬' if c % 2 == 0 else '─'
+
+        # Bottom: └─┴─┴─...─┴─┘
+        self.map[self.height - 1][0] = '└'
+        self.map[self.height - 1][self.width - 1] = '┘'
+        for c in range(1, self.width - 1):
+            self.map[self.height - 1][c] = '┴' if c % 2 == 0 else '─'
+
+        # Left and right edges
+        for r in range(1, self.height - 1):
+            if r % 2 == 0:
+                self.map[r][0] = '├'
+                self.map[r][self.width - 1] = '┤'
+            else:
+                self.map[r][0] = '│'
+                self.map[r][self.width - 1] = '│'
 
     def _create_room_grid(self):
-        """Create a grid of rooms with walls between them.
-        Translated from draw_dungeon_border() at lines 3148-3174.
+        """Initialize union-find for 390 rooms (10 rows × 39 cols).
 
-        The grid has:
-        - 10 rows x 39 columns = 390 rooms
-        - Each room is 2x2 walkable tiles
-        - Walls drawn between rooms
+        Room at grid (r, c) has ID = (r-1)*39 + c, where r=1..10, c=1..39.
+        Room map position: Python (2*r-1, 2*c-1).
         """
-        # Fill everything with SPACES first (rooms are walkable)
-        for y in range(1, self.height - 1):
-            for x in range(1, self.width - 1):
-                self.map[y][x] = ' '
-
-        # Draw vertical walls between room columns
-        # Lines 3148-3154: vertical walls (0xb3 = │)
-        # These are at x = col*2+1 for col = 1..38
-        for row in range(0, 11+1):  # rows 0-10
-            for col in range(1, 39):  # cols 1-38 (between columns)
-                map_y = row * 2       +1
-                map_x = col * 2 #+ 1
-                if 1 <= map_y < self.height - 1 and 1 <= map_x < self.width - 1:
-                    self.map[map_y][map_x] = '│'
-                    #self.map[map_y][map_x] = 'a'
-
-        # Draw horizontal walls between room rows
-        # Lines 3157-3165: horizontal walls (0xc4 = ─)
-        # These are at y = row*2+1 for row = 1..9
-        for row in range(1, 10):  # rows 1-9 (between rows)
-            for col in range(0, 39+1):  # cols 0-38
-                map_y = row * 2 #+ 1
-                map_x = col * 2  +1    
-                if 1 <= map_y < self.height - 1 and 1 <= map_x < self.width - 1:
-                    self.map[map_y][map_x] = '─'
-
-        # Draw crosses at intersections
-        # Lines 3166-3174: crosses (0xc5 = ┼)
-        for row in range(1, 10):  # rows 1-9
-            for col in range(1, 39):  # cols 1-38
-                map_y = row * 2 #+ 1
-                map_x = col * 2 #+ 1
-                if 1 <= map_y < self.height - 1 and 1 <= map_x < self.width - 1:
-                    self.map[map_y][map_x] = '┼'
+        self.uf = UnionFind(391)  # 1-indexed, rooms 1..390
 
     def _generate_corridors(self):
-        """Generate dungeon corridors using Kruskal's MST algorithm.
-        Translated from MORIA.C generate_dungeon_corridors() at lines 3040-3131.
+        """Connect rooms via Kruskal's MST.
 
-        The algorithm:
-        - 391 vertical corridors connect rooms vertically (row i to row i+1)
-        - 417 horizontal corridors connect rooms horizontally (col i to col i+1)
-        - Total: 808 corridor positions
-        - Uses Union-Find to build minimum spanning tree
+        731 possible walls: 351 horizontal + 380 vertical.
+        Randomly selects walls and removes them if they connect
+        different components in the union-find structure.
         """
-        ROOM_COLS = 39  # 0x27
-        ROOM_ROWS = 10  # 0xa
-        total_rooms = ROOM_ROWS * ROOM_COLS  # 390
+        unions_done = 0
 
-        # Initialize union-find for all rooms
-        uf = UnionFind(total_rooms)
+        while unions_done < 389:  # Need 389 edges for 390-room spanning tree
+            w = random.randint(1, 731)
 
-        # Generate all 808 corridors in random order (Kruskal's algorithm)
-        corridors = list(range(1, 809))
-        random.shuffle(corridors)
+            if w <= 351:  # Horizontal wall ─
+                row_idx = (w - 1) // 39 + 1   # 1..9
+                col_idx = (w - 1) % 39 + 1     # 1..39
+                map_row = 2 * row_idx           # even row (2,4,...,18)
+                map_col = 2 * col_idx - 1       # odd col (1,3,...,77)
+                room1 = w
+                room2 = w + 39  # room directly below
+            else:  # Vertical wall │
+                adjusted = w - 351              # 1..380
+                col_idx = (adjusted - 1) // 10 + 1  # 1..38
+                row_idx = (adjusted - 1) % 10 + 1   # 1..10
+                map_row = 2 * row_idx - 1       # odd row (1,3,...,19)
+                map_col = 2 * col_idx           # even col (2,4,...,76)
+                room1 = (row_idx - 1) * 39 + col_idx
+                room2 = room1 + 1  # room to the right
 
-        for position in corridors:
-            if position <= 391:  # Vertical corridor
-                # Lines 3057-3058: Calculate room coordinates
-                row = (position - 1) // ROOM_COLS  # (pos-1)/0x27
-                col = (position - 1) % ROOM_COLS   # (pos-1)%0x27
+            # Skip if wall already removed
+            if self.map[map_row][map_col] == ' ':
+                continue
 
-                # This vertical corridor connects room(row,col) to room(row+1,col)
-                # Line 3070: position + 0x27 (position + 39)
-                room1 = row * ROOM_COLS + col
-                room2 = (row + 1) * ROOM_COLS + col
-
-                # Check bounds
-                if room2 >= total_rooms:
-                    continue
-
-                # Lines 3071-3074: Check if rooms are in different regions
-                if uf.find(room1) != uf.find(room2):
-                    # Vertical corridor opens the horizontal wall between vertically adjacent rooms
-                    # Wall is at y = (row+1)*2+1 (between row and row+1)
-                    # Corridor opens one cell in the middle of wall at x = col*2+1 or col*2+2
-                    map_y = (row + 1) * 2 + 1  # The horizontal wall position
-                    map_x = col * 2 + 2  # Middle of the room column
-
-                    if 1 <= map_y < self.height - 1 and 1 <= map_x < self.width - 1:
-                        # Line 3080: Write 0x20 (space) at corridor position
-                        self.map[map_y][map_x] = ' '
-
-                        # Lines 3082-3089: Union the two rooms
-                        uf.union(room1, room2)
-
-            else:  # Horizontal corridor
-                # Line 3094: Adjust position for horizontal corridors
-                adj_pos = position - 390  # position - 0x186
-
-                # Lines 3095-3096: Calculate coordinates
-                row = (adj_pos - 1) // 11  # (pos-1)/0xb
-                col = (adj_pos - 1) % 11   # (pos-1)%0xb
-
-                # Line 3107: This connects room at (col-1)*39+row to (col-1)*39+row+1
-                room1 = col * ROOM_COLS + row
-                room2 = col * ROOM_COLS + row + 1
-
-                # Check bounds
-                if room2 >= total_rooms:
-                    continue
-
-                # Lines 3109-3112: Check if rooms are in different regions
-                if uf.find(room1) != uf.find(room2):
-                    # Horizontal corridor opens the vertical wall between horizontally adjacent rooms
-                    # room1 = col*39 + row is at grid position (row=col, col=row) - confusing naming!
-                    # room2 = room1+1 means columns differ by 1
-                    # Wall is at x = (row+1)*2+1 (between columns row and row+1)
-                    # Corridor opens one cell in the middle of wall at y = col*2+1 or col*2+2
-                    map_y = col * 2 + 2  # Middle of the room row
-                    map_x = (row + 1) * 2 + 1  # The vertical wall position
-
-                    if 1 <= map_y < self.height - 1 and 1 <= map_x < self.width - 1:
-                        # Line 3117: Write 0x20 at corridor position
-                        self.map[map_y][map_x] = ' '
-
-                        # Lines 3119-3126: Union the two rooms
-                        uf.union(room1, room2)
+            # Only remove if connecting different components
+            if self.uf.find(room1) != self.uf.find(room2):
+                self.map[map_row][map_col] = ' '
+                self.uf.union(room1, room2)
+                unions_done += 1
 
     def _generate_room(self):
-        """Generate one room per level, matching original generate_dungeon_level().
-        Lines 3185-3356 in MORIA_with_constants.C.
-        Room overlays the grid, using T-junction chars for walls:
-          ┴ (0xc1) top wall, ┬ (0xc2) bottom wall,
-          ┤ (0xb4) left wall, ├ (0xc3) right wall.
-        Interior grid walls are cleared to spaces."""
-        if self.level < 1:
+        """Generate one large room overlay per level (from generate_dungeon_level).
+
+        Room size shrinks with dungeon depth. Draws walls ┴┬┤├ and
+        clears interior to space, overlaying the corridor grid.
+        """
+        if self.level <= 0 or self.level > 15:
             return
 
-        # Room dimensions (from original formulas)
-        max_w_rand = max(1, 16 - self.level)
-        room_w = random.randint(0, max_w_rand - 1) * 2 + 8
-        max_h_rand = max(1, (19 - self.level) // 3)
-        room_h = random.randint(0, max_h_rand - 1) * 2 + 4
-
-        # Room position (converted from 1-indexed original to 0-indexed)
-        max_x_rand = max(1, 38 - room_w // 2)
-        room_x = random.randint(0, max_x_rand - 1) * 2 + 2
-        max_y_rand = max(1, 9 - room_h // 2)
-        room_y = random.randint(0, max_y_rand - 1) * 2 + 2
-
-        # Clamp to dungeon bounds
-        if room_x + room_w >= self.width - 1:
-            room_w = ((self.width - 2 - room_x) // 2) * 2
-        if room_y + room_h >= self.height - 1:
-            room_h = ((self.height - 2 - room_y) // 2) * 2
-
-        if room_w < 4 or room_h < 4:
+        # Room dimensions (C: local_12=width, local_10=height)
+        width = random.randrange(16 - self.level) * 2 + 8    # C: random_mod(0x10-value)*2+8
+        height_range = (19 - self.level) // 3                 # C: (0x13-value)/3
+        if height_range <= 0:
             return
+        height = random.randrange(height_range) * 2 + 4      # C: random_mod(...)*2+4
 
-        # Phase 1: Top and bottom walls
-        for i in range(1, room_w // 2):
-            x = room_x + i * 2
-            if 1 <= x < self.width - 1:
-                if 1 <= room_y < self.height - 1:
-                    self.map[room_y][x] = '┴'
-                if 1 <= room_y + 1 < self.height - 1:
-                    self.map[room_y + 1][x] = ' '
-                if 1 <= room_y + room_h < self.height - 1:
-                    self.map[room_y + room_h][x] = '┬'
+        # Room position in C coords (odd values: local_c, local_e)
+        col_range = 38 - width // 2                           # C: 0x26 - local_12/2
+        row_range = 9 - height // 2
+        if col_range <= 0 or row_range <= 0:
+            return
+        c_col = random.randrange(col_range) * 2 + 3
+        c_row = random.randrange(row_range) * 2 + 3
 
-        # Phase 2: Left and right walls
-        for i in range(1, room_h // 2):
-            y = room_y + i * 2
-            if 1 <= y < self.height - 1:
-                if 1 <= room_x < self.width - 1:
-                    self.map[y][room_x] = '┤'
-                if 1 <= room_x + 1 < self.width - 1:
-                    self.map[y][room_x + 1] = ' '
-                if 1 <= room_x + room_w < self.width - 1:
-                    self.map[y][room_x + room_w] = '├'
+        # Convert to 0-indexed Python coords (even values)
+        pr = c_row - 1
+        pc = c_col - 1
+        half_w = width // 2 - 1
+        half_h = height // 2 - 1
 
-        # Phase 3: Interior fill - clear ALL cells inside room walls.
-        # Original C code (lines 3288-3313) clears 3 cells per grid unit:
-        #   crossing (even,even), vertical wall below, horizontal wall right.
-        # The 4th cell (odd,odd) is already space in the C grid layout.
-        # Our Python grid has ┼ at (odd,odd) instead, so we must clear all 4.
-        for y in range(room_y + 1, room_y + room_h):
-            for x in range(room_x + 1, room_x + room_w):
-                if 1 <= x < self.width - 1 and 1 <= y < self.height - 1:
-                    self.map[y][x] = ' '
+        # Top wall ┴ (0xc1), space below, bottom wall ┬ (0xc2)
+        for i in range(1, half_w + 1):
+            col = pc + i * 2
+            self.map[pr][col] = '┴'
+            self.map[pr + 1][col] = ' '
+            self.map[pr + height][col] = '┬'
 
-        self.rooms.append((room_x, room_y, room_w, room_h))
+        # Left wall ┤ (0xb4), space right, right wall ├ (0xc3)
+        for j in range(1, half_h + 1):
+            row = pr + j * 2
+            self.map[row][pc] = '┤'
+            self.map[row][pc + 1] = ' '
+            self.map[row][pc + width] = '├'
+
+        # Clear interior (3 cells per grid position)
+        for i in range(1, half_w + 1):
+            for j in range(1, half_h + 1):
+                r = pr + j * 2
+                c = pc + i * 2
+                self.map[r][c] = ' '       # intersection
+                self.map[r + 1][c] = ' '   # cell below
+                self.map[r][c + 1] = ' '   # cell to right
 
     def _place_stairs(self):
         floor_tiles = []
