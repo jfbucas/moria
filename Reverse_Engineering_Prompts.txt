@@ -1,0 +1,341 @@
+Here's the optimal sequence. Each prompt builds on the output of the previous ones, going from data foundations to game logic.
+
+Phase 1: Data Structures & Memory Map
+Prompt 1 — Global state & memory layout
+
+
+Using reverse/MORIA_with_constants.C, create a comprehensive memory map 
+of all global variables. Focus on:
+
+1. All named addresses (0xb86c, 0xb870, 0xe52d, etc.) - what they store
+2. The player data structure layout (offsets from player base pointer)
+3. The monster object layout (fields accessed via pointer offsets)
+4. The item/object layout (fields accessed via pointer offsets)
+5. The map buffer layout (how buf + row * MAP_WIDTH + col - 0x50 works)
+
+Scan the ENTIRE file for patterns like *(int *)(addr), *(char *)(ptr + offset),
+and memory addresses in the range 0xb800-0xe600. Document each one.
+
+Output a structured reference document I can save as reverse/MEMORY_MAP.md
+Prompt 2 — String table & message catalog
+
+
+Using reverse/MORIA_with_constants.C and reverse/memory.dump, build a 
+complete message catalog. The string table uses CP850 encoding with 
+these offset formulas:
+- Region 1 (0-100): offset = value × 51 - 15287 (from base 0x22DE0)
+- Region 2 (101-300): offset = (value-100) × 31 - 10677
+- Region 3 (301-400): offset = (value-300) × 73 - 17572
+- Region 4 (401+): offset = (value-400) × 16 - 7283
+
+1. Find every call to display_score_with_fatal(N), 
+   display_character_status_message(N, ...), and any function that takes 
+   a message ID parameter
+2. Extract the actual French string from memory.dump for each ID
+3. Create a lookup table: message_id → French text → where it's used
+
+Output as reverse/MESSAGE_CATALOG.md
+Prompt 3 — Item & monster template database
+
+
+Using reverse/MORIA_with_constants.C, fully reverse engineer the function 
+initialize_monster_or_item (line 2189, ~340 lines). This is the master 
+template database that initializes all monster and item types.
+
+Cross-reference with reverse/memory.dump for string data. Document:
+1. Each monster type: id, name, char, stats (hp, ac, damage, speed, xp, flags)
+2. Each item type: id, name, char, type, subtype, properties
+3. The type/subtype system (what do type values 1-25+ mean?)
+4. Special flags and their meanings
+
+Also analyze: spawn_monster_from_template (line 2534) to understand 
+how templates become live objects.
+
+Output as reverse/ENTITY_DATABASE.md
+Phase 2: Core Systems
+Prompt 4 — Inventory & object management
+
+
+Using reverse/MORIA_with_constants.C and the memory map from Phase 1, 
+reverse engineer the complete inventory/object system:
+
+Functions to analyze:
+- find_item_at_coords (line 123)
+- allocate_monster_object / free_monster_object (lines 371, 401)
+- allocate_item_object / free_item_object (lines 421, 452)
+- decrement_item_quantity (line 472)
+- check_inventory_has_item (line 498)
+- build_object_index (line 581)
+- count_item_total_quantity (line 605)
+- handle_item_drop_or_unequip (line 632)
+- remove_item_from_list / prepend_item_to_list (lines 1211, 1266)
+- destroy_or_consume_item (line 1286)
+- is_item_equipped_or_in_pack (line 1360)
+- pickup_item (line 7233)
+- drop_item (line 7647)
+- identify_item / discover_item (lines 7686, 7795)
+- equip_item / remove_equipped_item_menu (lines 7841, 7960)
+
+Document: the linked list structure, how items move between floor/
+inventory/equipment, the identify/discover mechanic, item stacking.
+
+Output clean pseudocode for each function with meaningful variable names.
+Prompt 5 — Rendering & field of view
+
+
+Using reverse/MORIA_with_constants.C, reverse engineer the display system:
+
+Functions to analyze:
+- put_char_at_pos (line 283) - how characters are drawn on screen
+- explore_tile_at_position (line 723) - what each tile type looks like
+- render_field_of_view (line 854) - the FOV algorithm (~200 lines)
+- redraw_dungeon_level (line 1064) - full screen redraw
+- display_character_stats (line 223) - the status bar format
+- display_food_status (line 1940) - hunger display
+- draw_game_hud (line 3873) - the HUD layout (~400 lines)
+- redraw_screen_map (line 5220)
+- display_object_info (line 4383) - how items are described
+
+Key questions:
+1. What is the exact FOV algorithm? (raycasting? shadow? simple radius?)
+2. What character represents each tile/entity type?
+3. What is the exact status bar format string?
+4. How does the "discovered" (fog of war) system work?
+
+Output annotated pseudocode for each function.
+Prompt 6 — Monster spawning & population
+
+
+Using reverse/MORIA_with_constants.C, reverse engineer monster spawning:
+
+Functions to analyze:
+- populate_level_with_monsters (line 2950) - main population function
+- spawn_monsters (line 3360) - called after dungeon generation
+- spawn_special_monster_with_item (line 2760) - boss/unique spawning
+- spawn_unique_monster_type_23 (line 2833)
+- spawn_monster_type_1f (line 2863)
+- spawn_wandering_monster (line 2879) - random encounters
+- add_monster_to_level_list / prepend_monster_to_global_list (lines 2899, 2926)
+- find_random_empty_floor_space (line 2014)
+- find_position_near_player (line 2035)
+- place_object_on_map (line 2121)
+
+Document:
+1. How many monsters per level? What formula?
+2. Which monsters appear on which levels?
+3. How are boss monsters (Sauron, Morgoth) spawned?
+4. The wandering monster system (spawn over time)
+5. How is the Silmaril placed/dropped?
+
+Output annotated pseudocode.
+Phase 3: Game Mechanics
+Prompt 7 — Combat system
+
+
+Using reverse/MORIA_with_constants.C, reverse engineer combat:
+
+Functions to analyze:
+- execute_player_attack (line 6706, ~360 lines) - player attacks monster
+- monster_attack_player (line 6368, ~340 lines) - monster attacks player
+- handle_attack_action (line 9233) - attack command handler
+- calculate_dice_or_damage (line 2148) - dice rolling
+- apply_armor_damage_reduction (line 9205) - AC calculation
+- kill_monster (line 6130) - monster death handling
+- cleanup_after_monster_death (line 6346)
+- reveal_shapeshifter (line 6283)
+- process_monster_breeding (line 6304)
+- get_sign (line 48) - used in combat calculations
+
+Document:
+1. The full attack resolution formula (to-hit, damage, AC)
+2. Special attack types (poison, drain, etc.)
+3. Monster special abilities and flags
+4. Death/XP rewards
+5. Counter-attack mechanics
+
+Output annotated pseudocode.
+Prompt 8 — Monster AI & movement
+
+
+Using reverse/MORIA_with_constants.C, reverse engineer monster behavior:
+
+Functions to analyze:
+- update_all_monsters (line 11313, ~360 lines) - main monster AI loop
+- validate_tile_movement (line 10920)
+- calculate_movement_direction (line 11040)
+- move_entity_on_map (line 11090, ~220 lines)
+- is_tile_passable (line 11713)
+- is_position_in_bounds (line 707)
+
+Document:
+1. How does each monster type decide where to move?
+2. Chase behavior vs wandering
+3. Speed system (how often do fast/slow monsters act?)
+4. Special behaviors (Eye doesn't move, Huorn only when disturbed)
+5. Door/wall interaction
+6. Fleeing behavior
+
+Output annotated pseudocode.
+Prompt 9 — Magic system (spells, potions, wands)
+
+
+Using reverse/MORIA_with_constants.C, reverse engineer the magic system:
+
+Functions to analyze:
+- prepare_and_cast_spell / execute_spell_effect (lines 9495, 9495)
+- show_spell_info / check_spell_cast_chance (lines 9354, 9462)
+- learn_spell / remove_spell (lines 7181, 7071)
+- drink_potion_effect (line 10044, ~490 lines) - all potion effects
+- FUN_1000_aa1d (line 8666, ~230 lines) - wand effects (monster-targeting)
+- FUN_1000_b032 (line 8897, ~270 lines) - wand effects (environment)
+- use_item_from_inventory (line 10573) - item usage dispatcher
+- check_confusion_recovery (line 10536)
+- apply_heroism_effect (line 5930)
+
+Document:
+1. All potion effects with their IDs and exact mechanics
+2. All wand effects with their IDs and exact mechanics  
+3. All spell effects (if spells exist beyond wands)
+4. Status effect system (blind, confused, paralyzed, hallucinating)
+5. The item identification system
+
+Output annotated pseudocode.
+Prompt 10 — Player movement & level transitions
+
+
+Using reverse/MORIA_with_constants.C, reverse engineer player actions:
+
+Functions to analyze:
+- move_player_in_direction (line 11761, ~240 lines)
+- advance_to_next_level (line 11670) - stairs up/down
+- initialize_new_level (line 12004) 
+- place_player_on_level (line 3814)
+- teleport_player (line 6102)
+- rest_and_regenerate (line 12445)
+- level_up_character (line 5974)
+- lose_experience_level (line 6012)
+- remove_magic_item (line 6032)
+- reset_food_flags (line 7104)
+- display_food_status (line 1940)
+- handle_timed_effect (line 12026)
+
+Document:
+1. What happens when going up/down stairs?
+2. Level persistence (are levels saved or regenerated?)
+3. The food/hunger system with exact timings
+4. Natural regeneration rules
+5. Level-up stat gains
+6. How timed effects (blindness, paralysis, etc.) tick down
+
+Output annotated pseudocode.
+Phase 4: Game Flow & UI
+Prompt 11 — Main game loop & command handler
+
+
+Using reverse/MORIA_with_constants.C, reverse engineer the game flow:
+
+Functions to analyze:
+- entry (line 12682) - program entry point
+- show_main_menu (line 12595) - title screen
+- initialize_game (line 3727) - game init sequence
+- main_game_loop (line 12482) - the main loop
+- main_game_command_loop (line 12139, ~300 lines) - keyboard handler
+- select_or_load_character (line 3436) - character creation/loading
+- initialize_new_game (line 3530, ~200 lines) - new game setup
+
+Document:
+1. The complete key mapping (which key → which action)
+2. The turn sequence (player acts → monsters act → effects tick → redraw)
+3. Character creation options
+4. Game initialization order
+5. What data is saved/loaded
+
+Output the full key mapping table and game flow diagram.
+Prompt 12 — Shops, scoring & UI screens
+
+
+Using reverse/MORIA_with_constants.C, reverse engineer remaining UI:
+
+Functions to analyze:
+- shop_purchase_menu (line 7483) - shop system
+- display_shop_item (line 7459)
+- display_inventory_list (line 5324)
+- FUN_1000_6249 (line 4961) - help/command list display
+- process_options_menu (line 5110)
+- display_help_file (line 5256)
+- load_high_scores / display_high_scores / save_high_scores 
+  (lines 5449, 5548, 5689)
+- process_game_over (line 5752) - death screen
+- confirm_save_or_quit (line 5894)
+- handle_player_death (line 3863)
+
+Document:
+1. The shop system (what's sold, pricing, buy/sell mechanics)
+2. The score calculation formula
+3. High score file format
+4. The death/game over sequence
+5. Save file format (if any)
+
+Output annotated pseudocode.
+Prompt 13 — Unnamed functions
+
+
+Using reverse/MORIA_with_constants.C and all previous analysis documents, 
+identify and document the remaining unnamed functions:
+
+- FUN_1000_1885 (line 1403)
+- FUN_1000_1988 (line 1463) 
+- FUN_1000_1a1a (line 1495)
+- FUN_1000_1b91 (line 1552)
+- FUN_1000_1cd1 (line 1627)
+- FUN_1000_1d47 (line 1664)
+- FUN_1000_20dd (line 1850)
+- FUN_1000_2138 (line 1872)
+- FUN_1000_2214 (line 1918)
+- FUN_1000_53c9 (line 4282)
+- FUN_1000_5422 (line 4306)
+- FUN_1000_54d2 (line 4341)
+- FUN_1000_5527 (line 4366)
+- FUN_1000_5fd2 (line 4808)
+- FUN_1000_610b (line 4884)
+- FUN_1000_62b7 (line 4991)
+- FUN_1000_6431 (line 5057)
+- FUN_1000_a45b (line 8315)
+- FUN_1000_a518 (line 8360)
+- FUN_1000_a68a (line 8448)
+- FUN_1000_a74b (line 8500)
+- FUN_1000_a85c (line 8581)
+- FUN_1000_a91f (line 8625)
+- FUN_1000_b711 (line 9168)
+
+For each: read the code, determine what it does based on the functions 
+it calls and the data it accesses, give it a proper name, and write 
+pseudocode.
+Phase 5: Synthesis
+Prompt 14 — Final compilation
+
+
+Using all the reverse engineering documents produced in prompts 1-13, 
+create a single comprehensive reference: reverse/MORIA_COMPLETE.md
+
+Structure:
+1. Game overview & architecture
+2. Data structures (player, monster, item, map)
+3. Complete function list with descriptions (original name → purpose)
+4. Game constants (all magic numbers decoded)
+5. Complete message catalog
+6. Key algorithms (FOV, pathfinding, combat formulas, dungeon gen)
+7. Differences/quirks from standard roguelikes
+8. Any unresolved mysteries
+
+This is the definitive reference for reimplementing the game in Python.
+Tips for best results:
+
+Run each prompt in a fresh session with the full file available
+After each prompt, save the output as the specified .md file in reverse/
+For prompts 4+, mention the previous docs: "Reference reverse/MEMORY_MAP.md and reverse/ENTITY_DATABASE.md for data structure context"
+Prompts 3, 7, 9 are the longest — the functions they analyze are 200-500 lines each
+Prompt 13 (unnamed functions) works best last, when all surrounding code is understood
+
+
+

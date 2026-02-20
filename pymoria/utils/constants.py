@@ -137,3 +137,4 @@ class ItemType:
     FOOD = 6
     GOLD = 7
     WAND = 8
+    SILMARIL = 9

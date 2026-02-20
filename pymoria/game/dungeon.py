@@ -206,7 +206,8 @@ class Dungeon:
         if len(floor_tiles) >= 2:
             random.shuffle(floor_tiles)
             self.stairs_up = floor_tiles[0]
-            self.map[self.stairs_up[1]][self.stairs_up[0]] = '<'
+            if self.level != 1:  # Level 1: stairs up only appear with Silmaril
+                self.map[self.stairs_up[1]][self.stairs_up[0]] = '<'
             
             best = max(floor_tiles[1:min(20, len(floor_tiles))], 
                       key=lambda p: abs(p[0]-self.stairs_up[0])+abs(p[1]-self.stairs_up[1]))

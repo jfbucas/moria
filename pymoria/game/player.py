@@ -249,7 +249,7 @@ class Player:
             f"   PV{self.current_hp:4d}/{self.max_hp:3d}"
             f"   Int{self.stats.intelligence:3d}"
             f"   Dex{self.stats.dexterity:3d}"
-            f"   For{self.current_food:3d}"
+            f"   For{self.stats.strength:3d}"
             f"   CA{ac_sign}{ac}"
             f"   Exp {self.level:2d}/{self.experience:4d}"
         )

@@ -87,12 +87,48 @@ class GameEngine:
             except KeyboardInterrupt:
                 self.running = False
 
+    def victory(self):
+        """Player wins - escaped with the Silmaril."""
+        self.screen.stdscr.clear()
+        lines = [
+            "*** VICTOIRE ! ***",
+            "",
+            f"{self.player.name} s'échappe de Moria avec le Silmaril!",
+            "",
+            f"Niveau atteint : {self.player.level}",
+            f"Or amassé      : {self.player.gold}",
+            f"Tours de jeu   : {self.player.turn_count}",
+            "",
+            "Appuyez sur une touche...",
+        ]
+        for i, line in enumerate(lines):
+            try:
+                self.screen.stdscr.addstr(i + 2, 10, line)
+            except curses.error:
+                pass
+        self.screen.stdscr.refresh()
+        self.screen.stdscr.getch()
+        self.running = False
+
     def update(self):
         """Update game state."""
         self.player.update()
 
         # Update monsters (they move after player acts)
         self.update_monsters()
+
+        # Level 1: reveal exit stairs when player has Silmaril
+        if self.current_level == 1 and self.dungeon.stairs_up:
+            from utils.constants import ItemType
+            sx, sy = self.dungeon.stairs_up
+            if self.dungeon.map[sy][sx] != '<':
+                has_silmaril = any(
+                    item and item.type == ItemType.SILMARIL
+                    for item in self.player.inventory.items
+                )
+                if has_silmaril:
+                    self.dungeon.map[sy][sx] = '<'
+                    self.message = "Un escalier apparaît! La sortie!"
 
         # Check death
         if not self.player.is_alive():
@@ -270,8 +306,16 @@ class GameEngine:
 
         if monster['hp'] <= 0:
             self.message = f"Vous tuez le {monster['template'].name}!"
+            mx, my = monster['x'], monster['y']
             self.dungeon.monsters.remove(monster)
             self.player.gain_experience(monster['template'].experience)
+            # Morgoth drops the Silmaril
+            if monster['template'].name == "Morgoth":
+                from data.items import ItemTemplate
+                from utils.constants import ItemType, CHAR_SILMARIL
+                silmaril = ItemTemplate("Silmaril", ItemType.SILMARIL, CHAR_SILMARIL, value=10000, level=12)
+                self.dungeon.items.append({'template': silmaril, 'x': mx, 'y': my})
+                self.message += " Le Silmaril tombe à terre!"
         else:
             self.message = f"Vous frappez le {monster['template'].name} ({damage} dégâts)."
 
@@ -304,12 +348,12 @@ class GameEngine:
     def try_ascend(self):
         """Try to ascend stairs."""
         if (self.player.x, self.player.y) == self.dungeon.stairs_up:
-            if self.current_level > 1:
+            if self.current_level == 1:
+                self.victory()
+            elif self.current_level > 1:
                 self.current_level -= 1
                 self.new_level(self.current_level)
                 self.message = f"Vous montez au niveau {self.current_level}."
-            else:
-                self.message = "Vous ne pouvez pas remonter plus haut."
         else:
             self.message = "Il n'y a pas d'escalier ici."
 
