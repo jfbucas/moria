@@ -1,157 +1,414 @@
 """
-Item database extracted from reverse-engineered game data.
-Based on memory dump analysis at offset 0x2b000-0x2d800.
+Item Templates for PyMoria
+Based on reverse/ENTITY_DATABASE.md Sections 6-13
+Item appearance randomization, potion colors, wand woods, scroll names
 """
 
 import random
-from dataclasses import dataclass, field
-from typing import Optional, List
-from utils.constants import ItemType, WandEffect
+from typing import List
 
 
-@dataclass
-class ItemTemplate:
-    """Item template with properties."""
-    name: str
-    type: int
-    char: str
-    ac_bonus: int = 0
-    damage: str = ""
-    tohit_bonus: int = 0
-    value: int = 0
-    weight: int = 1
-    level: int = 1
+# =============================================================================
+# POTION COLORS (24 colors, randomized at game start)
+# Reference: ENTITY_DATABASE.md Section 6
+# =============================================================================
 
-
-# Weapons (14 from extracted data) - Using '=' per MORIA.TXT manual
-WEAPONS = [
-    ItemTemplate("dague", ItemType.WEAPON, "=", damage="1d4", tohit_bonus=0, value=2, weight=1, level=1),
-    ItemTemplate("lance", ItemType.WEAPON, "=", damage="1d6", tohit_bonus=0, value=5, weight=3, level=1),
-    ItemTemplate("masse", ItemType.WEAPON, "=", damage="1d8", tohit_bonus=0, value=8, weight=4, level=2),
-    ItemTemplate("sabre", ItemType.WEAPON, "=", damage="1d8", tohit_bonus=0, value=10, weight=3, level=2),
-    ItemTemplate("cimeterre", ItemType.WEAPON, "=", damage="1d8", tohit_bonus=1, value=15, weight=3, level=3),
-    ItemTemplate("épée", ItemType.WEAPON, "=", damage="1d10", tohit_bonus=0, value=20, weight=4, level=3),
-    ItemTemplate("épée à deux mains", ItemType.WEAPON, "=", damage="2d6", tohit_bonus=0, value=35, weight=6, level=5),
-    ItemTemplate("épée elfique", ItemType.WEAPON, "=", damage="1d10", tohit_bonus=2, value=100, weight=3, level=8),
-    ItemTemplate("épée de glace", ItemType.WEAPON, "=", damage="1d12+cold", tohit_bonus=1, value=200, weight=4, level=10),
-    ItemTemplate("épée vampirique", ItemType.WEAPON, "=", damage="1d10+drain", tohit_bonus=2, value=300, weight=4, level=12),
-    ItemTemplate("hache", ItemType.WEAPON, "=", damage="1d10", tohit_bonus=0, value=15, weight=5, level=3),
-    ItemTemplate("arc", ItemType.WEAPON, "=", damage="1d8", tohit_bonus=0, value=25, weight=2, level=2),
-    ItemTemplate("flèches", ItemType.WEAPON, "=", damage="1d6", tohit_bonus=0, value=1, weight=0, level=1),
-    ItemTemplate("dague elfique", ItemType.WEAPON, "=", damage="1d5", tohit_bonus=2, value=50, weight=1, level=6),
+# Master list of 24 potion colors (French)
+POTION_COLORS_MASTER = [
+    "rouge",         # 1 - red
+    "blanche",       # 2 - white
+    "gludure",       # 3 - viscous
+    "brune",         # 4 - brown
+    "verte",         # 5 - green
+    "noire",         # 6 - black
+    "fluorescente",  # 7 - fluorescent
+    "argentee",      # 8 - silver
+    "orange",        # 9 - orange
+    "violette",      # 10 - violet
+    "incolore",      # 11 - colorless
+    "mordoree",      # 12 - golden-brown
+    "bleue",         # 13 - blue
+    "mauve",         # 14 - mauve
+    "rose",          # 15 - pink
+    "grise",         # 16 - gray
+    "jaune",         # 17 - yellow
+    "chinée",        # 18 - mottled
+    "cuivrée",       # 19 - copper
+    "moirée",        # 20 - shimmering
+    "beige",         # 21 - beige
+    "dorée",         # 22 - golden
+    "multicolore",   # 23 - multicolored
+    "albatre",       # 24 - alabaster
 ]
 
-# Armor (11 from extracted data)
-ARMOR = [
-    ItemTemplate("armure de cuir", ItemType.ARMOR, "", ac_bonus=2, value=10, weight=8, level=1),
-    ItemTemplate("armure de cuir renforcé", ItemType.ARMOR, "", ac_bonus=3, value=20, weight=10, level=2),
-    ItemTemplate("cotte de mailles", ItemType.ARMOR, "", ac_bonus=4, value=40, weight=15, level=3),
-    ItemTemplate("armure de fer", ItemType.ARMOR, "", ac_bonus=5, value=80, weight=20, level=5),
-    ItemTemplate("cuirasse d'acier", ItemType.ARMOR, "", ac_bonus=6, value=150, weight=22, level=7),
-    ItemTemplate("armure de mithril", ItemType.ARMOR, "", ac_bonus=8, value=500, weight=10, level=12),
-    ItemTemplate("heaume", ItemType.ARMOR, "", ac_bonus=1, value=15, weight=3, level=2),
-    ItemTemplate("cape elfique", ItemType.ARMOR, "", ac_bonus=1, value=100, weight=1, level=8),
-    ItemTemplate("gants de force", ItemType.ARMOR, "", ac_bonus=0, value=80, weight=1, level=6),
-    ItemTemplate("gants de dextérité", ItemType.ARMOR, "", ac_bonus=0, value=80, weight=1, level=6),
-    ItemTemplate("gants de maladresse", ItemType.ARMOR, "", ac_bonus=0, value=5, weight=1, level=1),
+# Randomized table (shuffled at game start)
+POTION_COLORS_RANDOMIZED = POTION_COLORS_MASTER.copy()
+
+
+# Potion effects (French names)
+# Reference: ENTITY_DATABASE.md Section 6
+POTION_EFFECTS = [
+    None,                           # 0 - unused
+    "de guérison",                  # 1 - Healing
+    "d'extra-guérison",             # 2 - Extra-healing
+    "de constitution",              # 3 - Constitution
+    "de force",                     # 4 - Strength
+    "de confusion",                 # 5 - Confusion
+    "empoisonnée",                  # 6 - Poison
+    "amnésiante",                   # 7 - Amnesia
+    "paralysante",                  # 8 - Paralysis
+    "accélérante",                  # 9 - Speed boost
+    "ralentissante",                # 10 - Slow
+    "hallucinogène",                # 11 - Hallucination
+    "aveuglante",                   # 12 - Blindness
+    "nourrissante",                 # 13 - Nourishing
+    "d'expérience",                 # 14 - Experience
+    "de perte de niveau",           # 15 - Level drain
+    "d'extralucidité",              # 16 - Clairvoyance
+    "de désorientation",            # 17 - Disorientation
+    "passe muraille",               # 18 - Pass-through-walls
+    "de lévitation",                # 19 - Levitation
+    "désaltérante",                 # 20 - Thirst-quenching
+    "d'invisibilité",               # 21 - Invisibility
+    "gazéifiante",                  # 22 - Gasification
+    "de dexterité",                 # 23 - Dexterity
+    "de régénération",              # 24 - Regeneration
 ]
 
-# Rings (various magical effects)
-RINGS = [
-    ItemTemplate("anneau de force", ItemType.RING, "=", value=100, level=5),
-    ItemTemplate("anneau de protection", ItemType.RING, "=", ac_bonus=2, value=150, level=6),
-    ItemTemplate("anneau de vitesse", ItemType.RING, "=", value=200, level=8),
-    ItemTemplate("anneau de régénération", ItemType.RING, "=", value=250, level=10),
-    ItemTemplate("anneau de téléportation", ItemType.RING, "=", value=50, level=3),
+
+# =============================================================================
+# WAND WOODS (22 woods, randomized at game start)
+# Reference: ENTITY_DATABASE.md Section 9
+# =============================================================================
+
+# Master list of 22 wand woods (French)
+WAND_WOODS_MASTER = [
+    "de chêne",         # 1 - oak
+    "de peuplier",      # 2 - poplar
+    "de teck",          # 3 - teak
+    "de saule",         # 4 - willow
+    "de merisier",      # 5 - cherry
+    "de châtaigner",    # 6 - chestnut
+    "de frêne",         # 7 - ash
+    "de noisetier",     # 8 - hazel
+    "de charme",        # 9 - hornbeam
+    "de cerisier",      # 10 - cherry tree
+    "d'acajou",         # 11 - mahogany
+    "de pin",           # 12 - pine
+    "d'olivier",        # 13 - olive
+    "d'érable",         # 14 - maple
+    "de platane",       # 15 - sycamore
+    "d'if",             # 16 - yew
+    "de hêtre",         # 17 - beech
+    "d'orme",           # 18 - elm
+    "de bambou",        # 19 - bamboo
+    "de verre",         # 20 - glass
+    "de rose noire",    # 21 - black rose
+    "de roseau",        # 22 - reed
 ]
 
-# Food items
-FOOD_ITEMS = [
-    ItemTemplate("ration de nourriture", ItemType.FOOD, ":", value=3, weight=1, level=1),
-    ItemTemplate("morceau de pain", ItemType.FOOD, ":", value=1, weight=0, level=1),
+# Randomized table (shuffled at game start, 21 used according to doc)
+WAND_WOODS_RANDOMIZED = WAND_WOODS_MASTER[:21].copy()
+
+
+# Wand effects (French names)
+# Reference: ENTITY_DATABASE.md Section 9
+WAND_EFFECTS = [
+    None,                               # 0 - unused
+    "de téléportation",                 # 1 - Teleportation
+    "de transmorphie",                  # 2 - Polymorph
+    "de destruction",                   # 3 - Destruction
+    "pour créer des murs",              # 4 - Create walls
+    "de ralentissement de monstre",     # 5 - Slow monster
+    "d'accélération de monstre",        # 6 - Haste monster
+    "d'affaiblissement",                # 7 - Weakening
+    "pour effrayer",                    # 8 - Fear
+    "de sourcier",                      # 9 - Dowsing
+    "d'invocation de monstre",          # 10 - Summon monster
+    "d'invocation d'objet",             # 11 - Summon item
+    "de combat",                        # 12 - Combat
+    "pour combler les trappes",         # 13 - Fill traps
+    "assoupissante",                    # 14 - Sleep
+    "paralysante",                      # 15 - Paralyze
+    "d'invisibilité",                   # 16 - Invisibility
+    "de création de trappes",           # 17 - Create traps
+    "de renforcement",                  # 18 - Strengthening
+    "capricieuse",                      # 19 - Capricious
+    "d'illusion",                       # 20 - Illusion
+    "de purification",                  # 21 - Purification
+    "d'absorption d'énergie",           # 22 - Energy drain
 ]
 
-# Wand wood names from original game memory dump
-WAND_WOODS = [
-    "d'acajou", "d'if", "d'olivier", "d'orme", "d'érable",
-    "de bambou", "de cerisier", "de châtaignier", "de chêne", "de frêne",
-    "de merisier", "de noisetier", "de peuplier", "de pin", "de platane",
-    "de rose noire", "de roseau", "de saule", "de teck", "de verre",
+
+# =============================================================================
+# RING MATERIALS (19 materials, randomized at game start)
+# Reference: ENTITY_DATABASE.md Section 8
+# =============================================================================
+
+# Master list of 19 ring materials (French)
+RING_MATERIALS_MASTER = [
+    "d'or",          # 1 - gold
+    "d'argent",      # 2 - silver
+    "de platine",    # 3 - platinum
+    "de jaspe",      # 4 - jasper
+    "de rubis",      # 5 - ruby
+    "de saphir",     # 6 - sapphire
+    "d'onyx",        # 7 - onyx
+    "d'opale",       # 8 - opal
+    "d'ivoire",      # 9 - ivory
+    "de diamant",    # 10 - diamond
+    "d'émeraude",    # 11 - emerald
+    "de bronze",     # 12 - bronze
+    "de jade",       # 13 - jade
+    "de mithril",    # 14 - mithril
+    "d'os",          # 15 - bone
+    "d'adamantite",  # 16 - adamantite
+    "d'agathe",      # 17 - agate
+    "de cristal",    # 18 - crystal
+    "d'étain",       # 19 - tin
 ]
 
-# Wand effects from original game memory dump at 0x2b18f-0x2b407
-# (effect_id, french_name, english_desc, value, level)
-_WAND_EFFECTS = [
-    (WandEffect.TELEPORT, "de téléportation", "teleport", 60, 3),
-    (WandEffect.TRANSMORPH, "de transmorphie", "transmorph", 120, 8),
-    (WandEffect.DESTRUCTION, "de destruction", "destruction", 100, 6),
-    (WandEffect.CREATE_WALL, "pour créer des murs", "create_wall", 40, 3),
-    (WandEffect.SLOW_MONSTER, "de ralentissement de monstre", "slow_monster", 50, 4),
-    (WandEffect.HASTE_MONSTER, "d'accélération de monstre", "haste_monster", 10, 1),
-    (WandEffect.WEAKEN, "d'affaiblissement", "weaken", 60, 5),
-    (WandEffect.FEAR, "pour effrayer", "fear", 50, 4),
-    (WandEffect.DOWSING, "de sourcier", "dowsing", 40, 2),
-    (WandEffect.SUMMON_MONSTER, "d'invocation de monstre", "summon_monster", 10, 1),
-    (WandEffect.CREATE_ITEM, "d'invocation d'objet", "create_item", 80, 5),
-    (WandEffect.COMBAT, "de combat", "combat", 90, 6),
-    (WandEffect.FILL_TRAPS, "pour combler les trappes", "fill_traps", 40, 3),
-    (WandEffect.SLEEP, "assoupissante", "sleep", 50, 4),
-    (WandEffect.PARALYZE, "paralysante", "paralyze", 70, 5),
-    (WandEffect.INVISIBILITY, "d'invisibilité", "invisibility", 150, 8),
-    (WandEffect.CREATE_TRAPS, "de création de trappes", "create_traps", 10, 1),
-    (WandEffect.REINFORCE, "de renforcement", "reinforce", 80, 6),
-    (WandEffect.CAPRICIOUS, "capricieuse", "capricious", 30, 2),
-    (WandEffect.ILLUSION, "d'illusion", "illusion", 60, 5),
-    (WandEffect.PURIFY, "de purification", "purify", 70, 7),
-    (WandEffect.ENERGY_DRAIN, "d'absorption d'énergie", "energy_drain", 100, 9),
+# Randomized table (shuffled at game start)
+RING_MATERIALS_RANDOMIZED = RING_MATERIALS_MASTER.copy()
+
+
+# Ring effects (French names)
+# Reference: ENTITY_DATABASE.md Section 8
+RING_EFFECTS = [
+    "d'intelligence",               # 0 - Intelligence
+    "pour protéger son armure",     # 1 - Protect armor
+    "pour conserver sa force",      # 2 - Sustain strength
+    "pour ralentir sa digestion",   # 3 - Slow digestion
+    "d'augmentation des dégats",    # 4 - Damage boost
+    "de téléportation",             # 5 - Teleportation
+    "d'invisibilité",               # 6 - Invisibility
+    "de protection",                # 7 - Protection
+    "d'identification",             # 8 - Identification
+    "de régénération",              # 9 - Regeneration
+    "de détection de trappes",      # 10 - Trap detection
+    "de monstres",                  # 11 - Monster detect
+    "coupe doigt",                  # 12 - Finger-cutter
+    "anti feu",                     # 13 - Fire resist
+    "de chute de plume",            # 14 - Feather fall
+    "de résurrection",              # 15 - Resurrection
+    "de nage",                      # 16 - Swimming
+    "de rayon X",                   # 17 - X-ray vision
+    "de lévitation",                # 18 - Levitation
+    "de faiblesse",                 # 19 - Weakness
 ]
 
-# Wands list (populated by initialize_wand_names)
-WANDS: List[ItemTemplate] = []
+
+# =============================================================================
+# SCROLL NAMES (25 scrolls, procedurally generated)
+# Reference: ENTITY_DATABASE.md Section 7
+# =============================================================================
+
+# Scroll names are random 4-9 character gibberish strings
+# Generated once at game start
+SCROLL_NAMES_RANDOMIZED = []
 
 
-def initialize_wand_names():
-    """Assign random wood names to wand types for a new game."""
-    WANDS.clear()
-    woods = WAND_WOODS[:]
-    random.shuffle(woods)
-    for i, (effect_id, effect_fr, effect_en, value, level) in enumerate(_WAND_EFFECTS):
-        wood = woods[i % len(woods)]
-        WANDS.append(ItemTemplate(
-            name=f"baguette {wood}",
-            type=ItemType.WAND,
-            char="/",
-            damage=effect_en,
-            value=value,
-            weight=1,
-            level=level,
-        ))
+def generate_scroll_names():
+    """
+    Generate 25 random scroll names (4-9 characters of gibberish)
+    Called once at game start
+    """
+    global SCROLL_NAMES_RANDOMIZED
+    SCROLL_NAMES_RANDOMIZED = []
+
+    # Characters to use for gibberish (avoid confusing chars)
+    chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+    for _ in range(25):
+        length = random.randint(4, 9)
+        name = ''.join(random.choice(chars) for _ in range(length))
+        SCROLL_NAMES_RANDOMIZED.append(name)
 
 
-def get_random_weapon(dungeon_level: int) -> ItemTemplate:
-    """Get random weapon appropriate for dungeon level."""
-    candidates = [w for w in WEAPONS if w.level <= dungeon_level + 3]
-    return random.choice(candidates) if candidates else WEAPONS[0]
+# Scroll effects (French names)
+# Reference: ENTITY_DATABASE.md Section 7
+SCROLL_EFFECTS = [
+    "de régénération",                  # 0 - Regeneration
+    "pour enchanter les armures",       # 1 - Enchant armor
+    "pour protéger les armures",        # 2 - Protect armor
+    "pour enchanter son arme",          # 3 - Enchant weapon
+    "topographique",                    # 4 - Map reveal
+    "d'identification",                 # 5 - Identify
+    "de teleportation",                 # 6 - Teleport
+    "d'hyper téléportation",            # 7 - Hyper-teleport
+    "pour invoquer un monstre",         # 8 - Summon monster
+    "de protection",                    # 9 - Protection
+    "pour détecter la magie",           # 10 - Detect magic
+    "pour détecter la nouriture",       # 11 - Detect food
+    "pour repérer les monstres",        # 12 - Detect monsters
+    "pour détecter l'or",               # 13 - Detect gold
+    "d'ensorcellement",                 # 14 - Enchantment
+    "de sommeil",                       # 15 - Sleep
+    "vierge",                           # 16 - Blank
+    "pour enlever les sorts",           # 17 - Remove curses
+    "de démolition",                    # 18 - Demolition
+    "de destruction",                   # 19 - Destruction
+    "pour effrayer les monstres",       # 20 - Scare monsters
+    "d'éparpillement",                  # 21 - Scatter
+    "pour enchanter les anneaux",       # 22 - Enchant rings
+    "de dégradation d'anneaux",         # 23 - Degrade rings
+    "d'intelligence",                   # 24 - Intelligence
+]
 
 
-def get_random_armor(dungeon_level: int) -> ItemTemplate:
-    """Get random armor appropriate for dungeon level."""
-    candidates = [a for a in ARMOR if a.level <= dungeon_level + 3]
-    return random.choice(candidates) if candidates else ARMOR[0]
+# =============================================================================
+# GEM NAMES (10 gems, randomized at game start)
+# Reference: ENTITY_DATABASE.md Section 13
+# =============================================================================
+
+GEM_NAMES_MASTER = [
+    "un rubis",         # 1 - ruby
+    "une émeraude",     # 2 - emerald
+    "un diamant",       # 3 - diamond
+    "un topaze",        # 4 - topaz
+    "un saphir",        # 5 - sapphire
+    "une agathe",       # 6 - agate
+    "une améthyste",    # 7 - amethyst
+    "un chrysobéryl",   # 8 - chrysoberyl
+    "une turquoise",    # 9 - turquoise
+    "une opale",        # 10 - opal
+]
+
+GEM_NAMES_RANDOMIZED = GEM_NAMES_MASTER.copy()
 
 
-def get_random_wand(dungeon_level: int) -> ItemTemplate:
-    """Get random wand appropriate for dungeon level."""
-    if not WANDS:
-        initialize_wand_names()
-    candidates = [w for w in WANDS if w.level <= dungeon_level + 3]
-    return random.choice(candidates) if candidates else WANDS[0]
+# =============================================================================
+# RANDOMIZATION FUNCTIONS
+# =============================================================================
+
+def randomize_all_item_appearances():
+    """
+    Randomize all item appearance tables at game start
+    Called once when starting a new game
+    Reference: ENTITY_DATABASE.md Section 13
+    """
+    global POTION_COLORS_RANDOMIZED, WAND_WOODS_RANDOMIZED
+    global RING_MATERIALS_RANDOMIZED, GEM_NAMES_RANDOMIZED
+
+    # Shuffle potion colors (24 colors)
+    POTION_COLORS_RANDOMIZED = POTION_COLORS_MASTER.copy()
+    random.shuffle(POTION_COLORS_RANDOMIZED)
+
+    # Shuffle wand woods (22 master, use 21)
+    WAND_WOODS_RANDOMIZED = WAND_WOODS_MASTER[:21].copy()
+    random.shuffle(WAND_WOODS_RANDOMIZED)
+
+    # Shuffle ring materials (19 materials)
+    RING_MATERIALS_RANDOMIZED = RING_MATERIALS_MASTER.copy()
+    random.shuffle(RING_MATERIALS_RANDOMIZED)
+
+    # Shuffle gem names (10 gems)
+    GEM_NAMES_RANDOMIZED = GEM_NAMES_MASTER.copy()
+    random.shuffle(GEM_NAMES_RANDOMIZED)
+
+    # Generate random scroll names (25 scrolls, 4-9 char gibberish)
+    generate_scroll_names()
 
 
-def get_random_item(dungeon_level: int) -> ItemTemplate:
-    """Get random item appropriate for dungeon level."""
-    if not WANDS:
-        initialize_wand_names()
-    all_items = WEAPONS + ARMOR + RINGS + FOOD_ITEMS + WANDS
-    candidates = [i for i in all_items if i.level <= dungeon_level + 3]
-    return random.choice(candidates) if candidates else all_items[0]
+def get_potion_name(subtype: int, identified: bool = False) -> str:
+    """Get potion name (randomized color or identified effect)"""
+    if identified and 1 <= subtype <= 24:
+        return f"potion {POTION_EFFECTS[subtype]}"
+    elif 1 <= subtype <= 24:
+        color = POTION_COLORS_RANDOMIZED[subtype - 1]
+        return f"potion {color}"
+    return "potion"
+
+
+def get_wand_name(subtype: int, identified: bool = False) -> str:
+    """Get wand name (randomized wood or identified effect)"""
+    if identified and 1 <= subtype <= 22:
+        return f"baguette {WAND_EFFECTS[subtype]}"
+    elif 1 <= subtype <= 21:
+        wood = WAND_WOODS_RANDOMIZED[subtype - 1]
+        return f"baguette {wood}"
+    return "baguette"
+
+
+def get_ring_name(subtype: int, identified: bool = False) -> str:
+    """Get ring name (randomized material or identified effect)"""
+    if identified and 0 <= subtype <= 19:
+        return f"anneau {RING_EFFECTS[subtype]}"
+    elif 0 <= subtype <= 18:
+        material = RING_MATERIALS_RANDOMIZED[subtype]
+        return f"anneau {material}"
+    return "anneau"
+
+
+def get_scroll_name(subtype: int, identified: bool = False) -> str:
+    """Get scroll name (random gibberish or identified effect)"""
+    if identified and 0 <= subtype <= 24:
+        return f"parchemin {SCROLL_EFFECTS[subtype]}"
+    elif 0 <= subtype <= 24:
+        if subtype < len(SCROLL_NAMES_RANDOMIZED):
+            return f"parchemin '{SCROLL_NAMES_RANDOMIZED[subtype]}'"
+        return "parchemin"
+    return "parchemin"
+
+
+# =============================================================================
+# WEAPON AND ARMOR TEMPLATES (Fixed names, no randomization)
+# Reference: ENTITY_DATABASE.md Sections 10-11
+# =============================================================================
+
+ARMOR_NAMES = [
+    None,                           # 0 - unused
+    "une armure de cuir",           # 1 - Leather armor
+    "une armure de cuir renforcé",  # 2 - Studded leather
+    "une cotte de mailles",         # 3 - Chainmail
+    "une armure de fer",            # 4 - Iron armor
+    "une cuirasse d'acier",         # 5 - Steel breastplate
+    "une armure de Mithril",        # 6 - Mithril armor
+    "un heaume",                    # 7 - Helm
+    "une cape elfique",             # 8 - Elven cloak
+    "des gantelets de dextérité",   # 9 - Gauntlets of dexterity
+    "des gantelets de maladresse",  # 10 - Gauntlets of clumsiness
+    "des gantelets de force",       # 11 - Gauntlets of strength
+]
+
+WEAPON_NAMES = [
+    None,                       # 0 - unused
+    "un poignard",              # 1 - Dagger
+    "une dague",                # 2 - Stiletto
+    "une lance",                # 3 - Spear
+    "une massue",               # 4 - Mace
+    "un sabre",                 # 5 - Saber
+    "un cimeterre",             # 6 - Scimitar
+    "une épée",                 # 7 - Sword
+    "une épée à deux mains",    # 8 - Two-handed sword
+    "une épée elfique",         # 9 - Elven sword
+    "une hache",                # 10 - Axe
+    "un arc",                   # 11 - Bow
+    "fleche",                   # 12 - Arrow
+    "une dague elfique",        # 13 - Elven dagger
+    "une épée de glace",        # 14 - Ice sword
+    "une épée vampirique",      # 15 - Vampiric sword
+]
+
+# Weapon base attack values (0-7)
+WEAPON_BASE_ATTACK = [0, 1, 1, 2, 3, 4, 5, 5, 6, 7, 6, 1, 0, 4, 5, 5]
+
+
+# =============================================================================
+# LIGHT SOURCE NAMES
+# Reference: ENTITY_DATABASE.md Section 12
+# =============================================================================
+
+LIGHT_SOURCE_EFFECTS = [
+    None,                   # 0 - unused
+    "de chance",            # 1 - Luck
+    "de dessèchement",      # 2 - Desiccation
+    "de monstres",          # 3 - Monster detect
+    "d'annulation",         # 4 - Cancellation
+    "de faim",              # 5 - Hunger
+    "de force",             # 6 - Strength
+    "de régénération",      # 7 - Regeneration
+    "de vulnérabilité",     # 8 - Vulnerability
+    "d'antimagie",          # 9 - Antimagic
+    "d'expérience",         # 10 - Experience
+]

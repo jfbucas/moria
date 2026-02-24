@@ -1,304 +1,710 @@
 """
-FIXED MORIA dungeon - proper bounds checking and connectivity.
+Dungeon Generation for PyMoria
+Reference: reverse/MORIA_COMPLETE.md Section 6.4, reverse/MONSTER_SPAWNING.md
+
+Dungeon structure (from draw_dungeon_border / generate_dungeon_corridors C source):
+  - 10 rows × 39 cols of 1-tile "cells" arranged in a regular grid.
+  - Cell (r, c): floor tile at map position (row=r*2, col=c*2), r=0..9, c=0..38.
+  - Horizontal separator between (r,c) and (r,c+1): tile at (r*2, c*2+1) = '│' (wall).
+  - Vertical   separator between (r,c) and (r+1,c): tile at (r*2+1, c*2) = '─' (wall).
+  - Kruskal's MST removes separators to open passages (sets them to ' ').
+  - After MST: one extra enclosed room with wall chars ┴┬┤├ is placed.
+  - Stairs, items, and monsters are then placed on empty floor tiles.
+
+CRITICAL coordinate convention: level.set_tile(col, row) → tiles[row][col].
 """
 
 import random
-from typing import List, Tuple, Optional
+from collections import deque
+from typing import Optional, Tuple, List
+
+from game.entities import DungeonLevel, Item, Monster
+from data.monsters import get_monster_template
+
+# =============================================================================
+# CONSTANTS
+# =============================================================================
+
+GRID_ROWS = 10   # 10 rows of cells
+GRID_COLS = 39   # 39 columns of cells (cell cols: 0,2,...,76; sep cols: 1,3,...,75)
+
+MAX_MONSTERS_PER_LEVEL = 25
+
+# Item spawn config [base, rand, extra] — Reference: MONSTER_SPAWNING.md §2, DS:0x79D7
+# Spawn type 0-8: Gold, Food, Potion, Scroll, Ring, Wand, Armor, Weapon, Light
+ITEM_SPAWN_CONFIG = [
+    [5, 5, 0],   # 0: Gold
+    [1, 4, 0],   # 1: Food
+    [3, 5, 3],   # 2: Potion
+    [3, 4, 3],   # 3: Scroll
+    [1, 2, 2],   # 4: Ring
+    [1, 3, 2],   # 5: Wand
+    [1, 2, 3],   # 6: Armor
+    [1, 1, 3],   # 7: Weapon
+    [0, 2, 0],   # 8: Light
+]
+
+# Display chars by spawn type (for map tiles)
+_ITEM_DISPLAY = ['$', '%', '!', '?', '=', '/', ']', ')', '☼']
+
+# Monster spawn weight table: MONSTER_WEIGHTS[template_id][dungeon_level - 1]
+# Reference: MONSTER_SPAWNING.md §3, DS:0xAB93 (28 templates × 15 levels)
+MONSTER_WEIGHTS: List[List[int]] = [
+    [0]*15,                                          #  0: (placeholder)
+    [0,0,0,0,0,0,2,4,5,5,2,0,0,0,0],               #  1: Air
+    [20,18,12,8,4,0,0,0,0,0,0,0,0,0,0],             #  2: Araignée
+    [0,0,0,0,0,0,0,0,0,0,0,2,4,4,6],               #  3: Balrog
+    [10,10,10,8,6,2,0,0,0,0,0,0,0,0,0],             #  4: Chauve Souris
+    [0,3,9,12,5,0,0,0,0,0,0,0,0,0,0],              #  5: Crébain
+    [0,0,0,0,0,0,1,1,2,4,2,0,0,0,0],               #  6: Dragon
+    [0,0,0,0,0,0,0,0,0,2,2,4,4,5,5],               #  7: Dragon Ailé
+    [2,2,4,6,7,4,4,4,4,4,4,4,4,0,0],               #  8: œil de Sauron
+    [0,0,0,0,0,1,2,3,3,4,4,3,3,2,1],               #  9: Fée
+    [0,0,0,0,1,3,6,8,10,6,4,2,0,0,0],              # 10: Galgal
+    [2,4,8,17,14,12,6,2,0,0,0,0,0,0,0],             # 11: Gobelin
+    [0,0,0,1,3,4,5,5,4,0,0,0,0,0,0],               # 12: Huorn
+    [5,10,20,12,10,8,4,2,0,0,0,0,0,0,0],            # 13: Loup
+    [0,0,0,0,0,2,4,4,2,2,0,0,0,0,0],               # 14: Loup Garou
+    [0,0,0,1,1,2,4,8,9,8,8,8,5,4,4],               # 15: Mewlip
+    [0,0,1,4,8,12,8,0,0,0,0,0,0,0,0],              # 16: Moricaud
+    [0,0,0,0,0,0,0,1,2,4,6,4,3,2,2],               # 17: Nazgûl
+    [0,0,0,0,0,0,0,0,0,1,2,4,5,6,6],               # 18: Oliphant
+    [0,4,6,10,12,12,10,8,6,0,0,0,0,0,0],            # 19: Orc
+    [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10], # 20: Rat
+    [15,20,15,15,10,8,6,4,0,0,0,0,0,0,0],           # 21: Serpent
+    [0,0,0,0,0,0,0,0,0,0,0,1,3,5,5],               # 22: Succube
+    [0,0,0,0,2,3,5,7,5,2,2,2,0,0,0],               # 23: Troll
+    [0,0,2,4,9,15,16,10,10,10,10,10,10,10,10],      # 24: Uruk-haï
+    [0,1,2,6,10,7,0,0,0,0,0,0,0,0,0],              # 25: Variag
+    [0,0,0,0,0,3,4,5,5,6,6,5,5,4,3],               # 26: Voleur
+    [0,0,1,3,9,11,13,10,8,4,2,0,0,0,0],             # 27: Wharg
+    [0,0,0,0,1,3,5,7,4,0,0,0,0,0,0],               # 28: Woose
+]
 
 
-class UnionFind:
-    def __init__(self, size: int):
-        self.parent = list(range(size))
+# =============================================================================
+# UNION-FIND (for Kruskal's MST)
+# =============================================================================
+
+class _UnionFind:
+    """Path-compressed union-find for Kruskal's MST."""
+
+    def __init__(self, n: int):
+        self.parent = list(range(n))
 
     def find(self, x: int) -> int:
         while self.parent[x] != x:
-            root = self.parent[x]
-            self.parent[x] = self.parent[root]
-            x = root
+            self.parent[x] = self.parent[self.parent[x]]  # path halving
+            x = self.parent[x]
         return x
 
     def union(self, x: int, y: int) -> bool:
-        root_x = self.find(x)
-        root_y = self.find(y)
-        if root_x == root_y:
+        """Returns True if x and y were in different components (edge was useful)."""
+        px, py = self.find(x), self.find(y)
+        if px == py:
             return False
-        if root_x < root_y:
-            self.parent[root_y] = root_x
-        else:
-            self.parent[root_x] = root_y
+        self.parent[px] = py
         return True
 
 
-class Dungeon:
-    def __init__(self, level: int):
-        self.level = level
-        self.width = 79
-        self.height = 21
-        self.map = [[' ' for _ in range(self.width)] for _ in range(self.height)]
-        self.discovered = [[False for _ in range(self.width)] for _ in range(self.height)]  # Fog of war
-        self.rooms = []
-        self.monsters = []
-        self.items = []
-        self.stairs_up = None
-        self.stairs_down = None
-        self.generate()
+# =============================================================================
+# HELPER: FIND EMPTY FLOOR TILE
+# =============================================================================
 
-    def generate(self):
-        self._draw_border()
-        self._create_room_grid()
-        self._generate_corridors()
-        self._generate_room()
-        self._place_stairs()
-        self._populate()
+def _find_empty_floor(level: DungeonLevel) -> Optional[Tuple[int, int]]:
+    """
+    Find a random empty floor tile (space ' ').
+    Returns (col, row) = (x, y), or None if none found after 200 tries.
+    Reference: MONSTER_SPAWNING.md §8 find_random_empty_floor_space
+    """
+    for _ in range(200):
+        row = random.randint(0, 19)
+        col = random.randint(0, 78)
+        if level.get_tile(col, row) == ' ':
+            return (col, row)
+    return None
 
-    def _draw_border(self):
-        """Draw grid of walls separating 390 rooms and outer border.
 
-        Layout (0-indexed): 10 room rows × 39 room cols.
-        Rooms at odd×odd positions (rows 1,3,...,19 × cols 1,3,...,77).
-        """
-        # Vertical walls │ between horizontally adjacent rooms
-        for a in range(1, 11):       # 10 room rows
-            for b in range(1, 39):   # 38 vertical walls per row
-                self.map[2*a - 1][2*b] = '│'
+# =============================================================================
+# ITEM CREATION & SPAWNING
+# =============================================================================
 
-        # Horizontal walls ─ between vertically adjacent rooms
-        for a in range(1, 10):       # 9 wall rows between 10 room rows
-            for b in range(1, 40):
-                self.map[2*a][2*b - 1] = '─'
+def _favored_type(dungeon_level: int) -> int:
+    """
+    Determine 'favored' item spawn type for a given depth.
+    Reference: MONSTER_SPAWNING.md §2
+    """
+    if dungeon_level >= 12:
+        return 7   # Weapon
+    if dungeon_level >= 9:
+        return 6   # Armor
+    if dungeon_level >= 6:
+        return 3   # Scroll
+    if dungeon_level >= 4:
+        return 2   # Potion
+    if dungeon_level >= 2:
+        return 4   # Ring
+    return 5       # Wand (level 1)
 
-        # Intersections ┼ at wall crossings
-        for a in range(1, 10):
-            for b in range(1, 39):
-                self.map[2*a][2*b] = '┼'
 
-        # Outer border
-        # Top: ┌─┬─┬─...─┬─┐
-        self.map[0][0] = '┌'
-        self.map[0][self.width - 1] = '┐'
-        for c in range(1, self.width - 1):
-            self.map[0][c] = '┬' if c % 2 == 0 else '─'
+def _make_item(spawn_type: int, dungeon_level: int) -> Item:
+    """
+    Create one Item of the given spawn-config type (0-8).
+    Maps spawn types to entities.py Item type constants.
+    """
+    item = Item()
+    item.display_char = _ITEM_DISPLAY[spawn_type]
 
-        # Bottom: └─┴─┴─...─┴─┘
-        self.map[self.height - 1][0] = '└'
-        self.map[self.height - 1][self.width - 1] = '┘'
-        for c in range(1, self.width - 1):
-            self.map[self.height - 1][c] = '┴' if c % 2 == 0 else '─'
+    if spawn_type == 0:    # Gold
+        item.type = 8      # ITEM_TREASURE
+        item.subtype = 0
+        item.set_total_value(random.randint(1, dungeon_level * 10 + 10))
 
-        # Left and right edges
-        for r in range(1, self.height - 1):
-            if r % 2 == 0:
-                self.map[r][0] = '├'
-                self.map[r][self.width - 1] = '┤'
-            else:
-                self.map[r][0] = '│'
-                self.map[r][self.width - 1] = '│'
+    elif spawn_type == 1:  # Food
+        item.type = 0      # ITEM_FOOD
+        item.subtype = random.randint(1, 4)
 
-    def _create_room_grid(self):
-        """Initialize union-find for 390 rooms (10 rows × 39 cols).
+    elif spawn_type == 2:  # Potion
+        item.type = 1      # ITEM_POTION
+        item.subtype = random.randint(1, 24)
 
-        Room at grid (r, c) has ID = (r-1)*39 + c, where r=1..10, c=1..39.
-        Room map position: Python (2*r-1, 2*c-1).
-        """
-        self.uf = UnionFind(391)  # 1-indexed, rooms 1..390
+    elif spawn_type == 3:  # Scroll
+        item.type = 2      # ITEM_SCROLL
+        item.subtype = random.randint(0, 24)
 
-    def _generate_corridors(self):
-        """Connect rooms via Kruskal's MST.
+    elif spawn_type == 4:  # Ring
+        item.type = 4      # ITEM_RING
+        item.subtype = random.randint(1, 8)
 
-        731 possible walls: 351 horizontal + 380 vertical.
-        Randomly selects walls and removes them if they connect
-        different components in the union-find structure.
-        """
-        unions_done = 0
+    elif spawn_type == 5:  # Wand
+        item.type = 3      # ITEM_WAND
+        item.subtype = random.randint(1, 22)
+        item.power = random.randint(3, 10)   # charges
 
-        while unions_done < 389:  # Need 389 edges for 390-room spanning tree
-            w = random.randint(1, 731)
+    elif spawn_type == 6:  # Armor (no dedicated type in entities.py; use 5 = ITEM_CHEST)
+        item.type = 5
+        item.subtype = random.randint(1, 10)
+        item.power = random.randint(0, 4)
 
-            if w <= 351:  # Horizontal wall ─
-                row_idx = (w - 1) // 39 + 1   # 1..9
-                col_idx = (w - 1) % 39 + 1     # 1..39
-                map_row = 2 * row_idx           # even row (2,4,...,18)
-                map_col = 2 * col_idx - 1       # odd col (1,3,...,77)
-                room1 = w
-                room2 = w + 39  # room directly below
-            else:  # Vertical wall │
-                adjusted = w - 351              # 1..380
-                col_idx = (adjusted - 1) // 10 + 1  # 1..38
-                row_idx = (adjusted - 1) % 10 + 1   # 1..10
-                map_row = 2 * row_idx - 1       # odd row (1,3,...,19)
-                map_col = 2 * col_idx           # even col (2,4,...,76)
-                room1 = (row_idx - 1) * 39 + col_idx
-                room2 = room1 + 1  # room to the right
+    elif spawn_type == 7:  # Weapon
+        item.type = 6      # ITEM_WEAPON
+        item.subtype = random.randint(1, 10)
+        item.power = random.randint(0, 4)
 
-            # Skip if wall already removed
-            if self.map[map_row][map_col] == ' ':
-                continue
+    elif spawn_type == 8:  # Light
+        item.type = 7      # ITEM_AMMUNITION (repurposed for light)
+        item.subtype = random.randint(1, 5)
 
-            # Only remove if connecting different components
-            if self.uf.find(room1) != self.uf.find(room2):
-                self.map[map_row][map_col] = ' '
-                self.uf.union(room1, room2)
-                unions_done += 1
+    return item
 
-    def _generate_room(self):
-        """Generate one large room overlay per level (from generate_dungeon_level).
 
-        Room size shrinks with dungeon depth. Draws walls ┴┬┤├ and
-        clears interior to space, overlaying the corridor grid.
-        """
-        if self.level <= 0 or self.level > 15:
-            return
+def _spawn_items(level: DungeonLevel, dungeon_level: int) -> None:
+    """
+    Populate level with items using the spawn config table.
+    Reference: MONSTER_SPAWNING.md §2
+    """
+    favored = _favored_type(dungeon_level)
 
-        # Room dimensions (C: local_12=width, local_10=height)
-        width = random.randrange(16 - self.level) * 2 + 8    # C: random_mod(0x10-value)*2+8
-        height_range = (19 - self.level) // 3                 # C: (0x13-value)/3
-        if height_range <= 0:
-            return
-        height = random.randrange(height_range) * 2 + 4      # C: random_mod(...)*2+4
+    for spawn_type in range(9):
+        base, rand_v, extra = ITEM_SPAWN_CONFIG[spawn_type]
+        count = base + (random.randint(0, rand_v - 1) if rand_v > 0 else 0)
+        if spawn_type == favored and extra > 0:
+            count += random.randint(0, extra - 1) + 1
 
-        # Room position in C coords (odd values: local_c, local_e)
-        col_range = 38 - width // 2                           # C: 0x26 - local_12/2
-        row_range = 9 - height // 2
-        if col_range <= 0 or row_range <= 0:
-            return
-        c_col = random.randrange(col_range) * 2 + 3
-        c_row = random.randrange(row_range) * 2 + 3
+        for _ in range(count):
+            pos = _find_empty_floor(level)
+            if pos is None:
+                break
+            col, row = pos
+            item = _make_item(spawn_type, dungeon_level)
+            item.col = col
+            item.row = row
+            # Write display char to tile (original writes to map buffer layer -0x50)
+            level.set_tile(col, row, item.display_char)
+            level.floor_items.append(item)
 
-        # Convert to 0-indexed Python coords (even values)
-        pr = c_row - 1
-        pc = c_col - 1
-        half_w = width // 2 - 1
-        half_h = height // 2 - 1
 
-        # Top wall ┴ (0xc1), space below, bottom wall ┬ (0xc2)
-        for i in range(1, half_w + 1):
-            col = pc + i * 2
-            self.map[pr][col] = '┴'
-            self.map[pr + 1][col] = ' '
-            self.map[pr + height][col] = '┬'
+# =============================================================================
+# MONSTER CREATION & SPAWNING
+# =============================================================================
 
-        # Left wall ┤ (0xb4), space right, right wall ├ (0xc3)
-        for j in range(1, half_h + 1):
-            row = pr + j * 2
-            self.map[row][pc] = '┤'
-            self.map[row][pc + 1] = ' '
-            self.map[row][pc + width] = '├'
+def spawn_monster_from_template(template_id: int, dungeon_level: int,
+                                player=None) -> Optional[Monster]:
+    """
+    Create a Monster instance from a template.
+    Reference: MONSTER_SPAWNING.md §8 spawn_monster_from_template (line 2534)
 
-        # Clear interior (3 cells per grid position)
-        for i in range(1, half_w + 1):
-            for j in range(1, half_h + 1):
-                r = pr + j * 2
-                c = pc + i * 2
-                self.map[r][c] = ' '       # intersection
-                self.map[r + 1][c] = ' '   # cell below
-                self.map[r][c + 1] = ' '   # cell to right
+    Args:
+        template_id: 1-35 monster template index
+        dungeon_level: current dungeon level (for level-scaling)
+        player: Player instance (for level-scaling threshold)
 
-    def _place_stairs(self):
-        floor_tiles = []
-        for y in range(2, self.height - 2):
-            for x in range(2, self.width - 2):
-                if self.map[y][x] == ' ':
-                    neighbors = sum(1 for dx, dy in [(-1,0),(1,0),(0,-1),(0,1)] 
-                                  if self.map[y+dy][x+dx] == ' ')
-                    if neighbors >= 2:
-                        floor_tiles.append((x, y))
-        
-        if len(floor_tiles) >= 2:
-            random.shuffle(floor_tiles)
-            self.stairs_up = floor_tiles[0]
-            if self.level != 1:  # Level 1: stairs up only appear with Silmaril
-                self.map[self.stairs_up[1]][self.stairs_up[0]] = '<'
-            
-            best = max(floor_tiles[1:min(20, len(floor_tiles))], 
-                      key=lambda p: abs(p[0]-self.stairs_up[0])+abs(p[1]-self.stairs_up[1]))
-            self.stairs_down = best
-            self.map[self.stairs_down[1]][self.stairs_down[0]] = '>'
+    Returns:
+        Populated Monster, or None if invalid template.
+    """
+    tmpl = get_monster_template(template_id)
+    if tmpl is None:
+        return None
 
-    def _populate(self):
-        from data.monsters import get_monster_by_level
-        from data.items import get_random_item
-        from data.potions import get_random_potion
-        
-        floor_tiles = [(x,y) for y in range(1, self.height-1) for x in range(1, self.width-1)
-                      if self.map[y][x] == ' ' and (x,y) not in (self.stairs_up, self.stairs_down)]
-        random.shuffle(floor_tiles)
-        
-        # Original game spawning algorithm (from MORIA.C analysis)
-        # Max 25 monsters per level (0x19 from line 2973)
-        # Density increases with depth: level 1 = ~8 monsters, level 15 = ~15 monsters
-        base_monsters = 8 + (self.level // 2)
-        num_monsters = min(25, base_monsters)
+    m = Monster()
+    m.template_id = template_id
+    m.char = tmpl.char
+    m.display_char = tmpl.char
+    m.base_char = tmpl.char
+    m.name_french = tmpl.name_french
+    m.max_hp = tmpl.hit_points
+    m.current_hp = tmpl.hit_points
+    m.armor_class = tmpl.armor_class
+    m.to_hit = tmpl.to_hit
+    m.num_attacks = tmpl.num_attacks
+    m.damage_per_attack = tmpl.damage_per_attack
+    m.speed_bonus = tmpl.speed_bonus
+    m.experience = tmpl.experience
+    m.is_invisible = tmpl.is_invisible
+    m.is_hostile = tmpl.is_hostile
+    m.is_stationary = tmpl.is_stationary
+    m.is_unique = tmpl.is_stationary
+    m.is_alive = True
+    m.move_toggle = 0
+    m.is_awake = False
+    m.is_alerted = False
+    m.is_fleeing = False
+    m.status_timer = 0
 
-        for i in range(min(num_monsters, len(floor_tiles))):
-            x, y = floor_tiles[i]
-            monster = get_monster_by_level(self.level)
-            self.monsters.append({'template': monster, 'x': x, 'y': y, 'hp': monster.hp})
+    # attack_char_code: single-byte chars map directly to their code point (matches monster_ai constants)
+    ch = tmpl.char
+    if len(ch) == 1:
+        code = ord(ch)
+        m.attack_char_code = code if code <= 0xFF else 0
+    else:
+        m.attack_char_code = 0
 
-        # Items spawn rate from original: roughly 1 per 80 tiles
-        num_items = min(12, max(3, len(floor_tiles) // 80))
-        for i in range(num_monsters, min(num_monsters + num_items, len(floor_tiles))):
-            x, y = floor_tiles[i]
-            item = get_random_item(self.level) if random.random() < 0.6 else get_random_potion(self.level)
-            self.items.append({'template': item, 'x': x, 'y': y})
+    # Extra fields used by monster_ai via getattr (not declared in Monster dataclass).
+    # Non-frozen dataclass allows dynamic attribute assignment.
+    m.level = tmpl.level                     # type: ignore[attr-defined]
+    m.special_ability_1 = tmpl.special_ability  # type: ignore[attr-defined]
 
-    def is_walkable(self, x: int, y: int) -> bool:
-        if not (0 <= x < self.width and 0 <= y < self.height):
-            return False
-        return self.map[y][x] in (' ', '<', '>')
+    # Level scaling: buff weak monsters to match player
+    # Reference: MONSTER_SPAWNING.md §8, line 536-538
+    if player is not None:
+        threshold = player.player_level + player.base_ac + 5
+        if m.to_hit + m.speed_bonus < threshold:
+            m.to_hit += 1
+            m.speed_bonus = player.player_level + player.base_ac + 6 - m.to_hit
 
-    def has_monster(self, x: int, y: int) -> bool:
-        return any(m['x'] == x and m['y'] == y for m in self.monsters)
+    # Eye of Sauron: always awake, permanent status_timer
+    if tmpl.char == 'E':
+        m.is_awake = True
+        m.status_timer = 0xFFFF   # permanent
 
-    def has_item(self, x: int, y: int) -> bool:
-        return any(i['x'] == x and i['y'] == y for i in self.items)
+    return m
 
-    def get_char_at(self, x: int, y: int) -> str:
-        if not (0 <= x < self.width and 0 <= y < self.height):
-            return ' '
-        return self.map[y][x]
 
-    def is_transparent(self, x: int, y: int) -> bool:
-        """Check if a tile blocks line of sight (walls block vision)."""
-        if not (0 <= x < self.width and 0 <= y < self.height):
-            return False
-        char = self.map[y][x]
-        # Walls, borders block vision; spaces, stairs don't
-        return char in (' ', '<', '>')
+def _spawn_initial_monsters(level: DungeonLevel, dungeon_level: int,
+                             player=None) -> None:
+    """
+    Place a small initial monster population on a freshly-generated level.
 
-    def compute_fov(self, px: int, py: int, radius: int = 8) -> set:
-        """
-        Compute field of view from player position using shadowcasting.
-        Returns set of (x, y) tuples that are visible.
-        Walls block line of sight!
-        """
-        visible = {(px, py)}  # Player can always see their own tile
+    NOTE: The original spawns monsters via populate_level_with_monsters every
+    20 turns (not at generation time). We place ~3 monsters at generation to
+    give the player something to encounter immediately; the rest arrive during
+    gameplay via game_loop.spawn_monsters().
+    """
+    if not 1 <= dungeon_level <= 15:
+        return
 
-        # Shadowcasting algorithm - cast rays in all directions
-        for angle in range(0, 360, 2):  # Every 2 degrees for smooth FOV
-            import math
-            rad = math.radians(angle)
-            dx = math.cos(rad)
-            dy = math.sin(rad)
+    level_idx = dungeon_level - 1
 
-            # Cast ray from player position
-            for step in range(1, radius + 1):
-                x = int(px + dx * step)
-                y = int(py + dy * step)
+    # Build weighted pool of template IDs for this level
+    pool: List[int] = []
+    for tid in range(1, 29):
+        weight = MONSTER_WEIGHTS[tid][level_idx]
+        if weight > 0:
+            pool.extend([tid] * weight)
 
-                if not (0 <= x < self.width and 0 <= y < self.height):
-                    break  # Out of bounds
+    if not pool:
+        return
 
-                visible.add((x, y))
+    for _ in range(3):
+        if len(level.monsters) >= MAX_MONSTERS_PER_LEVEL:
+            break
+        tid = random.choice(pool)
+        monster = spawn_monster_from_template(tid, dungeon_level, player)
+        if monster is None:
+            continue
+        pos = _find_empty_floor(level)
+        if pos is None:
+            continue
+        monster.col, monster.row = pos
+        level.monsters.append(monster)
 
-                # If we hit a wall, stop the ray (wall blocks further vision)
-                if not self.is_transparent(x, y):
+
+def populate_level_with_monsters(level: DungeonLevel, dungeon_level: int,
+                                  player=None) -> None:
+    """
+    Wandering monster spawner — called from game loop every 20 turns.
+    Reference: MONSTER_SPAWNING.md §4 populate_level_with_monsters (line 2950)
+
+    Iterates all 28 templates; each has a level-dependent weight.
+    Monsters spawn near the player position.
+    """
+    if not 1 <= dungeon_level <= 15:
+        return
+
+    level_idx = dungeon_level - 1
+
+    for template_id in range(1, 29):
+        if len(level.monsters) >= MAX_MONSTERS_PER_LEVEL:
+            break
+
+        weight = MONSTER_WEIGHTS[template_id][level_idx]
+        if weight == 0:
+            continue
+
+        # Probability check: higher weight = more likely to spawn
+        # Simplified from garbled decompilation: random threshold vs weight
+        if random.randint(0, 200) >= weight:
+            continue
+
+        monster = spawn_monster_from_template(template_id, dungeon_level, player)
+        if monster is None:
+            continue
+
+        # Spawn near player if player provided, else random empty floor
+        pos = None
+        if player is not None:
+            for _ in range(50):
+                dy = random.randint(-2, 2)
+                dx = random.randint(-2, 2)
+                row = max(0, min(19, player.y + dy))
+                col = max(0, min(78, player.x + dx))
+                if level.get_tile(col, row) == ' ' and level.get_monster_at(col, row) is None:
+                    pos = (col, row)
                     break
+        if pos is None:
+            pos = _find_empty_floor(level)
+        if pos is None:
+            continue
 
-        return visible
+        monster.col, monster.row = pos
+        level.monsters.append(monster)
 
-    def update_fov(self, px: int, py: int, radius: int = 8):
-        """Update discovered tiles based on current FOV."""
-        visible = self.compute_fov(px, py, radius)
-        for x, y in visible:
-            self.discovered[y][x] = True
-        return visible
+
+# =============================================================================
+# BOSS MONSTER INITIALIZATION
+# =============================================================================
+
+def initialize_boss_monsters(levels: dict, player=None) -> None:
+    """
+    Place all unique boss monsters once at game initialization.
+    Reference: MONSTER_SPAWNING.md §5
+
+    Boss monsters are pre-placed at game start on their assigned levels.
+    They are NOT generated by the normal monster spawner.
+    """
+    def _ensure_level(lvl_num: int) -> DungeonLevel:
+        if lvl_num not in levels:
+            levels[lvl_num] = DungeonLevel(level_number=lvl_num)
+        return levels[lvl_num]
+
+    def _add_boss(template_id: int, lvl_num: int,
+                  carried: Optional[Item] = None) -> None:
+        lvl = _ensure_level(lvl_num)
+        m = spawn_monster_from_template(template_id, lvl_num, player)
+        if m is None:
+            return
+        # Placeholder position — will be moved to a valid floor tile when
+        # the level is first generated
+        m.row = 10
+        m.col = 39
+        m.is_stationary = True
+        m.carried_item = carried
+        lvl.monsters.append(m)
+
+    # Carcharoth (template 29): level 8 or 9
+    # Reference: MONSTER_SPAWNING.md spawn_wandering_monster
+    _add_boss(29, random.randint(8, 9))
+
+    # Disguised Sauron (template 34): level 10–12, carries Ring of Invisibility
+    # Reference: MONSTER_SPAWNING.md spawn_special_monster_with_item
+    ring = Item(type=4, subtype=6, power=random.randint(50, 99),
+                display_char='=')
+    _add_boss(34, random.randint(10, 12), ring)
+
+    # Saruman (template 32): level 10
+    # Reference: MONSTER_SPAWNING.md prepend_monster_to_global_list
+    _add_boss(32, 10)
+
+    # Glaurung (template 30): level 12 or 13
+    # Reference: MONSTER_SPAWNING.md add_monster_to_level_list
+    _add_boss(30, random.randint(12, 13))
+
+    # Ungoliant (template 31): level 14
+    # Reference: MONSTER_SPAWNING.md spawn_monster_type_1f
+    _add_boss(31, 14)
+
+    # Morgoth (template 35): level 15, carries Silmaril
+    # Reference: MONSTER_SPAWNING.md spawn_unique_monster_type_23
+    silmaril_carried = Item(type=7, subtype=0, display_char='☼')
+    _add_boss(35, 15, silmaril_carried)
+
+    # Floor Silmaril on level 15 (separate from Morgoth's)
+    # Reference: MONSTER_SPAWNING.md §6 (line ~3742)
+    lvl15 = _ensure_level(15)
+    floor_silmaril = Item(type=7, subtype=0, display_char='☼')
+    floor_silmaril.row = 10
+    floor_silmaril.col = 40
+    lvl15.floor_items.append(floor_silmaril)
+
+
+# =============================================================================
+# CONNECTIVITY REPAIR
+# =============================================================================
+
+_IMPASSABLE = {'#', '┴', '┬', '┤', '├', '─', '│', '+'}
+
+
+def _repair_connectivity(tiles: List[List[str]]) -> None:
+    """
+    After room placement, some passable tiles may be unreachable because
+    the room boundary walls block spanning-tree paths.  Find every
+    disconnected passable region and carve an L-shaped corridor back to
+    the main component.
+
+    Runs in O(n²) on the 20×79 = 1 580-tile map — fast enough.
+    """
+    def _passable(r: int, c: int) -> bool:
+        return 0 <= r < 20 and 0 <= c < 79 and tiles[r][c] not in _IMPASSABLE
+
+    def _bfs(sr: int, sc: int) -> set:
+        """Return the set of all passable tiles reachable from (sr, sc)."""
+        vis: set = set()
+        q: deque = deque()
+        q.append((sr, sc))
+        vis.add((sr, sc))
+        while q:
+            r, c = q.popleft()
+            for dr, dc in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+                nr, nc = r + dr, c + dc
+                if _passable(nr, nc) and (nr, nc) not in vis:
+                    vis.add((nr, nc))
+                    q.append((nr, nc))
+        return vis
+
+    # Find any starting passable tile (top-left sweep)
+    start = next(
+        ((r, c) for r in range(20) for c in range(79) if _passable(r, c)),
+        None
+    )
+    if start is None:
+        return
+
+    for _ in range(400):          # safety cap — normally converges in <10 iters
+        main = _bfs(*start)
+
+        # Find first unreachable passable tile
+        unreachable = next(
+            ((r, c) for r in range(20) for c in range(79)
+             if _passable(r, c) and (r, c) not in main),
+            None
+        )
+        if unreachable is None:
+            break                  # fully connected
+
+        ur, uc = unreachable
+
+        # Find the closest tile in the main component (Manhattan distance)
+        best_dist = 99999
+        best_mr, best_mc = start
+        for mr, mc in main:
+            d = abs(ur - mr) + abs(uc - mc)
+            if d < best_dist:
+                best_dist = d
+                best_mr, best_mc = mr, mc
+
+        # Carve L-shaped tunnel: move vertically first, then horizontally
+        r, c = best_mr, best_mc
+        while r != ur:
+            r += 1 if ur > r else -1
+            if tiles[r][c] in _IMPASSABLE:
+                tiles[r][c] = ' '
+        while c != uc:
+            c += 1 if uc > c else -1
+            if tiles[r][c] in _IMPASSABLE:
+                tiles[r][c] = ' '
+
+
+# =============================================================================
+# MAIN DUNGEON GENERATION
+# =============================================================================
+
+def generate_dungeon_level(dungeon_level: int, player=None) -> DungeonLevel:
+    """
+    Generate a complete dungeon level.
+    Reference: MORIA_COMPLETE.md §6.4, draw_dungeon_border + generate_dungeon_level C functions.
+
+    Algorithm:
+    1. Initialize 20×79 tile map with '#' (solid wall).
+    2. Place 10×39 grid of floor cells at even (row, col) positions.
+    3. Place separator walls between adjacent cells (│ horizontal, ─ vertical).
+    4. Kruskal's random spanning tree opens passages through separators.
+    5. Place one extra enclosed room with wall chars ┴┬┤├.
+    6. Place stairs '<' (up) and '>' (down) on random empty floor tiles.
+    7. Spawn items via _spawn_items().
+    8. Place initial monster population via _spawn_initial_monsters().
+
+    Returns:
+        Fully populated DungeonLevel instance.
+    """
+    level = DungeonLevel(level_number=dungeon_level)
+    tiles = level.tiles  # tiles[row][col], 20 rows × 79 cols
+
+    # -------------------------------------------------------------------------
+    # STEP 1: Fill map with solid walls
+    # -------------------------------------------------------------------------
+    for row in range(20):
+        for col in range(79):
+            tiles[row][col] = '#'
+
+    # -------------------------------------------------------------------------
+    # STEP 2 & 3: Place cell floors and separator walls
+    #
+    # Cell (r, c): floor tile at (row=r*2, col=c*2)        r=0..9, c=0..38
+    # H-sep (r,c)↔(r,c+1): '│' at (r*2, c*2+1)
+    # V-sep (r,c)↔(r+1,c): '─' at (r*2+1, c*2)
+    # -------------------------------------------------------------------------
+    for r in range(GRID_ROWS):
+        for c in range(GRID_COLS):
+            tiles[r * 2][c * 2] = ' '
+            if c < GRID_COLS - 1:
+                tiles[r * 2][c * 2 + 1] = '│'
+            if r < GRID_ROWS - 1:
+                tiles[r * 2 + 1][c * 2] = '─'
+
+    # -------------------------------------------------------------------------
+    # STEP 4: Kruskal's random spanning tree
+    #
+    # All edges have equal cost → shuffle → use union-find to connect
+    # components. This creates a random spanning tree (every cell reachable).
+    # Reference: generate_dungeon_corridors C function (line 3040)
+    # -------------------------------------------------------------------------
+    edges: List[Tuple[str, int, int]] = []
+    for r in range(GRID_ROWS):
+        for c in range(GRID_COLS):
+            if c < GRID_COLS - 1:
+                edges.append(('H', r, c))   # (r,c) ↔ (r, c+1)
+            if r < GRID_ROWS - 1:
+                edges.append(('V', r, c))   # (r,c) ↔ (r+1, c)
+    random.shuffle(edges)
+
+    uf = _UnionFind(GRID_ROWS * GRID_COLS)
+    for kind, r, c in edges:
+        if kind == 'H':
+            idx1 = r * GRID_COLS + c
+            idx2 = r * GRID_COLS + (c + 1)
+            if uf.union(idx1, idx2):
+                tiles[r * 2][c * 2 + 1] = ' '   # open H-sep
+        else:  # 'V'
+            idx1 = r * GRID_COLS + c
+            idx2 = (r + 1) * GRID_COLS + c
+            if uf.union(idx1, idx2):
+                tiles[r * 2 + 1][c * 2] = ' '   # open V-sep
+
+    # -------------------------------------------------------------------------
+    # STEP 5: One extra enclosed room with proper wall chars
+    #
+    # The room boundary uses wall chars (┴┬┤├) at cell positions (even row/col).
+    # The separator slots between wall chars are set to '#' to seal the boundary.
+    # Explicit entrances are carved per wall side to guarantee connectivity.
+    # Reference: generate_dungeon_level C function (line 3257–3313)
+    # Wall chars: ┴ top (0xC1), ┬ bottom (0xC2), ┤ left (0xB4), ├ right (0xC3)
+    # -------------------------------------------------------------------------
+    # Room size in grid cells (internal size, excluding boundary wall row/col)
+    room_rows = random.randint(2, 4)   # internal rows of cells
+    room_cols = random.randint(3, 6)   # internal cols of cells
+
+    max_gr = GRID_ROWS - 2 - room_rows
+    max_gc = GRID_COLS - 2 - room_cols
+    if max_gr > 0 and max_gc > 0:
+        room_gr = random.randint(0, max_gr)   # grid row of top wall
+        room_gc = random.randint(0, max_gc)   # grid col of left wall
+
+        # Map row/col of the four boundary walls (at even positions = cell positions)
+        top_row   = room_gr * 2
+        left_col  = room_gc * 2
+        bot_row   = (room_gr + room_rows + 1) * 2
+        right_col = (room_gc + room_cols + 1) * 2
+
+        # Draw solid boundary: wall chars at even positions, '#' at odd positions
+        for col in range(left_col, right_col + 1):
+            tiles[top_row][col] = '┴' if col % 2 == 0 else '#'
+            tiles[bot_row][col] = '┬' if col % 2 == 0 else '#'
+        for row in range(top_row, bot_row + 1):
+            tiles[row][left_col]  = '┤' if row % 2 == 0 else '#'
+            tiles[row][right_col] = '├' if row % 2 == 0 else '#'
+
+        # Clear interior (all positions inside the boundary walls)
+        for row in range(top_row + 1, bot_row):
+            for col in range(left_col + 1, right_col):
+                tiles[row][col] = ' '
+
+        # ---- CARVE ENTRANCES: one per wall side ----
+        # Pick a mid-point cell on each wall and clear wall + separator + interior.
+        def _carve(wr: int, wc: int, sr: int, sc: int) -> None:
+            """Clear wall tile and its external separator to space."""
+            if 0 <= wr < 20 and 0 <= wc < 79:
+                tiles[wr][wc] = ' '
+            if 0 <= sr < 20 and 0 <= sc < 79:
+                tiles[sr][sc] = ' '
+
+        # Choose internal cell positions for entrances
+        mid_gc = room_gc + 1 + random.randint(0, room_cols - 1)   # col within room
+        mid_gr = room_gr + 1 + random.randint(0, room_rows - 1)   # row within room
+
+        # Top entrance: clear wall at top_row and separator row above
+        _carve(top_row, mid_gc * 2, top_row - 1, mid_gc * 2)
+        # Bottom entrance
+        _carve(bot_row, mid_gc * 2, bot_row + 1, mid_gc * 2)
+        # Left entrance
+        _carve(mid_gr * 2, left_col, mid_gr * 2, left_col - 1)
+        # Right entrance
+        _carve(mid_gr * 2, right_col, mid_gr * 2, right_col + 1)
+
+    # Repair any connectivity broken by the room boundary walls
+    _repair_connectivity(tiles)
+
+    # -------------------------------------------------------------------------
+    # STEP 6: Stairs
+    #
+    # Stairs up '<' always placed (needed on all levels for going up).
+    # Stairs down '>' placed on all levels except level 15 (deepest).
+    # Reference: generate_dungeon_level C function (lines 3208–3232)
+    # -------------------------------------------------------------------------
+    pos = _find_empty_floor(level)
+    if pos:
+        col, row = pos
+        tiles[row][col] = '<'
+        level.stairs_up_row = row
+        level.stairs_up_col = col
+
+    if dungeon_level < 15:
+        pos = _find_empty_floor(level)
+        if pos:
+            col, row = pos
+            tiles[row][col] = '>'
+            level.stairs_down_row = row
+            level.stairs_down_col = col
+
+    # -------------------------------------------------------------------------
+    # STEP 7: Spawn items
+    # -------------------------------------------------------------------------
+    _spawn_items(level, dungeon_level)
+
+    # -------------------------------------------------------------------------
+    # STEP 8: Initial monster population
+    # -------------------------------------------------------------------------
+    _spawn_initial_monsters(level, dungeon_level, player)
+
+    # Mark as generated
+    level.visited_flag = True
+    return level

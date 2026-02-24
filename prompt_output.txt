@@ -1,0 +1,84 @@
+ Python Implementation Prompts Created - Python_Implementation_Prompts.txt
+
+Complete Implementation Guide Ready!
+I've created 22 detailed prompts organized in 7 phases to reimplement MORIA in Python as faithfully as possible to the original.
+
+📋 Phase Breakdown
+PHASE 1: Foundation & Data Structures (3 prompts)
+
+Project setup with exact data structures
+Game constants & configuration
+Monster & item templates from ENTITY_DATABASE.md
+PHASE 2: Display & Input (2 prompts)
+
+Curses-based display (80×25 terminal)
+Keyboard input (4-direction movement only)
+PHASE 3: Core Game Logic (4 prompts)
+
+Main game loop (exact turn order)
+Combat system (precise formulas)
+Monster AI (greedy pathfinding + move_toggle)
+Magic system (71 effects)
+PHASE 4: World & Exploration (3 prompts)
+
+Dungeon generation (Kruskal's MST)
+Level persistence (RAM-only, visited flags)
+Player movement (stairs damage, traps, etc.)
+PHASE 5: Shops, UI & Menus (4 prompts)
+
+Shop system (buy-only)
+High scores (binary file, winners first)
+Death & game over
+Main menu & character creation
+PHASE 6: Polish & Testing (4 prompts)
+
+Inventory management
+Message system
+Save system (high scores only - NO game saves)
+Validation tests
+PHASE 7: Final Integration (2 prompts)
+
+Complete integration
+Package & distribution
+🎯 Key Features
+Each prompt includes:
+
+✅ Exact formulas from documentation
+✅ Code snippets ready to implement
+✅ Critical reminders (4-dir movement, move_toggle, etc.)
+✅ Cross-references to specific documentation sections
+✅ Testing criteria to validate correctness
+⚠️ Critical Implementation Requirements
+The guide emphasizes 10 must-have features:
+
+4-direction movement ONLY
+All monsters move every 2 turns (move_toggle)
+Going down stairs damages HP
+Food decreases by 1/turn
+NO save game feature
+Score = total gold
+Greedy pathfinding
+No field of view
+3 stats only
+Winners rank above non-winners
+📚 Documentation References
+Each prompt links to specific sections:
+
+MORIA_COMPLETE.md - Main reference
+COMBAT_SYSTEM.md - Combat formulas
+MONSTER_AI.md - AI behavior
+MAGIC_SYSTEM.md - All 71 effects
+PLAYER_ACTIONS.md - Movement & progression
+SHOP_AND_UI.md - Shops & high scores
+UNNAMED_FUNCTIONS.md - Utility functions
+🚀 Getting Started
+Recommended approach:
+
+Start with Prompt 1 (data structures)
+Follow prompts in order
+Test after each phase
+Reference documentation constantly
+Don't deviate from original behavior
+Estimated effort: 40-80 hours for complete implementation
+
+The prompts are designed to be copy-paste ready while ensuring 100% fidelity to the original DOS MORIA 1.9.8.7!

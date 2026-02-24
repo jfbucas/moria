@@ -1,0 +1,1026 @@
+MORIA PYTHON REIMPLEMENTATION PROMPTS
+Based on reverse engineering documentation in reverse/
+
+========================================
+PHASE 1: FOUNDATION & DATA STRUCTURES
+========================================
+
+Prompt 1 — Project Setup & Core Data Structures
+------------------------------------------------
+Using reverse/MORIA_COMPLETE.md Section 2 (Data Structures):
+
+Create the Python project structure:
+- pymoria/
+  - __init__.py
+  - main.py (entry point)
+  - game/ (game logic)
+  - data/ (constants, templates)
+  - display/ (rendering)
+  - utils/ (helpers)
+
+Implement core data structures:
+1. Player class (Section 2.1)
+   - 3 stats: strength, dexterity, intelligence (0-255, default 100)
+   - HP: current_hp, max_hp (int16)
+   - Level & XP (use XP formula: 50 × (2^(n-1) - 1))
+   - Gold (32-bit: gold_low, gold_high)
+   - Position (x, y)
+   - Food level (decreases by 1/turn)
+   - Equipment slots (wielded_weapon, worn_armor)
+   - Inventory (linked list → use Python list)
+   - Timed effects (13 effects: list of timers)
+
+2. Monster class (Section 2.2)
+   - Template ID + instance stats
+   - Position (row, col)
+   - HP, AC, to_hit, damage_dice/sides
+   - AI state: is_awake, is_alerted, ai_state (wander/chase)
+   - **CRITICAL**: move_toggle (0/1, toggles each turn)
+   - Special attacks (list of attack codes)
+   - Display char
+
+3. Item class (Section 2.3)
+   - Type (0-8), subtype
+   - Count (for stackable items)
+   - Position (if on floor)
+   - Power, value (32-bit gold)
+   - Flags: is_cursed, is_equipped, is_identified
+
+4. DungeonLevel class (Section 2.4)
+   - tiles: 20×79 2D array (use strings for tile chars)
+   - visited_flag: bool
+   - floor_items: list
+   - monsters: list
+
+Output: pymoria/game/entities.py with all classes
+IMPORTANT: Use exact formulas from documentation
+
+
+Prompt 2 — Game Constants & Configuration
+------------------------------------------
+Using reverse/MORIA_COMPLETE.md Section 4 (Game Constants):
+
+Create pymoria/utils/constants.py:
+
+1. Map constants
+   MAP_WIDTH = 79
+   MAP_HEIGHT = 20
+   MAX_LEVELS = 20
+
+2. Tile characters (CP437/CP850)
+   TILE_FLOOR = ' '
+   TILE_WALL = '#'
+   TILE_DOOR_CLOSED = '+'
+   TILE_DOOR_OPEN = '-'
+   TILE_STAIRS_UP = '<'
+   TILE_STAIRS_DOWN = '>'
+   TILE_PLAYER = '☻'  # 0x02
+   TILE_PLAYER_WIZARD = '~'  # 0x7E
+   (include all room wall chars from Section 2.4)
+
+3. Food states (Section 4.4)
+   FOOD_FULL = 5001
+   FOOD_NORMAL = 3001
+   FOOD_WEAK = 1501
+   FOOD_HUNGRY = 1
+   FOOD_DYING = 0
+
+4. Timed effect indices (Section 4.6)
+   EFFECT_BLINDNESS = 0
+   EFFECT_CONFUSION = 1
+   ... (all 13 effects)
+
+5. Item types (Section 2.3)
+   ITEM_FOOD = 0
+   ITEM_POTION = 1
+   ... (all 9 types)
+
+6. Combat constants
+   CRITICAL_HIT = 20  # Natural 20
+
+Create pymoria/data/messages.py:
+- French message dictionary (use Section 5 message catalog)
+- Food status messages
+- Death messages
+
+Output: constants.py, messages.py
+
+
+Prompt 3 — Monster & Item Templates
+------------------------------------
+Using reverse/ENTITY_DATABASE.md:
+
+Create pymoria/data/monsters.py:
+- MONSTER_TEMPLATES list (31 templates from ENTITY_DATABASE.md)
+- Each template: name, char, hp, ac, to_hit, damage, xp, speed_bonus, special_attacks
+
+Create pymoria/data/items.py:
+- POTION_NAMES list (24 potions, randomized at game start)
+- WAND_WOODS list (20 woods, randomized at game start)
+- SCROLL_NAMES list (25 scrolls)
+- WEAPON_TEMPLATES, ARMOR_TEMPLATES (if documented)
+
+CRITICAL: Use exact values from ENTITY_DATABASE.md
+Include randomization for potion colors and wand woods
+
+
+========================================
+PHASE 2: DISPLAY & INPUT
+========================================
+
+Prompt 4 — Display System with Curses
+--------------------------------------
+Using reverse/DISPLAY_SYSTEM.md and MORIA_COMPLETE.md Section 6:
+
+Create pymoria/display/screen.py using Python curses:
+
+1. Screen initialization
+   - 80×25 terminal (standard DOS size)
+   - Color pairs for different elements
+   - Status bar at bottom (row 24)
+
+2. Display functions:
+   - draw_dungeon(level, player) - render 20×79 map
+   - draw_status_bar(player) - show HP, level, gold, food
+   - draw_message(text) - display message at row 23
+   - put_char_at(char, x, y) - place character
+   - clear_screen()
+
+3. Status bar format (see PLAYER_ACTIONS.md):
+   "HP: 50/100  Lvl: 5  Gold: 1500  Food: Normal"
+
+4. Message area (row 23):
+   - Display last message
+   - Press key to continue for important messages
+
+IMPORTANT:
+- Map viewport is rows 0-19, cols 0-78
+- NO field of view (all tiles visible)
+- Use Unicode equivalents for CP437 chars (☻, ┴, ┬, etc.)
+
+
+Prompt 5 — Input Handling
+--------------------------
+Create pymoria/game/input.py:
+
+1. read_key() - get single keypress
+   - Return normalized key codes
+   - Handle arrow keys (map to movement)
+   - Handle extended keys
+
+2. Command mapping:
+   - Arrow keys / 2,4,6,8 (numpad) → 4-direction movement
+   - 'i' → inventory
+   - 'e' → equipment
+   - 'd' → drop
+   - 'q' → quitter (quit)
+   - '<' / '>' → stairs
+   - '?' → help
+   (See SHOP_AND_UI.md for complete command list)
+
+3. Direction input (for targeted spells):
+   - Prompt "Quelle direction?"
+   - Return (dx, dy) tuple
+   - NO diagonals (only (0,1), (0,-1), (1,0), (-1,0))
+
+Output: input.py with keyboard handling
+
+
+========================================
+PHASE 3: CORE GAME LOGIC
+========================================
+
+Prompt 6 — Main Game Loop
+--------------------------
+Using reverse/MORIA_COMPLETE.md Section 1.4 (Game Flow):
+
+Create pymoria/main.py:
+
+Main game loop (turn-based):
+```python
+while not player.is_dead and not game.victory:
+    # 1. Display
+    display.draw_dungeon(current_level, player)
+    display.draw_status_bar(player)
+
+    # 2. Player input
+    key = input.read_key()
+
+    # 3. Process player action
+    if game.process_player_action(key, player):
+        # Action consumed a turn
+
+        # 4. Food consumption
+        player.food_level -= 1
+        if player.food_level <= 0:
+            damage = random.randint(1, 10)
+            player.current_hp -= damage
+
+        # 5. Poison damage
+        if player.effect_active[EFFECT_POISON]:
+            damage = random.randint(1, 5)
+            player.current_hp -= damage
+
+        # 6. Tick down timed effects
+        for i in range(13):
+            if player.effect_active[i]:
+                player.effect_timer[i] -= 1
+                if player.effect_timer[i] <= 0:
+                    player.effect_active[i] = False
+                    handle_effect_expiration(i, player)
+
+        # 7. HP regeneration
+        regen_delay = max(1, (15 - dungeon_level) // 2)
+        player.regen_counter += 1
+        if player.regen_counter >= regen_delay:
+            if player.current_hp < player.max_hp:
+                player.current_hp += 1
+            player.regen_counter = 0
+
+        # 8. Update all monsters
+        update_all_monsters(current_level, player)
+
+        # 9. Monster spawning (every 20 turns)
+        game.turn_count += 1
+        if game.turn_count % 20 == 0:
+            spawn_monsters(current_level, 1)
+            if player.has_cursed_item():
+                spawn_monsters(current_level, 3)  # 4× total
+
+    # 10. Check death
+    if player.current_hp <= 0:
+        handle_death(player)
+```
+
+CRITICAL: Follow this exact order from PLAYER_ACTIONS.md
+
+
+Prompt 7 — Combat System
+-------------------------
+Using reverse/COMBAT_SYSTEM.md:
+
+Create pymoria/game/combat.py:
+
+1. player_attacks_monster(player, monster):
+   ```python
+   # To-hit roll (d20)
+   roll = random.randint(1, 20)
+
+   # To-hit calculation (exact formula from COMBAT_SYSTEM.md)
+   to_hit = (player.level + weapon.power - monster.to_hit -
+             monster.ac + 1 + random.randint(0, player.strength))
+
+   if roll >= to_hit or roll == 20:  # Hit or critical
+       # Damage
+       damage = 0
+       for _ in range(weapon.dice):
+           damage += random.randint(1, weapon.sides)
+       damage += player.strength // 10
+
+       if roll == 20:  # Critical hit
+           damage *= 2
+
+       monster.current_hp -= damage
+
+       if monster.current_hp <= 0:
+           award_experience(player, monster.xp_value)
+           remove_monster(monster)
+   ```
+
+2. monster_attacks_player(monster, player):
+   - Similar formula (see COMBAT_SYSTEM.md Section 2)
+   - Apply special attacks (30+ types from Section 4)
+
+3. award_experience(player, xp):
+   - Add XP
+   - Check level-up using formula: XP[n] = 50 × (2^(n-1) - 1)
+   - On level-up: max_hp += random(6) + random(level) + 3 + random(depth)//2
+
+4. Special attack handlers (Section 4):
+   - Poison (type 1): set effect_timer[4] = 100 + random(50)
+   - Paralysis (type 2): effect_timer[3] = 15 + random(10)
+   - Drain XP (type 3): lose_experience_level()
+   ... (all 30+ types)
+
+CRITICAL: Use exact formulas, no modifications
+
+
+Prompt 8 — Monster AI
+---------------------
+Using reverse/MONSTER_AI.md:
+
+Create pymoria/game/monster_ai.py:
+
+1. update_all_monsters(level, player):
+   ```python
+   for monster in level.monsters:
+       # Toggle move_toggle (CRITICAL: all monsters move every 2 turns)
+       monster.move_toggle = 1 if monster.move_toggle == 0 else 0
+
+       if (monster.is_awake or monster.is_alerted) and monster.move_toggle == 1:
+           process_monster_turn(monster, level, player)
+   ```
+
+2. process_monster_turn(monster, level, player):
+   - Wake check (distance < 5: wake up)
+   - Alert check (hear player nearby)
+   - If adjacent to player: attack
+   - Else if chasing: calculate_chase_direction()
+   - Else: wander randomly
+
+3. calculate_chase_direction(monster, player):
+   ```python
+   # Greedy Manhattan distance (NO A*, NO Dijkstra)
+   dx = player.x - monster.x
+   dy = player.y - monster.y
+
+   # Choose axis with greater distance
+   if abs(dx) > abs(dy):
+       return (1, 0) if dx > 0 else (-1, 0)  # Move horizontally
+   else:
+       return (0, 1) if dy > 0 else (0, -1)  # Move vertically
+   ```
+
+4. attempt_move(monster, dx, dy, level):
+   - Check wall collision
+   - Check door (can_open_doors flag)
+   - Update position
+
+CRITICAL:
+- ALL monsters use move_toggle (move every 2 turns)
+- NO variable speed (speed_bonus affects combat, not movement)
+- Greedy pathfinding only (gets stuck on walls)
+
+
+Prompt 9 — Magic System (Potions, Wands, Scrolls)
+--------------------------------------------------
+Using reverse/MAGIC_SYSTEM.md:
+
+Create pymoria/game/magic.py:
+
+1. use_potion(potion, player):
+   ```python
+   # ALL potions add food first
+   player.food_level += 200 + random.randint(0, 99)
+
+   # Then apply effect (24 potion types from MAGIC_SYSTEM.md)
+   if potion.subtype == 0:  # Healing
+       player.current_hp += 15 + random.randint(0, 14)
+   elif potion.subtype == 1:  # Poison
+       player.effect_timer[EFFECT_POISON] = 100 + random.randint(0, 49)
+       player.effect_active[EFFECT_POISON] = True
+   ... (all 24 potions)
+   elif potion.subtype == 22:  # Gasification (DANGEROUS)
+       player.is_wizard = True
+       player.effect_timer[12] = 25 + random.randint(0, 14)
+       # DESTROY all non-equipped items
+       for item in player.inventory:
+           if not item.is_equipped:
+               destroy_item(item)
+   ```
+
+2. use_wand(wand, player, target_x, target_y):
+   - Get direction (use read_direction_input)
+   - Project beam (see UNNAMED_FUNCTIONS.md: project_beam_in_direction)
+   - Apply effect at target (22 wand types)
+   - Decrease charges
+
+3. use_scroll(scroll, player):
+   - 25 scroll types (MAGIC_SYSTEM.md Section 4)
+   - Magic Map: reveal all tiles
+   - Identify: mark item as identified
+   - Teleport: random position
+   ... (all 25 scrolls)
+
+4. Identification system:
+   - Dual tables (type-based and item-based)
+   - Index formula: type × 0x18 + subtype
+
+CRITICAL: Use exact effect values, durations, and damage
+
+
+========================================
+PHASE 4: WORLD & EXPLORATION
+========================================
+
+Prompt 10 — Dungeon Generation
+-------------------------------
+Using reverse/MORIA_COMPLETE.md Section 6.4:
+
+Create pymoria/game/dungeon.py:
+
+1. generate_dungeon_level(level_number):
+   ```python
+   # STEP 1: Create 10×39 room grid
+   rooms = []
+   for grid_y in range(10):
+       for grid_x in range(39):
+           if random.random() < 0.5:  # 50% chance
+               room = create_room(grid_x, grid_y)
+               rooms.append(room)
+
+   # STEP 2: Add one extra room
+   extra_room = create_random_room()
+   rooms.append(extra_room)
+
+   # STEP 3: Connect with Kruskal's MST
+   edges = []
+   for i, room1 in enumerate(rooms):
+       for room2 in rooms[i+1:]:
+           dist = manhattan_distance(room1.center, room2.center)
+           edges.append((dist, room1, room2))
+
+   edges.sort()  # Sort by distance
+
+   connected = set()
+   for dist, room1, room2 in edges:
+       if room1 not in connected or room2 not in connected:
+           create_corridor(tiles, room1.center, room2.center)
+           connected.add(room1)
+           connected.add(room2)
+
+   # STEP 4: Place doors at room entrances
+   # STEP 5: Place stairs
+   # STEP 6: Spawn monsters and items
+   ```
+
+2. create_room(grid_x, grid_y):
+   - Random size within grid cell
+   - Use room wall chars (┴┬┤├)
+   - Return Room object with center position
+
+3. create_corridor(tiles, pos1, pos2):
+   - Use ─ and │ for corridors
+   - L-shaped path (horizontal then vertical OR vice versa)
+
+IMPORTANT: Kruskal's algorithm for MST is critical
+
+
+Prompt 11 — Level Transitions & Persistence
+--------------------------------------------
+Using reverse/PLAYER_ACTIONS.md Section 2-3:
+
+Create pymoria/game/level_manager.py:
+
+1. advance_to_next_level(direction, dungeon, player):
+   ```python
+   if direction == 0:  # Going down
+       player.dungeon_level += 1
+
+       # HP DAMAGE (critical mechanic)
+       if not player.has_item_type(ITEM_FEATHER_FALL):
+           damage = random.randint(1, player.dungeon_level * 2)
+           player.current_hp -= damage
+           if player.current_hp <= 0:
+               handle_death(player, "fall")
+               return
+
+       # Check if level visited
+       level = dungeon.levels[player.dungeon_level]
+       if not level.visited_flag:
+           # Generate new level
+           level.tiles = generate_dungeon_level(player.dungeon_level)
+           spawn_monsters(level)
+           place_objects(level)
+           level.visited_flag = True
+
+       # Place player at up-stairs
+       place_player_at_stairs(level, player, TILE_STAIRS_UP)
+
+   elif direction == 1:  # Going up
+       if player.dungeon_level == 0:
+           display_message("Vous ne pouvez pas monter")
+           return
+
+       player.dungeon_level -= 1
+       # NO damage going up
+       # Level already exists (was visited)
+   ```
+
+2. Persistence:
+   - All 20 levels stored in RAM (dungeon.levels list)
+   - visited_flag per level
+   - Monsters and items persist in their last state
+   - NO disk save
+
+CRITICAL: Going down stairs damages HP unless protected
+
+
+Prompt 12 — Player Actions & Movement
+--------------------------------------
+Using reverse/PLAYER_ACTIONS.md and UNNAMED_FUNCTIONS.md:
+
+Create pymoria/game/actions.py:
+
+1. move_player(direction, player, level):
+   ```python
+   # Calculate target position (4 directions ONLY)
+   dx, dy = direction
+   target_x = player.x + dx
+   target_y = player.y + dy
+
+   # Get tile
+   tile = level.tiles[target_y][target_x]
+
+   # Check walls
+   if tile in ['#', '┴', '┬', '┤', '├', '─', '│']:
+       display_message("Vous vous cognez contre un mur")
+       return False
+
+   # Check monster
+   monster = get_monster_at(target_x, target_y, level)
+   if monster:
+       player_attacks_monster(player, monster)
+       return True  # Consumed turn
+
+   # Move player
+   player.x = target_x
+   player.y = target_y
+
+   # Handle special tiles
+   if tile == TILE_STAIRS_DOWN:
+       if confirm("Descendre?"):
+           advance_to_next_level(0, dungeon, player)
+   elif tile == TILE_STAIRS_UP:
+       if confirm("Monter?"):
+           advance_to_next_level(1, dungeon, player)
+   elif tile == 'τ':  # Trap (0xF7)
+       display_message("Un piège!")
+       destroy_random_item(player)
+       player.food_level = 3000  # Set to "Faible"
+
+   # Check for items
+   item = get_item_at(target_x, target_y, level)
+   if item:
+       prompt_pickup(item, player)
+
+   return True  # Consumed turn
+   ```
+
+2. eat_food(player):
+   - Check has food item
+   - Remove food item
+   - player.current_food -= 1
+   - (See UNNAMED_FUNCTIONS.md for exact logic)
+
+3. rest(player, level):
+   - Rest until HP full OR monster nearby
+   - Each rest tick: food -= 1, check regeneration
+
+4. drop_item(player, level):
+   - Select item from inventory
+   - Check if cursed (can't drop)
+   - Place at player feet
+
+
+========================================
+PHASE 5: SHOPS, UI & MENUS
+========================================
+
+Prompt 13 — Shop System
+------------------------
+Using reverse/SHOP_AND_UI.md Section 1:
+
+Create pymoria/game/shop.py:
+
+1. shop_purchase_menu(shop_type, player):
+   ```python
+   # Get shop inventory (shop_type 0 or 1)
+   items = get_shop_items(shop_type)
+
+   # Filter affordable items
+   affordable = [item for item in items
+                 if item.price <= player.get_gold()]
+
+   if not affordable:
+       display_message("Vous n'avez pas assez d'or")
+       return
+
+   # Display list with letters
+   selected = 0
+   while True:
+       # Draw menu
+       for i, item in enumerate(affordable):
+           char = chr(ord('a') + i) if i < 26 else chr(ord('A') + i - 26)
+           highlight = (i == selected)
+           display_shop_item(item, char, highlight)
+
+       # Input (up/down arrows, enter to buy)
+       key = read_key()
+       if key == KEY_UP:
+           selected = (selected - 1) % len(affordable)
+       elif key == KEY_DOWN:
+           selected = (selected + 1) % len(affordable)
+       elif key == KEY_ENTER:
+           purchase_item(affordable[selected], player)
+           break
+   ```
+
+2. Purchase mechanics:
+   - Deduct gold (32-bit arithmetic: gold_high, gold_low)
+   - Create item object
+   - Place at player's feet (not in inventory)
+
+IMPORTANT: Buy only (NO selling)
+
+
+Prompt 14 — High Score System
+------------------------------
+Using reverse/SHOP_AND_UI.md Section 3:
+
+Create pymoria/game/highscores.py:
+
+1. High score file: moria4.scr (384 bytes, 16 entries × 24 bytes)
+
+2. HighScoreEntry structure:
+   ```python
+   class HighScoreEntry:
+       player_name: str  # 15 chars (Pascal string: 1 byte len + 14 chars)
+       score: int        # 32-bit gold total
+       dungeon_level: int  # 16-bit
+       death_cause: str  # 1 byte ('g' = won, else death code)
+       checksum: int     # (name[0] + name[1] + score + level + cause) % 256
+   ```
+
+3. load_high_scores():
+   - Read binary file (384 bytes)
+   - Parse 16 entries
+   - Validate checksums
+   - Return list
+
+4. save_high_scores(entries):
+   - Write binary file
+   - Encode as little-endian
+   - Calculate checksums
+
+5. insert_high_score(player):
+   - Calculate score = total gold
+   - Find insertion position:
+     * Winners ('g') ALWAYS rank above non-winners
+     * Within each group, sort by score descending
+   - Shift entries down
+   - Insert new entry
+   - Save if qualified (top 16)
+
+CRITICAL: Winners rank before non-winners
+
+
+Prompt 15 — Death & Game Over
+------------------------------
+Using reverse/SHOP_AND_UI.md Section 4:
+
+Create pymoria/game/gameover.py:
+
+1. handle_death(player, cause):
+   ```python
+   # STEP 1: Convert type 0x08 items (treasures) to gold
+   for item in player.inventory:
+       if item.type == ITEM_TREASURE and item.count > 0:
+           player.gold_low += item.value_low
+           player.gold_high += item.value_high
+           # Handle 32-bit carry
+           if player.gold_low < item.value_low:
+               player.gold_high += 1
+
+   # STEP 2: Display death message
+   clear_screen()
+   if cause == 'g':  # Victory
+       display_message("Félicitations!")
+       display_message("Vous êtes sorti de Moria!")
+   else:
+       display_death_message(cause)
+       display_message(f"Niveau {player.dungeon_level}")
+       display_message(f"Or: {player.get_total_gold()}")
+
+   # STEP 3: Load high scores
+   scores = load_high_scores()
+
+   # STEP 4: Check if qualified
+   position = find_insertion_position(player, scores, cause)
+
+   if position < 16:
+       # Qualified! Insert entry
+       scores.insert(position, create_entry(player, cause))
+       scores = scores[:16]  # Keep top 16
+       save_high_scores(scores)
+
+   # STEP 5: Display high score table
+   display_high_scores(scores)
+
+   # STEP 6: Return to main menu
+   ```
+
+2. Death causes:
+   - 'e': Starvation
+   - 'f': Time paradox
+   - 'g': Victory (escaped)
+   - 'Q': Quit (not recorded)
+
+
+Prompt 16 — Main Menu & Character Creation
+-------------------------------------------
+Create pymoria/game/menu.py:
+
+1. Main menu:
+   ```
+   MORIA (TM) Version 1.9.8.7
+
+   [E] Explications (Help)
+   [S] Table des scores (High Scores)
+   [Enter] Commencer (Start Game)
+   ```
+
+2. Character creation:
+   - Enter name (15 chars max, Pascal string)
+   - Allocate stats:
+     * Start with 100 points
+     * Distribute to Force, Dextérité, Intelligence
+     * Range 0-255 per stat
+     * Total must equal 300 (3 × 100)
+
+3. New game initialization:
+   - Create player with stats
+   - Randomize potion colors (shuffle POTION_NAMES)
+   - Randomize wand woods (shuffle WAND_WOODS)
+   - Generate level 0 (town)
+   - Start main loop
+
+
+========================================
+PHASE 6: POLISH & TESTING
+========================================
+
+Prompt 17 — Inventory Management
+---------------------------------
+Create pymoria/game/inventory.py:
+
+1. display_inventory(player):
+   - Show all items (35 slots max)
+   - Two-column layout (20 items per column)
+   - Letter keys (a-z, A-Z for 26-52 items)
+   - Show count for stackable items
+   - Mark equipped items
+
+2. equip_item(item, player):
+   - Check slot (weapon, armor)
+   - Unequip current item
+   - Apply stat bonuses
+
+3. drop_item(item, player, level):
+   - Check if cursed (display "L'objet est maudit!")
+   - Remove from inventory
+   - Place at player position
+
+4. pickup_item(item, player):
+   - Check inventory space (35 slots)
+   - Stack if same type
+   - Add to inventory
+
+
+Prompt 18 — Message System
+---------------------------
+Create pymoria/display/messages.py:
+
+1. Message queue:
+   - Display last message at row 23
+   - "-- More --" for important messages
+   - Message history (scrollback)
+
+2. French messages:
+   - Load from data/messages.py
+   - Format with parameters (e.g., "Vous gagnez %d PV")
+
+3. Message types:
+   - Combat messages
+   - Item pickup/drop
+   - Effect activation/expiration
+   - Errors
+
+
+Prompt 19 — Save System (High Scores Only)
+-------------------------------------------
+IMPORTANT: NO game save feature
+
+Create pymoria/utils/persistence.py:
+
+1. Only save high scores (moria4.scr):
+   - Binary format, 384 bytes
+   - 16 entries × 24 bytes
+   - Little-endian encoding
+   - Checksums for validation
+
+2. "Save and quit" menu option:
+   - Display option but do nothing
+   - Immediately quit to menu
+   - This is INTENTIONAL (permadeath design)
+
+3. Data files:
+   - moria4.scr: high scores (binary)
+   - moria.txt: game data (loaded at startup, read-only)
+
+
+Prompt 20 — Testing & Validation
+---------------------------------
+Create tests/ directory:
+
+1. Test combat math:
+   ```python
+   def test_player_to_hit():
+       # Use known values from COMBAT_SYSTEM.md
+       player = Player(level=5, strength=100)
+       weapon = Weapon(power=10)
+       monster = Monster(to_hit=5, ac=10)
+
+       # Formula: level + weapon - to_hit - ac + 1 + random(str)
+       # Expected: 5 + 10 - 5 - 10 + 1 + random(100) = 1 to 101
+       assert 1 <= calculate_to_hit(player, weapon, monster) <= 101
+   ```
+
+2. Test XP formula:
+   - Level 2: 50 XP
+   - Level 3: 150 XP
+   - Level 10: 25,550 XP
+
+3. Test monster move_toggle:
+   - All monsters should move every 2 turns
+   - Verify toggle alternates 0 → 1 → 0
+
+4. Test pathfinding:
+   - Greedy algorithm (no A*)
+   - Gets stuck on walls (this is correct)
+
+5. Test regeneration:
+   - Level 1: +1 HP per 7 turns
+   - Level 10: +1 HP per 2 turns
+   - Level 13+: +1 HP per turn
+
+6. Test high scores:
+   - Winners rank above non-winners
+   - Correct sorting by gold within groups
+
+7. Test stairs damage:
+   - Going down: random(level × 2) damage
+   - Going up: no damage
+   - Feather fall prevents damage
+
+Validation checklist:
+□ 4-direction movement only (no diagonals)
+□ All monsters use move_toggle (every 2 turns)
+□ Going down stairs damages HP
+□ Food decreases by 1 per turn
+□ No save game feature
+□ Score = gold only
+□ Greedy pathfinding (gets stuck)
+□ No FOV system
+□ CP437/CP850 characters display correctly
+
+
+========================================
+PHASE 7: FINAL INTEGRATION
+========================================
+
+Prompt 21 — Complete Game Integration
+--------------------------------------
+Integrate all systems into working game:
+
+1. Main entry point (pymoria/main.py):
+   - Initialize display (curses)
+   - Show main menu
+   - Character creation
+   - Main game loop
+   - Cleanup on exit
+
+2. Error handling:
+   - Catch exceptions
+   - Restore terminal on crash
+   - Log errors
+
+3. Performance:
+   - Cap frame rate (turn-based, no need for 60 FPS)
+   - Efficient rendering (only redraw changed tiles)
+
+4. Configuration:
+   - Allow key rebinding
+   - Terminal size check (require 80×25)
+
+5. Documentation:
+   - README with installation
+   - Controls reference
+   - Differences from original (if any)
+
+
+Prompt 22 — Package & Distribution
+-----------------------------------
+Create distribution package:
+
+1. Project structure:
+   ```
+   pymoria/
+   ├── README.md
+   ├── requirements.txt
+   ├── setup.py
+   ├── pymoria/
+   │   ├── __init__.py
+   │   ├── main.py
+   │   ├── game/
+   │   │   ├── combat.py
+   │   │   ├── monster_ai.py
+   │   │   ├── magic.py
+   │   │   ├── dungeon.py
+   │   │   └── ...
+   │   ├── data/
+   │   │   ├── monsters.py
+   │   │   ├── items.py
+   │   │   └── messages.py
+   │   ├── display/
+   │   │   ├── screen.py
+   │   │   └── messages.py
+   │   └── utils/
+   │       ├── constants.py
+   │       └── persistence.py
+   └── tests/
+       └── test_*.py
+   ```
+
+2. Requirements:
+   - Python 3.8+
+   - No external dependencies (use stdlib curses)
+
+3. Installation:
+   ```bash
+   pip install pymoria
+   pymoria  # Run game
+   ```
+
+4. Credits:
+   - Original: DOS MORIA 1.9.8.7 (French)
+   - Reverse engineering: [Your attribution]
+   - Implementation: Python port based on documentation
+
+
+========================================
+OPTIONAL ENHANCEMENTS (Post-MVP)
+========================================
+
+These are NOT in the original but could be added:
+
+- Color themes (original was monochrome)
+- Mouse support (original was keyboard-only)
+- Save game feature (original had NONE)
+- Larger viewport (original was 80×25)
+- Diagonal movement (original was 4-dir only)
+- Better pathfinding (original was greedy)
+- FOV/lighting (original had none)
+- Sound effects (original had PC speaker beeps)
+
+IMPORTANT: Mark these clearly as "enhancements" if added
+
+
+========================================
+CRITICAL REMINDERS
+========================================
+
+Things that MUST be exactly like the original:
+
+1. ✓ 4-direction movement ONLY (no diagonals)
+2. ✓ All monsters move every 2 turns (move_toggle)
+3. ✓ Going down stairs damages HP
+4. ✓ Food decreases by 1 per turn
+5. ✓ NO save game feature
+6. ✓ Score = total gold only
+7. ✓ Greedy pathfinding (gets stuck on walls)
+8. ✓ No field of view (all tiles visible)
+9. ✓ 3 stats only (Force, Dext, Intel)
+10. ✓ Winners rank above non-winners in high scores
+
+Things to be careful about:
+
+1. Combat formulas: use exact math from COMBAT_SYSTEM.md
+2. XP thresholds: 50 × (2^(n-1) - 1)
+3. Level-up HP gain: random(6) + random(level) + 3 + random(depth)//2
+4. Regeneration: (15 - level) // 2 turns per +1 HP
+5. Timed effects: 13 effects, decrement each turn
+6. Monster spawning: every 20 turns, 4× if cursed
+7. String encoding: CP850 for French text
+8. Tile characters: CP437 box-drawing chars
+
+Reference documents for each system:
+- Combat: COMBAT_SYSTEM.md
+- Monster AI: MONSTER_AI.md
+- Magic: MAGIC_SYSTEM.md
+- Dungeon: MORIA_COMPLETE.md Section 6.4
+- Movement: PLAYER_ACTIONS.md
+- Shops: SHOP_AND_UI.md
+- Functions: UNNAMED_FUNCTIONS.md
+- Complete ref: MORIA_COMPLETE.md
+
+
+========================================
+END OF IMPLEMENTATION PROMPTS
+========================================
+
+Total: 22 prompts organized in 7 phases
+Estimated time: 40-80 hours for complete implementation
+Difficulty: Intermediate to Advanced Python
+
+Good luck with your faithful MORIA reimplementation!

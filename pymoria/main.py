@@ -1,47 +1,77 @@
-#!/usr/bin/env python3
 """
-PyMoria - Python rewrite of Moria roguelike
-Main entry point
+PyMoria - Main entry point
+DOS MORIA 1.9.8.7 (French) reimplementation in Python
 """
 
-import sys
-from game.engine import GameEngine
+from game.entities import Player, Monster, Item, DungeonLevel
 
 
 def main():
-    """Main entry point."""
-    print("Bienvenue dans Moria!")
-    print("Initialisation...")
+    """Main game entry point"""
+    print("PyMoria - Python reimplementation of DOS MORIA 1.9.8.7")
+    print("=" * 60)
+    print()
 
-    game = GameEngine()
+    # Test data structures
+    print("Creating player...")
+    player = Player(name="Test Hero")
+    player.max_hp = 50
+    player.current_hp = 50
 
-    try:
-        game.initialize()
-        if not game.running:
-            return 0
-        game.run()
-    except Exception as e:
-        print(f"\nErreur: {e}")
-        import traceback
-        traceback.print_exc()
-        return 1
-    finally:
-        game.cleanup()
+    print(f"  Name: {player.name}")
+    print(f"  Stats: Force={player.strength}, Dext={player.dexterity}, Int={player.intelligence}")
+    print(f"  HP: {player.current_hp}/{player.max_hp}")
+    print(f"  Level: {player.player_level}, XP: {player.experience}")
+    print(f"  Gold: {player.get_total_gold()}")
+    print(f"  Food: {player.get_food_status()}")
+    print()
 
-    if not game.player.is_alive():
-        print("\n" + "=" * 40)
-        print("VOUS ÊTES MORT")
-        print("=" * 40)
-        print(f"Niveau atteint: {game.current_level}")
-        print(f"Niveau personnage: {game.player.level}")
-        print(f"Expérience: {game.player.experience}")
-        print(f"Or: {game.player.gold}")
-        print("=" * 40)
-    else:
-        print("\nMerci d'avoir joué!")
+    # Test XP formula
+    print("XP thresholds:")
+    for level in range(1, 11):
+        xp = Player.get_xp_for_level(level)
+        print(f"  Level {level}: {xp:,} XP")
+    print()
 
-    return 0
+    # Test monster
+    print("Creating monster...")
+    monster = Monster(
+        char='C',
+        template_id=0,
+        max_hp=10,
+        current_hp=10,
+        row=5,
+        col=5
+    )
+    print(f"  Char: {monster.char}")
+    print(f"  HP: {monster.current_hp}/{monster.max_hp}")
+    print(f"  Position: ({monster.col}, {monster.row})")
+    print(f"  Move toggle: {monster.move_toggle}")
+    print()
+
+    # Test item
+    print("Creating item...")
+    item = Item(type=1, subtype=0, count=1)  # Potion
+    item.set_total_value(50)
+    print(f"  Type: {item.type}, Subtype: {item.subtype}")
+    print(f"  Count: {item.count}")
+    print(f"  Value: {item.get_total_value()} gold")
+    print()
+
+    # Test dungeon level
+    print("Creating dungeon level...")
+    level = DungeonLevel(level_number=1)
+    level.set_tile(10, 10, '>')  # Stairs down
+    tile = level.get_tile(10, 10)
+    print(f"  Level: {level.level_number}")
+    print(f"  Visited: {level.visited_flag}")
+    print(f"  Tile at (10,10): '{tile}'")
+    print(f"  Passable at (10,10): {level.is_passable(10, 10)}")
+    print()
+
+    print("Data structures initialized successfully!")
+    print("Ready for game implementation.")
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()

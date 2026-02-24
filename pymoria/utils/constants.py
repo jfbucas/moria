@@ -1,140 +1,334 @@
 """
-Game constants extracted from reverse-engineered Moria DOS game.
+Game Constants for PyMoria
+Based on reverse/MORIA_COMPLETE.md Section 4
 """
 
-# Map dimensions
+# =============================================================================
+# MAP CONSTANTS
+# =============================================================================
+
 MAP_WIDTH = 79
-MAP_HEIGHT = 22
-ROOM_COLS = 39
-ROOM_ROWS = 10
-MAX_DUNGEON_LEVEL = 15  # 15 levels total, Silmaril at level 12
+MAP_HEIGHT = 20
+MAX_LEVELS = 20
 
-# Corridor generation (Kruskal's algorithm)
-TOTAL_CORRIDORS = 808
-VERTICAL_CORRIDORS = 391
-HORIZONTAL_CORRIDORS = 417
+# =============================================================================
+# TILE CHARACTERS (CP437/CP850 → Unicode)
+# Reference: MORIA_COMPLETE.md Section 2.4
+# =============================================================================
 
-# Player stats
-MAX_STAT = 18
-MIN_STAT = 3
-STARTING_HP = 20
-STARTING_FOOD = 1000
-FOOD_WARNING_THRESHOLD = 400
+# Basic tiles
+TILE_FLOOR = ' '
+TILE_WALL = '#'
+TILE_DOOR_CLOSED = '+'
+TILE_DOOR_OPEN = '-'
+TILE_STAIRS_UP = '<'
+TILE_STAIRS_DOWN = '>'
 
-# Game timers
-TURNS_PER_FOOD_DECREASE = 10
-HALLUCINATION_DURATION = 100
-PARALYSIS_DURATION = 10
-BLINDNESS_DURATION = 20
+# Room wall characters (CP437 box-drawing)
+TILE_ROOM_TOP = '┴'      # 0xC1 - top wall
+TILE_ROOM_BOTTOM = '┬'   # 0xC2 - bottom wall
+TILE_ROOM_LEFT = '┤'     # 0xB4 - left wall
+TILE_ROOM_RIGHT = '├'    # 0xC3 - right wall
 
-# Memory addresses (for reference from original game)
-ADDR_PLAYER_Y = 0xb86c
-ADDR_PLAYER_X = 0xb86e
-ADDR_CURRENT_HP = 0xb870
-ADDR_MAX_HP = 0xb872
-ADDR_CURRENT_FOOD = 0xb874
-ADDR_MAX_FOOD = 0xb876
-ADDR_DUNGEON_LEVEL = 0xe52d
+# Corridor characters
+TILE_CORRIDOR_HORIZONTAL = '─'  # 0xC4
+TILE_CORRIDOR_VERTICAL = '│'    # 0xB3
 
-# CP437 Characters (DOS box-drawing)
-CHAR_FLOOR = ' '
-CHAR_WALL_VERTICAL = '│'      # 0xb3
-CHAR_WALL_HORIZONTAL = '─'    # 0xc4
-CHAR_WALL_CROSS = '┼'         # 0xc5
-CHAR_WALL_TL = '┌'
-CHAR_WALL_TR = '┐'
-CHAR_WALL_BL = '└'
-CHAR_WALL_BR = '┘'
-CHAR_PLAYER = '\u263b'  # ☻ (CP437 0x02)
-CHAR_STAIRS_DOWN = '>'
-CHAR_STAIRS_UP = '<'
-CHAR_GOLD = '$'
-CHAR_POTION = '•'            # From manual
-CHAR_SCROLL = '?'
-CHAR_WEAPON = '='            # From manual (not ')')
-CHAR_ARMOR = ''             # From manual (not '[')
-CHAR_RING = '°'              # From manual (not '=')
-CHAR_FOOD = ':'              # From manual (not '%')
-CHAR_WAND = '/'
-CHAR_CUBE = '□'
-CHAR_SILMARIL = '◊'          # Main objective!
+# Player characters
+TILE_PLAYER = '☻'           # 0x02 - normal player
+TILE_PLAYER_WIZARD = '~'    # 0x7E - wizard mode
+TILE_PLAYER_LIT = '▯'       # 0xEF - illuminated player
 
-# Colors (curses color pairs)
-COLOR_NORMAL = 1
-COLOR_PLAYER = 2
-COLOR_MONSTER = 3
-COLOR_ITEM = 4
-COLOR_WARNING = 5
-COLOR_STATUS = 6
+# Trap
+TILE_TRAP = 'τ'  # 0xF7 in original
 
-# Potion effects (from extracted game data)
-class PotionEffect:
-    HEAL = 1              # de guérison
-    GREATER_HEAL = 2      # d'extra-guérison
-    STAMINA = 3           # nourrissante
-    RESTORE_FOOD = 4      # désaltérante
-    SPEED = 5             # accélérante
-    CONSTITUTION = 6      # de constitution
-    STRENGTH = 7          # de force
-    INTELLIGENCE = 8      # d'intelligence
-    WISDOM = 9            # de sagesse
-    DEXTERITY = 10        # de dextérité
-    DETECT = 11           # de détection
-    BLINDNESS = 12        # aveuglante
-    CONFUSION = 13        # de confusion
-    POISON = 14           # empoisonnée
-    HALLUCINATION = 15    # hallucinante
-    INVULNERABILITY = 16  # d'invulnérabilité
-    RESTORE_LEVEL = 17    # de restauration
-    HEROISM = 18          # d'héroïsme
-    TELEPORT = 19         # de téléportation
-    EXPERIENCE = 20       # d'expérience
-    WEAKNESS = 21         # de faiblesse
+# Set of all wall/impassable tiles
+WALL_TILES = {
+    TILE_WALL,
+    TILE_ROOM_TOP,
+    TILE_ROOM_BOTTOM,
+    TILE_ROOM_LEFT,
+    TILE_ROOM_RIGHT,
+    TILE_CORRIDOR_HORIZONTAL,
+    TILE_CORRIDOR_VERTICAL,
+    TILE_DOOR_CLOSED
+}
 
-# Wand effects (from memory dump at 0x2b18f, matched to C code handlers)
-# FUN_1000_aa1d: monster-targeting (1,2,5,6,7,8,12,14,15,16,18,19,20,24)
-# FUN_1000_b032: environment (3,4,9,10,11,13,17,21)
-class WandEffect:
-    TELEPORT = 1          # de téléportation
-    TRANSMORPH = 2        # de transmorphie
-    DESTRUCTION = 3       # de destruction
-    CREATE_WALL = 4       # pour créer des murs
-    SLOW_MONSTER = 5      # de ralentissement de monstre
-    HASTE_MONSTER = 6     # d'accélération de monstre
-    WEAKEN = 7            # d'affaiblissement
-    FEAR = 8              # pour effrayer
-    DOWSING = 9           # de sourcier
-    SUMMON_MONSTER = 10   # d'invocation de monstre
-    CREATE_ITEM = 11      # d'invocation d'objet
-    COMBAT = 12           # de combat
-    FILL_TRAPS = 13       # pour combler les trappes
-    SLEEP = 14            # assoupissante
-    PARALYZE = 15         # paralysante
-    INVISIBILITY = 16     # d'invisibilité
-    CREATE_TRAPS = 17     # de création de trappes
-    REINFORCE = 18        # de renforcement
-    CAPRICIOUS = 19       # capricieuse
-    ILLUSION = 20         # d'illusion
-    PURIFY = 21           # de purification
-    ENERGY_DRAIN = 22     # d'absorption d'énergie
+# =============================================================================
+# FOOD & HUNGER CONSTANTS
+# Reference: MORIA_COMPLETE.md Section 4.4
+# =============================================================================
 
-# Equipment slots
-class EquipSlot:
-    WEAPON = 0
-    SHIELD = 1
-    ARMOR = 2
-    RING1 = 3
-    RING2 = 4
+FOOD_FULL = 5001        # Rassasié (Full)
+FOOD_NORMAL = 3001      # Normal
+FOOD_WEAK = 1501        # Faible (Weak)
+FOOD_HUNGRY = 1         # Affamé (Hungry)
+FOOD_DYING = 0          # Mourant (Dying)
 
-# Item types
-class ItemType:
-    WEAPON = 0
-    ARMOR = 1
-    SHIELD = 2
-    RING = 3
-    POTION = 4
-    SCROLL = 5
-    FOOD = 6
-    GOLD = 7
-    WAND = 8
-    SILMARIL = 9
+# Food consumption
+FOOD_CONSUMPTION_PER_TURN = 1
+
+# Starvation damage (when food <= 0)
+STARVATION_DAMAGE_MIN = 1
+STARVATION_DAMAGE_MAX = 10
+
+# =============================================================================
+# TIMED EFFECT INDICES
+# Reference: MORIA_COMPLETE.md Section 4.6
+# =============================================================================
+
+EFFECT_BLINDNESS = 0
+EFFECT_CONFUSION = 1
+EFFECT_FEAR = 2
+EFFECT_PARALYSIS = 3
+EFFECT_POISON = 4        # 1-5 damage per turn
+EFFECT_SPEED_BOOST = 5
+EFFECT_SLOW = 6
+EFFECT_PROTECTION = 7    # +20 AC
+EFFECT_DETECT_MONSTERS = 8
+EFFECT_DETECT_OBJECTS = 9
+EFFECT_INVISIBILITY = 10
+EFFECT_INFRAVISION = 11
+EFFECT_WIZARD_MODE = 12
+
+NUM_TIMED_EFFECTS = 13
+
+# Effect names for display
+EFFECT_NAMES = {
+    EFFECT_BLINDNESS: "Blindness",
+    EFFECT_CONFUSION: "Confusion",
+    EFFECT_FEAR: "Fear",
+    EFFECT_PARALYSIS: "Paralysis",
+    EFFECT_POISON: "Poison",
+    EFFECT_SPEED_BOOST: "Speed Boost",
+    EFFECT_SLOW: "Slow",
+    EFFECT_PROTECTION: "Protection",
+    EFFECT_DETECT_MONSTERS: "Detect Monsters",
+    EFFECT_DETECT_OBJECTS: "Detect Objects",
+    EFFECT_INVISIBILITY: "Invisibility",
+    EFFECT_INFRAVISION: "Infravision",
+    EFFECT_WIZARD_MODE: "Wizard Mode"
+}
+
+# =============================================================================
+# ITEM TYPE CONSTANTS
+# Reference: MORIA_COMPLETE.md Section 2.3
+# =============================================================================
+
+ITEM_FOOD = 0
+ITEM_POTION = 1
+ITEM_SCROLL = 2
+ITEM_WAND = 3
+ITEM_RING = 4
+ITEM_CHEST = 5
+ITEM_WEAPON = 6
+ITEM_AMMUNITION = 7
+ITEM_TREASURE = 8  # Converts to gold on death
+
+NUM_ITEM_TYPES = 9
+
+# Item type names
+ITEM_TYPE_NAMES = {
+    ITEM_FOOD: "Food",
+    ITEM_POTION: "Potion",
+    ITEM_SCROLL: "Scroll",
+    ITEM_WAND: "Wand",
+    ITEM_RING: "Ring",
+    ITEM_CHEST: "Chest",
+    ITEM_WEAPON: "Weapon",
+    ITEM_AMMUNITION: "Ammunition",
+    ITEM_TREASURE: "Treasure"
+}
+
+# =============================================================================
+# COMBAT CONSTANTS
+# Reference: MORIA_COMPLETE.md Section 6.3
+# =============================================================================
+
+CRITICAL_HIT = 20  # Natural 20 on d20
+DICE_SIDES = 20    # d20 for to-hit rolls
+
+# Protection effect AC bonus
+PROTECTION_AC_BONUS = 20
+
+# Poison damage per turn
+POISON_DAMAGE_MIN = 1
+POISON_DAMAGE_MAX = 5
+
+# =============================================================================
+# REGENERATION CONSTANTS
+# Reference: MORIA_COMPLETE.md Section 4.5
+# =============================================================================
+
+REGEN_BASE_DELAY = 15  # Base turns for regeneration
+MIN_REGEN_DELAY = 1    # Minimum delay (at deep levels)
+
+def get_regen_delay(dungeon_level: int) -> int:
+    """
+    Calculate HP regeneration delay based on dungeon level
+    Formula: (15 - dungeon_level) // 2, minimum 1
+
+    Level 1:  7 turns per +1 HP
+    Level 10: 2 turns per +1 HP
+    Level 13+: 1 turn per +1 HP
+    """
+    delay = (REGEN_BASE_DELAY - dungeon_level) // 2
+    return max(MIN_REGEN_DELAY, delay)
+
+# =============================================================================
+# MONSTER SPAWNING CONSTANTS
+# Reference: MORIA_COMPLETE.md Section 4.7
+# =============================================================================
+
+MONSTER_SPAWN_INTERVAL = 20  # Spawn monsters every 20 turns
+CURSED_SPAWN_MULTIPLIER = 4   # 4× spawn rate if cursed item equipped
+
+# =============================================================================
+# LEVEL TRANSITION CONSTANTS
+# Reference: PLAYER_ACTIONS.md Section 2
+# =============================================================================
+
+# Going down stairs damage
+def get_stairs_damage(dungeon_level: int) -> int:
+    """
+    Calculate damage from going down stairs
+    Formula: random(dungeon_level × 2)
+    """
+    import random
+    return random.randint(1, dungeon_level * 2) if dungeon_level > 0 else 0
+
+# =============================================================================
+# SHOP CONSTANTS
+# Reference: SHOP_AND_UI.md Section 1
+# =============================================================================
+
+NUM_SHOPS = 2  # Two shops (indices 0-1)
+
+# Shop data offsets (for reference, not used in Python)
+SHOP_ITEM_NAME_OFFSET = 0x75FA
+SHOP_PRICE_OFFSET = -0x71D3
+SHOP_COUNT_OFFSET = 0x79B3
+
+# =============================================================================
+# HIGH SCORE CONSTANTS
+# Reference: SHOP_AND_UI.md Section 3
+# =============================================================================
+
+HIGH_SCORE_FILE = "moria4.scr"
+MAX_HIGH_SCORES = 16
+HIGH_SCORE_ENTRY_SIZE = 24
+HIGH_SCORE_FILE_SIZE = 384  # 16 × 24 bytes
+
+# Death cause codes
+DEATH_CAUSE_STARVATION = 'e'
+DEATH_CAUSE_TIME_PARADOX = 'f'
+DEATH_CAUSE_VICTORY = 'g'  # Escaped from Moria
+DEATH_CAUSE_QUIT = 'Q'     # Quit without saving (not recorded)
+
+# =============================================================================
+# PLAYER STATS CONSTANTS
+# =============================================================================
+
+STAT_MIN = 0
+STAT_MAX = 255
+STAT_DEFAULT = 100
+NUM_STATS = 3  # Force, Dextérité, Intelligence
+
+# =============================================================================
+# INVENTORY CONSTANTS
+# =============================================================================
+
+MAX_INVENTORY_SLOTS = 35
+
+# =============================================================================
+# COMMAND KEYS
+# Reference: SHOP_AND_UI.md
+# =============================================================================
+
+# Movement (4 directions only - NO DIAGONALS)
+CMD_MOVE_UP = '8'
+CMD_MOVE_DOWN = '2'
+CMD_MOVE_LEFT = '4'
+CMD_MOVE_RIGHT = '6'
+
+# Actions
+CMD_INVENTORY = 'i'
+CMD_EQUIPMENT = 'e'
+CMD_DROP = 'd'
+CMD_PICKUP = ','
+CMD_SEARCH = 's'
+CMD_REST = 'r'
+CMD_CAST_SPELL = 'm'
+CMD_QUIT = 'q'
+CMD_HELP = '?'
+
+# =============================================================================
+# GAME DATA FILES
+# Reference: MORIA_COMPLETE.md Section 1.3
+# =============================================================================
+
+GAME_DATA_FILE = "moria.txt"      # Loaded at startup
+HELP_FILE = "MORIA.HLP"           # Help text (may not exist)
+UNKNOWN_DATA_FILE = "moria4.don"  # Unknown purpose
+
+# =============================================================================
+# DUNGEON GENERATION CONSTANTS
+# Reference: MORIA_COMPLETE.md Section 6.4
+# =============================================================================
+
+ROOM_GRID_WIDTH = 39
+ROOM_GRID_HEIGHT = 10
+ROOM_GENERATION_CHANCE = 0.5  # 50% chance per grid cell
+EXTRA_ROOMS = 1  # One extra room beyond grid
+
+# =============================================================================
+# MONSTER AI CONSTANTS
+# Reference: MONSTER_AI.md
+# =============================================================================
+
+WAKE_DISTANCE = 5      # Distance at which monsters wake up
+ALERT_DISTANCE = 10    # Distance at which monsters become alerted
+
+# AI states
+AI_STATE_WANDER = 0
+AI_STATE_CHASE = 1
+
+# =============================================================================
+# XP FORMULA
+# Reference: COMBAT_SYSTEM.md
+# =============================================================================
+
+def get_xp_for_level(level: int) -> int:
+    """
+    Calculate XP required for level
+    Formula: XP[n] = 50 × (2^(n-1) - 1)
+    """
+    if level <= 1:
+        return 0
+    return 50 * ((2 ** (level - 1)) - 1)
+
+# =============================================================================
+# LEVEL-UP HP GAIN
+# Reference: COMBAT_SYSTEM.md
+# =============================================================================
+
+def calculate_level_up_hp_gain(player_level: int, dungeon_level: int) -> int:
+    """
+    Calculate HP gain on level-up
+    Formula: random(6) + random(player_level) + 3 + random(dungeon_level) // 2
+    """
+    import random
+    return (random.randint(1, 6) +
+            random.randint(1, player_level) +
+            3 +
+            random.randint(0, dungeon_level) // 2)
+
+# =============================================================================
+# SPECIAL ITEM CONSTANTS
+# =============================================================================
+
+# Item that prevents stairs damage (likely "Feather Fall" or "Soft Boots")
+ITEM_UNKNOWN_E = "ITEM_UNKNOWN_E"  # Type/subtype unknown
+
+# Arrow subtype (for ammunition type 7)
+ARROW_SUBTYPE = 10
